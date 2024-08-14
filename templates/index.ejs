@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+        .columns { display: flex; }
+        .column { flex: 1; margin-right: 20px; }
+        form { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Dev Tool</h1>
+    <form action="/run" method="post">
+        <button type="submit">Run ls -la ~</button>
+    </form>
+    
+    <form action="/run-custom" method="post" onsubmit="return setCommand()">
+        <input type="hidden" id="command" name="command">
+        <button type="submit">Run Custom Command</button>
+    </form>
+    
+    <% if (result) { %>
+        <div class="columns">
+            <div class="column">
+                <h2><%= result.command ? result.command : 'ls -la ~' %></h2>
+                <pre><%= result.commandOutput || result.lsOutput %></pre>
+            </div>
+            <div class="column">
+                <h2>System Stats</h2>
+                <p>CPU Usage: <%= result.cpuUsage %>%</p>
+                <p>Memory Usage: <%= result.memUsage %>%</p>
+            </div>
+        </div>
+    <% } %>
+
+    <script>
+    function setCommand() {
+        const command = prompt("Enter the command to run:");
+        if (command) {
+            document.getElementById('command').value = command;
+            return true;
+        }
+        return false;
+    }
+    </script>
+</body>
+</html>
