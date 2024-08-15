@@ -8,7 +8,7 @@ const templates = [
   {
     name: 'Next.js App',
     icon: 'https://simpleicons.org/icons/nextdotjs.svg',
-    command: 'npx create-next-app ~/workspace/{folderName} && code ~/workspace/{folderName}',
+    command: 'npx create-next-app ~/workspace/{folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-npm && code ~/workspace/{folderName}',
   },
   {
     name: 'Vite React + TypeScript',
@@ -26,7 +26,7 @@ const templates = [
     name: 'Turbo Monorepo',
     icon: 'https://simpleicons.org/icons/turborepo.svg',
     command:
-      'npx create-turbo@latest ~/workspace/{folderName} && cd ~/workspace/{folderName} && code .',
+      'npx create-turbo@latest ~/workspace/{folderName} --use-npm --no-install && cd ~/workspace/{folderName} && npm install && code .',
   },
   {
     name: 'Pixi.js Project',
@@ -44,7 +44,7 @@ const templates = [
     name: 'Astro Project',
     icon: 'https://simpleicons.org/icons/astro.svg',
     command:
-      'npm create astro@latest ~/workspace/{folderName} && cd ~/workspace/{folderName} && code .',
+      'npm create astro@latest ~/workspace/{folderName} -- --template minimal --install --no-git --typescript strictest --skip-houston && cd ~/workspace/{folderName} && code .',
   },
 ];
 
