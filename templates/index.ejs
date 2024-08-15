@@ -82,6 +82,9 @@
       <!-- Results will be inserted here -->
     </div>
 
+    <button class="action-button" onclick="runCommand('ls -la ~')">Run ls -la ~</button>
+    <button class="action-button" onclick="runCustomCommand()">Run Custom Command</button>
+
     <script>
       const templates = [
         {
@@ -151,6 +154,13 @@
         })
           .then(response => response.json())
           .then(data => updateResult(data));
+      }
+
+      function runCustomCommand() {
+        const command = prompt('Enter the command to run:');
+        if (command) {
+          runCommand(command);
+        }
       }
 
       function updateResult(data) {
