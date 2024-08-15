@@ -19,39 +19,25 @@ fastify.get('/', (req, reply) => {
   reply.view('/templates/index.ejs', { result: null });
 });
 
-fastify.post('/run', (req, reply) => {
-  exec('ls -la ~', (error, stdout, stderr) => {
-    const lsOutput = stdout;
+fastify.post('/run-command', async (req, reply) => {
+  const { command } = req.body;
 
-    const cpuUsage = os.loadavg()[0].toFixed(2);
-    const memUsage = (1 - os.freemem() / os.totalmem()).toFixed(2);
+  return new Promise((resolve, reject) => {
+    exec(command, (error, stdout, stderr) => {
+      const commandOutput = stdout || stderr || 'Command executed successfully.';
 
-    const result = {
-      lsOutput,
-      cpuUsage,
-      memUsage,
-    };
+      const cpuUsage = os.loadavg()[0].toFixed(2);
+      const memUsage = (1 - os.freemem() / os.totalmem()).toFixed(2);
 
-    reply.view('/templates/index.ejs', { result });
-  });
-});
+      const result = {
+        commandOutput,
+        command,
+        cpuUsage,
+        memUsage,
+      };
 
-fastify.post('/run-custom', (req, reply) => {
-  const command = req.body.command;
-  exec(command, (error, stdout, stderr) => {
-    const commandOutput = stdout || stderr;
-
-    const cpuUsage = os.loadavg()[0].toFixed(2);
-    const memUsage = (1 - os.freemem() / os.totalmem()).toFixed(2);
-
-    const result = {
-      commandOutput,
-      command,
-      cpuUsage,
-      memUsage,
-    };
-
-    reply.view('/templates/index.ejs', { result });
+      resolve(result);
+    });
   });
 });
 
