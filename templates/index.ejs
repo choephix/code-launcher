@@ -3,42 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DevLaunchPad</title>
+    <title>DevLaunch: Project Starter</title>
     <style>
       body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         padding: 20px;
-        background-color: #f0f2f5;
+        background-color: #f0f4f8;
         color: #333;
       }
       h1 {
         color: #2c3e50;
         text-align: center;
       }
-      .button-container {
+      .button-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+      .template-button {
         display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
-      button {
-        background-color: #3498db;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-      button:hover {
-        background-color: #2980b9;
-      }
-      pre {
-        background-color: #ecf0f1;
+        flex-direction: column;
+        align-items: center;
         padding: 15px;
-        border-radius: 5px;
-        overflow-x: auto;
+        background-color: #fff;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      .template-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+      }
+      .template-button img {
+        width: 64px;
+        height: 64px;
+        margin-bottom: 10px;
+      }
+      .template-button span {
+        text-align: center;
+        font-weight: 600;
+      }
+      #result {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
       .columns {
         display: flex;
@@ -46,23 +58,25 @@
       }
       .column {
         flex: 1;
-        background-color: white;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       }
-      .icon {
-        margin-right: 5px;
+      pre {
+        background-color: #f4f4f4;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      h2 {
+        color: #3498db;
+        border-bottom: 2px solid #3498db;
+        padding-bottom: 10px;
       }
     </style>
   </head>
   <body>
-    <h1>DevLaunchPad</h1>
-    <div id="templateButtons" class="button-container">
+    <h1>DevLaunch: Project Starter</h1>
+    <div id="templateButtons" class="button-grid">
       <!-- Template buttons will be inserted here -->
     </div>
-    <button onclick="runCommand('ls -la ~')">List Home Directory</button>
-    <button onclick="runCustomCommand()">Run Custom Command</button>
 
     <div id="result">
       <!-- Results will be inserted here -->
@@ -70,28 +84,59 @@
 
     <script>
       const templates = [
-        { name: "Empty Project", icon: "📁", command: "mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && git init && code ." },
-        { name: "Next.js App", icon: "⚛️", command: "npx create-next-app ~/workspace/{folderName}" },
-        { name: "Vite React + TypeScript", icon: "🔥", command: "npm create vite@latest ~/workspace/{folderName} -- --template react-ts" },
-        { name: "Vite Vanilla TypeScript", icon: "🍦", command: "npm create vite@latest ~/workspace/{folderName} -- --template vanilla-ts" },
-        { name: "Express.js API", icon: "🚀", command: "mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && npm init -y && npm install express && echo \"const express = require('express'); const app = express(); const port = 3000; app.get('/', (req, res) => res.send('Hello World!')); app.listen(port, () => console.log(`Server running on port ${port}`));\" > index.js && code ." },
-        { name: "Vue.js Project", icon: "🖖", command: "npm create vue@latest ~/workspace/{folderName}" }
+        {
+          name: 'Empty Project',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Empty',
+          command:
+            'mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && git init && code .',
+        },
+        {
+          name: 'Next.js App',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Next.js',
+          command: 'npx create-next-app ~/workspace/{folderName} && code ~/workspace/{folderName}',
+        },
+        {
+          name: 'Vite React + TypeScript',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Vite+React',
+          command:
+            'npm create vite@latest ~/workspace/{folderName} -- --template react-ts && cd ~/workspace/{folderName} && npm install && code .',
+        },
+        {
+          name: 'Vite Vanilla TypeScript',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Vite+TS',
+          command:
+            'npm create vite@latest ~/workspace/{folderName} -- --template vanilla-ts && cd ~/workspace/{folderName} && npm install && code .',
+        },
+        {
+          name: 'Turbo Monorepo',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Turbo',
+          command:
+            'npx create-turbo@latest ~/workspace/{folderName} && cd ~/workspace/{folderName} && code .',
+        },
+        {
+          name: 'Pixi.js Project',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Pixi.js',
+          command:
+            'mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && npm init -y && npm install pixi.js && echo "import * as PIXI from \'pixi.js\';\n\nconst app = new PIXI.Application();\ndocument.body.appendChild(app.view);" > index.js && code .',
+        },
+        {
+          name: 'Three.js Project',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Three.js',
+          command:
+            'mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && npm init -y && npm install three && echo "import * as THREE from \'three\';\n\nconst scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\nconst renderer = new THREE.WebGLRenderer();\nrenderer.setSize(window.innerWidth, window.innerHeight);\ndocument.body.appendChild(renderer.domElement);" > index.js && code .',
+        },
+        {
+          name: 'Astro Project',
+          icon: 'https://placehold.co/64x64/EEE/31343C?font=montserrat&text=Astro',
+          command:
+            'npm create astro@latest ~/workspace/{folderName} && cd ~/workspace/{folderName} && code .',
+        },
       ];
 
-      function createTemplateButtons() {
-        const buttonContainer = document.getElementById('templateButtons');
-        templates.forEach(template => {
-          const button = document.createElement('button');
-          button.innerHTML = `<span class="icon">${template.icon}</span>${template.name}`;
-          button.onclick = () => createProjectFromTemplate(template);
-          buttonContainer.appendChild(button);
-        });
-      }
-
-      function createProjectFromTemplate(template) {
+      function createProjectFolder(template) {
         const folderName = prompt(`Enter the project folder name for ${template.name}:`);
         if (folderName) {
-          const command = template.command.replace(/{folderName}/g, folderName);
+          const command = template.command.replace(/\{folderName\}/g, folderName);
           runCommand(command);
         }
       }
@@ -108,33 +153,37 @@
           .then(data => updateResult(data));
       }
 
-      function runCustomCommand() {
-        const command = prompt('Enter the command to run:');
-        if (command) {
-          runCommand(command);
-        }
-      }
-
       function updateResult(data) {
-        console.log(data);
-
         const resultDiv = document.getElementById('result');
         resultDiv.innerHTML = `
-        <div class="columns">
+          <div class="columns">
             <div class="column">
-                <h2>Command Output</h2>
-                <pre>${data.commandOutput}</pre>
+              <h2>Command Output</h2>
+              <pre>${data.commandOutput}</pre>
             </div>
             <div class="column">
-                <h2>System Stats</h2>
-                <p>CPU Usage: ${data.cpuUsage}%</p>
-                <p>Memory Usage: ${data.memUsage}%</p>
+              <h2>System Stats</h2>
+              <p>CPU Usage: ${data.cpuUsage}%</p>
+              <p>Memory Usage: ${data.memUsage}%</p>
             </div>
-        </div>
-    `;
+          </div>
+        `;
       }
 
-      // Initialize template buttons
+      function createTemplateButtons() {
+        const buttonContainer = document.getElementById('templateButtons');
+        templates.forEach(template => {
+          const button = document.createElement('button');
+          button.className = 'template-button';
+          button.innerHTML = `
+            <img src="${template.icon}" alt="${template.name} icon">
+            <span>${template.name}</span>
+          `;
+          button.onclick = () => createProjectFolder(template);
+          buttonContainer.appendChild(button);
+        });
+      }
+
       createTemplateButtons();
     </script>
   </body>
