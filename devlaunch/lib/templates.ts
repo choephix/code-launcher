@@ -8,7 +8,7 @@ const templates = [
   {
     name: 'Next.js App',
     icon: 'https://simpleicons.org/icons/nextdotjs.svg',
-    command: 'npx create-next-app ~/workspace/{folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-npm && code ~/workspace/{folderName}',
+    command: 'npx create-next-app ~/workspace/{folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-pnpm && code ~/workspace/{folderName}',
   },
   {
     name: 'Vite React + TypeScript',
