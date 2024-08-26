@@ -1,10 +1,21 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import templates from '@/lib/templates';
 
 export default function DevLaunch() {
   const [result, setResult] = useState<any>(null);
+  const [projects, setProjects] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  const fetchProjects = async () => {
+    const response = await fetch('/api/ls');
+    const data = await response.json();
+    setProjects(data.projects);
+  };
 
   const runCommand = async (command: string) => {
     const response = await fetch('/api/run-command', {
@@ -33,6 +44,10 @@ export default function DevLaunch() {
     }
   };
 
+  const openProjectInVSCode = (project: string) => {
+    runCommand(`code ~/workspace/${project}`);
+  };
+
   return (
     <div className='text-white'>
       <h1 className='text-3xl font-bold text-center text-blue-400 mb-8'>
@@ -52,6 +67,21 @@ export default function DevLaunch() {
               className='w-12 h-12 mb-2 invert'
             />
             <span>{template.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <h2 className='text-2xl font-bold text-center text-blue-400 mb-4'>
+        Existing Projects
+      </h2>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8'>
+        {projects.map((project, index) => (
+          <button
+            key={index}
+            className='p-4 bg-gray-800 border border-gray-700 rounded-lg transition duration-200 hover:bg-gray-700 hover:border-blue-500'
+            onClick={() => openProjectInVSCode(project)}
+          >
+            {project}
           </button>
         ))}
       </div>
