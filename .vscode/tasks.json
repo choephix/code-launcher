@@ -4,7 +4,7 @@
     {
       "label": "Rebuild and Restart with PM2",
       "type": "shell",
-      "command": "npm run build && pm2 restart codelauncher",
+      "command": "npm run build && pm2 restart codelauncher && pm2 save",
       "problemMatcher": [],
       "group": {
         "kind": "build",
