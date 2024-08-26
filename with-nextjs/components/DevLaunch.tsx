@@ -1,5 +1,3 @@
-'use client';
-
 import ProjectsList from '@/components/ProjectsList';
 import ExtraTools from './ExtraTools';
 import ProjectTemplates from './ProjectTemplates';
