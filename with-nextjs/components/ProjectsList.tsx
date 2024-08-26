@@ -1,4 +1,4 @@
-// components/ProjectsList.tsx
+'use client';
 
 import React from 'react';
 
@@ -17,7 +17,7 @@ const ProjectsList: React.FC<ProjectsListProps> = ({ projects, onProjectClick })
         {projects.map((project, index) => (
           <button
             key={index}
-            className='w-full text-left py-1 px-4 bg-gray-800 hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs'
+            className='w-full text-left py-1 px-4 bg-gray-800 hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm'
             onClick={() => onProjectClick(project)}
           >
             <span>{project}</span>
