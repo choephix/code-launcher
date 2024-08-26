@@ -1,13 +1,19 @@
 'use client';
 
-import React from 'react';
+import { fetchProjects, runCommand } from '@/lib/commands';
+import React, { useEffect, useState } from 'react';
 
-interface ProjectsListProps {
-  projects: string[];
-  onProjectClick: (project: string) => void;
-}
+const ProjectsList: React.FC = () => {
+  const [projects, setProjects] = useState<string[]>([]);
 
-const ProjectsList: React.FC<ProjectsListProps> = ({ projects, onProjectClick }) => {
+  useEffect(() => {
+    fetchProjects().then(data => setProjects(data.projects));
+  }, []);
+
+  const onProjectClick = (project: string) => {
+    runCommand(`code ~/workspace/${project}`);
+  };
+
   return (
     <div className='bg-gray-800 border border-gray-700 rounded-lg overflow-hidden mb-8'>
       <h2 className='text-xl font-bold text-blue-400 p-4 border-b border-gray-700'>

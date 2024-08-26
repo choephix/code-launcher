@@ -1,52 +1,26 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { runCommand } from '@/lib/commands';
 import templates from '@/lib/templates';
+import { useState } from 'react';
 import ProjectsList from './ProjectsList';
 
 export default function DevLaunch() {
   const [result, setResult] = useState<any>(null);
-  const [projects, setProjects] = useState<string[]>([]);
-
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
-    const response = await fetch('/api/ls');
-    const data = await response.json();
-    setProjects(data.projects);
-  };
-
-  const runCommand = async (command: string) => {
-    const response = await fetch('/api/run-command', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ command }),
-    });
-    const data = await response.json();
-    setResult(data);
-  };
 
   const createProjectFolder = (template: any) => {
     const folderName = prompt(`Enter the project folder name for ${template.name}:`);
     if (folderName) {
       const command = template.command.replace(/\{folderName\}/g, folderName);
-      runCommand(command);
+      runCommand(command).then(data => setResult(data));
     }
   };
 
   const runCustomCommand = () => {
     const command = prompt('Enter the command to run:');
     if (command) {
-      runCommand(command);
+      runCommand(command).then(data => setResult(data));
     }
-  };
-
-  const openProjectInVSCode = (project: string) => {
-    runCommand(`code ~/workspace/${project}`);
   };
 
   return (
@@ -72,7 +46,7 @@ export default function DevLaunch() {
         ))}
       </div>
 
-      <ProjectsList projects={projects} onProjectClick={openProjectInVSCode} />
+      <ProjectsList />
 
       {result && (
         <div className='bg-gray-800 border border-gray-700 rounded-lg p-4 mb-4'>
