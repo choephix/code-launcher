@@ -1,6 +1,7 @@
 'use client';
 
 import { fetchProjects, runCommand } from '@/lib/commands';
+import useCommandResultStore from '@/hooks/useCommandResultStore';
 import React, { useEffect, useState } from 'react';
 
 const ProjectsList: React.FC = () => {
