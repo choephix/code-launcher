@@ -8,7 +8,8 @@ const templates = [
   {
     name: 'Next.js App',
     icon: 'https://simpleicons.org/icons/nextdotjs.svg',
-    command: 'npx create-next-app ~/workspace/{folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-pnpm && code ~/workspace/{folderName}',
+    command:
+      'npx create-next-app ~/workspace/{folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-pnpm && code ~/workspace/{folderName}',
   },
   {
     name: 'Vite React + TypeScript',
@@ -45,6 +46,30 @@ const templates = [
     icon: 'https://simpleicons.org/icons/astro.svg',
     command:
       'npm create astro@latest ~/workspace/{folderName} -- --template minimal --install --no-git --typescript strictest --skip-houston && cd ~/workspace/{folderName} && code .',
+  },
+  {
+    name: 'Express + TypeScript',
+    icon: 'https://simpleicons.org/icons/express.svg',
+    command:
+      "mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && npm init -y && npm install express @types/express typescript ts-node @types/node && npx tsc --init && echo \"import express from 'express';\n\nconst app = express();\nconst port = 3000;\n\napp.get('/', (req, res) => {\n  res.send('Hello World!');\n});\n\napp.listen(port, () => {\n  console.log(`Server running at http://localhost:${port}`);\n});\" > src/index.ts && code .",
+  },
+  {
+    name: 'Elysia App',
+    icon: 'https://simpleicons.org/icons/bun.svg',
+    command:
+      "mkdir -p ~/workspace/{folderName} && cd ~/workspace/{folderName} && bun init -y && bun add elysia && echo \"import { Elysia } from 'elysia';\n\nconst app = new Elysia().get('/', () => 'Hello Elysia').listen(3000);\n\nconsole.log(`Elysia is running at ${app.server?.hostname}:${app.server?.port}`);\" > src/index.ts && code .",
+  },
+  {
+    name: 'v0 Powered App',
+    icon: 'https://simpleicons.org/icons/vercel.svg',
+    command:
+      'pnpm create next-app@latest --typescript --tailwind --eslint --import-alias "@/*" --use-pnpm ~/workspace/{folderName} && pnpm dlx v0@latest init && code ~/workspace/{folderName}',
+  },
+  {
+    name: 'Astro Blog',
+    icon: 'https://simpleicons.org/icons/astro.svg',
+    command:
+      'npm create astro@latest ~/workspace/{folderName} -- --template blog --install --no-git --typescript strictest --skip-houston && cd ~/workspace/{folderName} && code .',
   },
 ];
 

@@ -14,6 +14,19 @@
         "cwd": "${workspaceFolder}/with-nextjs"
       },
       "detail": "This task rebuilds the application and restarts it using PM2."
+    },
+    {
+      "label": "Dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "problemMatcher": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/with-nextjs"
+      }
     }
   ]
 }
