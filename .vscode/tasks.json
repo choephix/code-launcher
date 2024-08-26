@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Rebuild and Restart with PM2",
+      "type": "shell",
+      "command": "npm run build && pm2 restart codelauncher",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/with-nextjs"
+      },
+      "detail": "This task rebuilds the application and restarts it using PM2."
+    }
+  ]
+}

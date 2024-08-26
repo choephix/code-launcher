@@ -5,7 +5,7 @@ import os from 'os';
 export async function POST(request: Request) {
   const { command } = await request.json();
 
-  return new Promise((resolve) => {
+  return new Promise<NextResponse>((resolve) => {
     console.log(`▶ Executing command: ${command}`);
 
     const process = spawn(command, [], { shell: true });
