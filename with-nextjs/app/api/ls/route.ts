@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
-import { spawn } from 'child_process';
-import os from 'os';
 import fs from 'fs/promises';
+import { NextResponse } from 'next/server';
+import os from 'os';
 import path from 'path';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   const workspacePath = path.join(os.homedir(), 'workspace');
