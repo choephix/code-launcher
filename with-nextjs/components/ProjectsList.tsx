@@ -3,6 +3,7 @@
 import { fetchProjects, runCommand } from '@/lib/commands';
 import useCommandResultStore from '@/hooks/useCommandResultStore';
 import React, { useEffect, useState } from 'react';
+import { urlParams } from '@/lib/urlParams';
 
 const ProjectsList: React.FC = () => {
   const [projects, setProjects] = useState<string[]>([]);
@@ -11,8 +12,9 @@ const ProjectsList: React.FC = () => {
     fetchProjects().then(data => setProjects(data.projects));
   }, []);
 
+  const ideCmd = urlParams.ide;
   const onProjectClick = (project: string) => {
-    runCommand(`code ~/workspace/${project}`);
+    runCommand(ideCmd + ` ~/workspace/${project}`);
   };
 
   return (
@@ -27,7 +29,9 @@ const ProjectsList: React.FC = () => {
             className='w-full text-left py-1 px-4 bg-gray-800 hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm'
             onClick={() => onProjectClick(project)}
           >
-            <span><FolderIcon/> &nbsp; {project}</span>
+            <span>
+              <FolderIcon /> &nbsp; {project}
+            </span>
             <span className='text-blue-400'>→</span>
           </button>
         ))}
