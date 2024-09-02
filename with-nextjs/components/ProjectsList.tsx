@@ -6,6 +6,8 @@ import React, { useEffect, useState } from 'react';
 import { urlParams } from '@/lib/urlParams';
 
 const ProjectsList: React.FC = () => {
+  const { setResult } = useCommandResultStore();
+
   const [projects, setProjects] = useState<string[]>([]);
 
   useEffect(() => {
@@ -13,8 +15,10 @@ const ProjectsList: React.FC = () => {
   }, []);
 
   const ideCmd = urlParams.ide;
-  const onProjectClick = (project: string) => {
-    runCommand(ideCmd + ` ~/workspace/${project}`);
+  const onProjectClick = async (project: string) => {
+    const command = ideCmd + ` ~/workspace/${project}`;
+    const data = await runCommand(command);
+    setResult(data);
   };
 
   return (

@@ -1,4 +1,4 @@
-const queryString = window.location.search;
+const queryString = window?.location.search ?? '';
 const urlParamsObject = new URLSearchParams(queryString);
 
 const defaults = {
@@ -32,37 +32,5 @@ export const urlParams = new Proxy(defaults, {
     } catch (e) {
       return value;
     }
-  },
-  set: (_, prop: keyof typeof defaults, value) => {
-    if (value === '') {
-      urlParamsObject.delete(prop.toString());
-    } else if (typeof value === 'object') {
-      urlParamsObject.set(prop.toString(), JSON.stringify(value));
-    } else {
-      urlParamsObject.set(prop.toString(), String(value));
-    }
-
-    // window.location.search = urlParamsObject.toString();
-
-    // Update the URL without causing a page refresh
-    const { protocol, host, pathname } = window.location;
-    const newUrl = protocol + '//' + host + pathname + '?' + urlParamsObject.toString();
-    window.history.replaceState({ path: newUrl }, '', newUrl);
-
-    return true;
-  },
-  deleteProperty(target, p) {
-    console.log(`delete called for property: ${String(p)}`);
-
-    urlParamsObject.delete(String(p));
-
-    // Update the URL without causing a page refresh
-    const { protocol, host, pathname } = window.location;
-    const newUrl = protocol + '//' + host + pathname + '?' + urlParamsObject.toString();
-    window.history.replaceState({ path: newUrl }, '', newUrl);
-
-    delete (target as any)[p];
-
-    return true;
   },
 });
