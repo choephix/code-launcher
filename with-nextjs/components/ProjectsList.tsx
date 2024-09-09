@@ -1,13 +1,12 @@
 'use client';
 
 import { runCommand } from '@/lib/commands';
-import React, { useEffect } from 'react';
-import { useSnapshot } from 'valtio';
-import { store, actions } from '@/lib/store';
+import { actions, useStore } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
+import React, { useEffect } from 'react';
 
 const ProjectsList: React.FC = () => {
-  const snap = useSnapshot(store);
+  const { projects } = useStore();
 
   useEffect(() => {
     actions.refreshProjects();
@@ -25,7 +24,7 @@ const ProjectsList: React.FC = () => {
       <h2 className='text-xl font-bold text-blue-400 p-4 border-b border-gray-700'>
         Existing Project Directories
       </h2>
-      {snap.projects.length === 0 ? (
+      {projects.length === 0 ? (
         <div className='flex items-center justify-center p-8'>
           <div className='flex items-center flex-col text-center gap-4'>
             <div className='inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2'></div>
@@ -34,7 +33,7 @@ const ProjectsList: React.FC = () => {
         </div>
       ) : (
         <div className='divide-y divide-gray-700'>
-          {snap.projects.map((project, index) => (
+          {projects.map((project, index) => (
             <button
               key={index}
               className='w-full text-left py-1 px-4 bg-gray-800 hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm'

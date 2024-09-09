@@ -1,10 +1,10 @@
 'use client';
 
 import { runCommand } from '@/lib/commands';
-import { actions, store } from '@/lib/store';
+import { actions, store, useStore } from '@/lib/store';
 
 export default function ExtraTools() {
-  const result = store.commandResult;
+  const { commandResult } = useStore();
 
   const runCustomCommand = () => {
     const command = prompt('Enter the command to run:');
@@ -24,18 +24,18 @@ export default function ExtraTools() {
             Run Custom Command
           </button>
         </div>
-        {result && (
+        {commandResult && (
           <div className='grid grid-cols-1 md:grid-cols-1 gap-4'>
             <div>
               <h2 className='text-xl font-semibold text-blue-400 pb-2 mb-2'>Command Output</h2>
               <pre className='bg-gray-900 p-2 rounded-md overflow-x-auto'>
-                {result.commandOutput}
+                {commandResult.commandOutput}
               </pre>
             </div>
             <div>
               <h2 className='text-xl font-semibold text-blue-400 pb-2 mb-2'>System Stats</h2>
-              <p>CPU Usage: {result.cpuUsage}%</p>
-              <p>Memory Usage: {result.memUsage}%</p>
+              <p>CPU Usage: {commandResult.cpuUsage}%</p>
+              <p>Memory Usage: {commandResult.memUsage}%</p>
             </div>
           </div>
         )}

@@ -1,4 +1,4 @@
-import { proxy } from 'valtio';
+import { proxy, useSnapshot } from 'valtio';
 
 interface State {
   commandResult: any;
@@ -23,3 +23,9 @@ export const actions = {
     store.projects = data.projects;
   },
 };
+
+export function useStore() {
+  return useSnapshot(store);
+}
+
+Object.assign(window, { store, actions });
