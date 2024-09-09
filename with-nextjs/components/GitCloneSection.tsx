@@ -21,8 +21,8 @@ const GitCloneSection: React.FC = () => {
         COUNTER=$((COUNTER + 1))
         REPO_NAME="${repoName}-$COUNTER"
       done
-      mkdir -p "$HOME/workspace/$REPO_NAME"
-      # git clone ${repoUrl} "$HOME/workspace/$REPO_NAME" && echo "Cloned to $REPO_NAME"
+      git clone ${repoUrl} "$HOME/workspace/$REPO_NAME" && echo "Cloned to $REPO_NAME"
+      # mkdir -p "$HOME/workspace/$REPO_NAME"
     `;
 
     const data = await runCommand(cloneCommand);
