@@ -1,7 +1,7 @@
 'use client';
 
 import { runCommand } from '@/lib/commands';
-import { actions, store, useStore } from '@/lib/store';
+import { actions, useStore } from '@/lib/store';
 
 export default function ExtraTools() {
   const { commandResult } = useStore();
