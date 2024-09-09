@@ -2,21 +2,21 @@
 
 import React from 'react';
 
-import { runCommand } from '@/lib/commands';
-import { actions } from '@/lib/store';
-import templates from '@/lib/templates';
+import { apiService } from '@/lib/apiService';
 import { urlParams } from '@/lib/urlParams';
+
+import templates from '@/lib/templates';
 
 const ProjectTemplates: React.FC = () => {
   const createProjectFolder = async (template: any) => {
     const folderName = prompt(`Enter the project folder name for ${template.name}:`);
     if (folderName) {
       const command = template.command.replace(/\{folderName\}/g, folderName);
-      const data = await runCommand(command);
-      actions.setCommandResult(data);
+
+      await apiService.runCommand(command);
 
       const ideCmd = urlParams.ide;
-      await runCommand(`${ideCmd} ~/workspace/${folderName}`);
+      await apiService.runCommand(`${ideCmd} ~/workspace/${folderName}`);
     }
   };
 

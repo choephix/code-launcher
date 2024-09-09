@@ -1,9 +1,10 @@
 'use client';
 
-import { runCommand } from '@/lib/commands';
+import React, { useEffect } from 'react';
+
+import { apiService } from '@/lib/apiService';
 import { actions, useStore } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
-import React, { useEffect } from 'react';
 
 const ProjectsList: React.FC = () => {
   const { projects } = useStore();
@@ -15,8 +16,7 @@ const ProjectsList: React.FC = () => {
   const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {
     const command = ideCmd + ` ~/workspace/${project}`;
-    const data = await runCommand(command);
-    actions.setCommandResult(data);
+    await apiService.runCommand(command);
   };
 
   return (

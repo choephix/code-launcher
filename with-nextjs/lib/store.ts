@@ -1,26 +1,33 @@
 import { proxy, useSnapshot } from 'valtio';
+import { apiService } from './apiService';
 
 interface State {
-  commandResult: any;
   projects: string[];
+  lastCommandOutput: string | null;
+  stats: {
+    memUsage: number;
+    cpuUsage: number;
+  };
 }
 
 export const store = proxy<State>({
-  commandResult: null,
   projects: [],
+  lastCommandOutput: null,
+  stats: {
+    memUsage: 0,
+    cpuUsage: 0,
+  },
 });
 
 export const actions = {
-  setCommandResult: (result: any) => {
-    store.commandResult = result;
-  },
-  setProjects: (projects: string[]) => {
-    store.projects = projects;
+  updateStore: (data: Partial<State>) => {
+    Object.assign(store, data);
   },
   refreshProjects: async () => {
-    const response = await fetch('/api/ls');
-    const data = await response.json();
-    store.projects = data.projects;
+    return await apiService.fetchProjects();
+  },
+  runCommand: async (command: string) => {
+    return await apiService.runCommand(command);
   },
 };
 

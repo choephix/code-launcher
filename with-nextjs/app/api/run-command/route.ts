@@ -1,7 +1,10 @@
-import { NextResponse } from 'next/server';
 import { spawn } from 'child_process';
+import { NextResponse } from 'next/server';
 import os from 'os';
 import path from 'path';
+
+import { getProjectDirectoriesList } from '../lib/getDirectoriesList';
+import { getMemoryAndCPU } from '../lib/getMemoryAndCPU';
 
 export async function POST(request: Request) {
   const { command } = await request.json();
@@ -9,34 +12,30 @@ export async function POST(request: Request) {
   return new Promise<NextResponse>(resolve => {
     console.log(`▶ Executing command: ${command}`);
 
-    const process = spawn(command, [], {
-      shell: true,
-      cwd: path.join(os.homedir(), 'workspace'),
-    });
+    const process = spawn(command, [], { shell: true, cwd: path.join(os.homedir(), 'workspace') });
 
     let commandOutput = '';
 
     process.stdout.on('data', data => {
       const output = data.toString();
       commandOutput += output;
-      console.log('[STDOUT]:', output); // Stream to backend console
+      console.log('[STDOUT]:', output);
     });
 
     process.stderr.on('data', data => {
       const error = data.toString();
       commandOutput += error;
-      console.error('[STDERR]:', error); // Stream errors to backend console
+      console.error('[STDERR]:', error);
     });
 
-    process.on('close', code => {
-      const cpuUsage = os.loadavg()[0].toFixed(2);
-      const memUsage = (1 - os.freemem() / os.totalmem()).toFixed(2);
+    process.on('close', async code => {
+      const projects = await getProjectDirectoriesList();
+      const { cpuUsage, memUsage } = getMemoryAndCPU();
 
       const result = {
-        commandOutput,
-        command,
-        cpuUsage,
-        memUsage,
+        commandOutput: commandOutput,
+        stats: { cpuUsage: cpuUsage, memUsage: memUsage },
+        projects: projects,
         exitCode: code,
       };
 

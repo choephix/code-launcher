@@ -1,14 +1,17 @@
-import fs from 'fs/promises';
 import { NextResponse } from 'next/server';
-import os from 'os';
-import path from 'path';
+
+import { getProjectDirectoriesList } from '../lib/getDirectoriesList';
+import { getMemoryAndCPU } from '../lib/getMemoryAndCPU';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const workspacePath = path.join(os.homedir(), 'workspace');
-  const folders = await fs.readdir(workspacePath, { withFileTypes: true });
-  const projects = folders.filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
+  const projects = await getProjectDirectoriesList();
 
-  return NextResponse.json({ projects });
+  const { cpuUsage, memUsage } = getMemoryAndCPU();
+
+  return NextResponse.json({
+    projects,
+    stats: { cpuUsage: cpuUsage, memUsage: memUsage },
+  });
 }
