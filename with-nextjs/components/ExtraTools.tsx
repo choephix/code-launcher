@@ -29,7 +29,7 @@ export default function ExtraTools() {
             {lastCommandOutput && (
               <div>
                 <h2 className='text-xl font-semibold text-blue-400 pb-2 mb-2'>Command Output</h2>
-                <pre className='bg-gray-900 p-2 rounded-md overflow-x-auto'>
+                <pre className='bg-gray-900 p-2 rounded-md overflow-x-auto text-xs'>
                   {lastCommandOutput}
                 </pre>
               </div>
