@@ -1,9 +1,7 @@
-// components/DevLaunch.tsx
-
 import ProjectsList from '@/components/ProjectsList';
 import ExtraTools from './ExtraTools';
-import ProjectTemplates from './ProjectTemplates';
 import GitCloneSection from './GitCloneSection';
+import ProjectTemplates from './ProjectTemplates';
 
 export default function DevLaunch() {
   return (

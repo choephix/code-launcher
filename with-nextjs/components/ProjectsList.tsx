@@ -1,24 +1,24 @@
 'use client';
 
-import { fetchProjects, runCommand } from '@/lib/commands';
-import useCommandResultStore from '@/hooks/useCommandResultStore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+
+import { runCommand } from '@/lib/commands';
+import { actions, store } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
+import { useSnapshot } from 'valtio';
 
 const ProjectsList: React.FC = () => {
-  const { setResult } = useCommandResultStore();
-
-  const [projects, setProjects] = useState<string[]>([]);
+  const snap = useSnapshot(store);
 
   useEffect(() => {
-    fetchProjects().then(data => setProjects(data.projects));
+    actions.refreshProjects();
   }, []);
 
   const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {
     const command = ideCmd + ` ~/workspace/${project}`;
     const data = await runCommand(command);
-    setResult(data);
+    actions.setCommandResult(data);
   };
 
   return (
@@ -27,7 +27,7 @@ const ProjectsList: React.FC = () => {
         Existing Project Directories
       </h2>
       <div className='divide-y divide-gray-700'>
-        {projects.map((project, index) => (
+        {snap.projects.map((project, index) => (
           <button
             key={index}
             className='w-full text-left py-1 px-4 bg-gray-800 hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm'

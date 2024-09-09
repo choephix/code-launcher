@@ -1,15 +1,15 @@
 'use client';
 
 import { runCommand } from '@/lib/commands';
-import useCommandResultStore from '@/hooks/useCommandResultStore';
+import { actions, store } from '@/lib/store';
 
 export default function ExtraTools() {
-  const { result, setResult } = useCommandResultStore();
+  const result = store.commandResult;
 
   const runCustomCommand = () => {
     const command = prompt('Enter the command to run:');
     if (command) {
-      runCommand(command).then(data => setResult(data));
+      runCommand(command).then(data => actions.setCommandResult(data));
     }
   };
 

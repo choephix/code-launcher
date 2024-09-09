@@ -1,20 +1,19 @@
 'use client';
 
-import { runCommand } from '@/lib/commands';
-import templates from '@/lib/templates';
-import useCommandResultStore from '@/hooks/useCommandResultStore';
 import React from 'react';
+
+import { runCommand } from '@/lib/commands';
+import { actions } from '@/lib/store';
+import templates from '@/lib/templates';
 import { urlParams } from '@/lib/urlParams';
 
 const ProjectTemplates: React.FC = () => {
-  const { setResult } = useCommandResultStore();
-
   const createProjectFolder = async (template: any) => {
     const folderName = prompt(`Enter the project folder name for ${template.name}:`);
     if (folderName) {
       const command = template.command.replace(/\{folderName\}/g, folderName);
       const data = await runCommand(command);
-      setResult(data);
+      actions.setCommandResult(data);
 
       const ideCmd = urlParams.ide;
       await runCommand(`${ideCmd} ~/workspace/${folderName}`);

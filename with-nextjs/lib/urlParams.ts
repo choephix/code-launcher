@@ -1,8 +1,8 @@
-const queryString = window?.location.search ?? '';
+const queryString = globalThis?.location?.search ?? '';
 const urlParamsObject = new URLSearchParams(queryString);
 
 const defaults = {
-  "ide": "code", // "code" or "cursor"
+  ide: 'code', // "code" or "cursor"
 };
 
 export const urlParams = new Proxy(defaults, {

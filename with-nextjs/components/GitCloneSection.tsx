@@ -1,14 +1,12 @@
-// components/GitCloneSection.tsx
-
 'use client';
 
 import React, { useState } from 'react';
+
 import { runCommand } from '@/lib/commands';
-import useCommandResultStore from '@/hooks/useCommandResultStore';
+import { actions } from '@/lib/store';
 
 const GitCloneSection: React.FC = () => {
   const [repoUrl, setRepoUrl] = useState('');
-  const { setResult } = useCommandResultStore();
 
   const handleClone = async () => {
     if (!repoUrl) return;
@@ -22,11 +20,11 @@ const GitCloneSection: React.FC = () => {
         REPO_NAME="${repoName}-$COUNTER"
       done
       git clone ${repoUrl} "$HOME/workspace/$REPO_NAME" && echo "Cloned to $REPO_NAME"
-      # mkdir -p "$HOME/workspace/$REPO_NAME"
     `;
 
     const data = await runCommand(cloneCommand);
-    setResult(data);
+    actions.setCommandResult(data);
+    actions.refreshProjects();
     setRepoUrl('');
   };
 
