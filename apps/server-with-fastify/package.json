@@ -15,6 +15,7 @@
     "@code-launcher/data-types": "workspace:*",
     "@code-launcher/shell-operations": "workspace:*",
     "@fastify/static": "^7.0.4",
+    "dotenv": "^16.4.5",
     "fastify": "^4.28.1"
   },
   "devDependencies": {

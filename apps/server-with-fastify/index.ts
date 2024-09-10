@@ -1,19 +1,33 @@
-import { CodeLauncherServerActions } from '@code-launcher/shell-operations';
+import path from 'path';
+
 import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
-import path from 'path';
+
+import dotenv from 'dotenv';
+
+import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
+
+dotenv.config();
+
+console.log('//// process.env.CODELAUNCHER_WORKSPACE_PATH', process.env.CODELAUNCHER_WORKSPACE_PATH);
+if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
+  console.error('CODELAUNCHER_WORKSPACE_PATH environment variable is not set.');
+  throw process.exit(1);
+}
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
 // Serve static files from ../../build-client at the root path
 fastify.register(fastifyStatic, {
   root: path.resolve('../../build-client'),
-  prefix: '/', 
+  prefix: '/',
 });
 
 // API routes
 fastify.register(
   (fastify, _, done) => {
+    const CodeLauncherServerActions = createCodeLauncherServerActions(process.env.CODELAUNCHER_WORKSPACE_PATH!);
+
     //// Get Project Directories List
     fastify.get('/ls', async (request, reply) => {
       const result = await CodeLauncherServerActions.getProjectDirectoriesList();

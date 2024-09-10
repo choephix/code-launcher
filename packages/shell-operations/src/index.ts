@@ -1,5 +1,5 @@
 import { getProjectDirectoriesList, getWorkspaceConfiguration } from './lib/files';
-import { pathToWorkspaces } from './lib/pathToWorkspace';
+import { pathToWorkspaces as defaultPathToWorkspaces } from './lib/pathToWorkspace';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU } from './lib/system';
 
@@ -13,14 +13,13 @@ type CodeLauncherServerActionResult = {
   exitCode: number | null;
 };
 
-export function createCodeLauncherServerActions(_pathToWorkspaces: string) {
-  
+export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   return {
     getProjectDirectoriesList: async () => {
       const configuration = await getWorkspaceConfiguration(pathToWorkspaces);
       const projects = await getProjectDirectoriesList(pathToWorkspaces);
       const { cpuUsage, memUsage } = getMemoryAndCPU();
-      
+
       return {
         pathToWorkspaces,
         configuration,
@@ -29,10 +28,10 @@ export function createCodeLauncherServerActions(_pathToWorkspaces: string) {
         exitCode: null,
       };
     },
-    
+
     runCommand: async (command: string) => {
       const { output, exitCode } = await runCommand(command, { cwd: pathToWorkspaces });
-      
+
       const configuration = await getWorkspaceConfiguration(pathToWorkspaces);
       const projects = await getProjectDirectoriesList(pathToWorkspaces);
       const { cpuUsage, memUsage } = getMemoryAndCPU();
@@ -49,4 +48,4 @@ export function createCodeLauncherServerActions(_pathToWorkspaces: string) {
   } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
 }
 
-export const CodeLauncherServerActions = createCodeLauncherServerActions(pathToWorkspaces);
+export const CodeLauncherServerActions = createCodeLauncherServerActions(defaultPathToWorkspaces);
