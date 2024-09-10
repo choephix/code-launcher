@@ -25,11 +25,21 @@ const config: Config = {
           '0%': { opacity: '0', transform: 'scale(0.99)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
+        'slide-in-right': {
+          '0%': { transform: 'translateX(100%)', opacity: '0' },
+          '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        'pop-in': {
+          '0%': { transform: 'scale(0.6)', opacity: '0' },
+          '100%': { transform: 'scale(1)', opacity: '1' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 0.25s ease-out',
         'fade-in-left': 'fade-in-left 0.4s ease-out',
         'fade-in-pop': 'fade-in-pop 0.4s ease-out',
+        'slide-in-right': 'slide-in-right 0.3s ease-out',
+        'pop-in': 'pop-in 0.3s ease-out',
       },
     },
   },

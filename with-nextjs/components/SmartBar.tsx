@@ -43,7 +43,7 @@ const SmartBar: React.FC = () => {
           <div className='flex items-center ml-3 mr-1'>
             <Icon
               size='1.2em'
-              className={inputContent ? 'text-white' : 'text-gray-400'}
+              className={`${inputContent ? 'text-white' : 'text-gray-400'} animate-pop-in`}
               strokeWidth={1.5}
             />
           </div>
@@ -58,7 +58,12 @@ const SmartBar: React.FC = () => {
           />
           <button
             onClick={handleClone}
-            className='px-6 py-2 bg-blue-500 text-white hover:bg-blue-600 focus:outline-none rounded-full'
+            className={`
+                px-6 py-2 text-white focus:outline-none rounded-full
+                transition-colors duration-200
+                bg-blue-500 hover:bg-blue-600
+                animate-slide-in-right
+              `}
             disabled={isBusy || !performButtonAction}
             hidden={!performButtonAction}
           >

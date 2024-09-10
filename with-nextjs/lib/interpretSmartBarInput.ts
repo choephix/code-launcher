@@ -1,5 +1,5 @@
 import { apiService } from '@/lib/apiService';
-import { GitBranch, HandMetalIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
+import { BadgeIcon, CodeIcon, DotIcon, GitBranch, HandMetalIcon, ShieldQuestionIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
 export enum InputType {
   NULL,
@@ -18,7 +18,7 @@ export interface InterpretedInput {
   type: InputType;
   icon: IconType;
   action?: () => Promise<void>;
-  label: string;
+  label?: string;
 }
 
 const GIT_REPO_REGEX = /^(https?:\/\/)?([\w.-]+@)?([\w.-]+)(:\d+)?[\/\w.-]*\.git\/?$/;
@@ -50,11 +50,20 @@ const handleAIPrompt = async (): Promise<void> => {
 export const interpretSmartBarInput = (input: string): InterpretedInput => {
   const trimmedInput = input.trim();
 
-  if (!trimmedInput || trimmedInput.length < 2) {
+  if (!trimmedInput) {
     return {
       type: InputType.NULL,
-      icon: HandMetalIcon,
-      label: '...', // Default label
+      // icon: HandMetalIcon,
+      // icon: CodeIcon,
+      // icon: BadgeIcon,
+      icon: DotIcon,
+    };
+  }
+
+  if (trimmedInput.length < 2) {
+    return {
+      type: InputType.NULL,
+      icon: DotIcon,
     };
   }
 
