@@ -1,11 +1,5 @@
 import { RefObject, useEffect } from 'react';
 
-export const SmartBarPlaceholderStrings = [
-  'Git repository URL to clone',
-  'CLI command to run',
-  'AI prompt to AI with',
-];
-
 export const useAnimatedPlaceholder = (inputRef: RefObject<HTMLInputElement>, messages: string[], messagePrefix: string = '') => {
   useEffect(() => {
     const input = inputRef.current;
