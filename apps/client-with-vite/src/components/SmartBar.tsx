@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { actions, useStore } from '@/lib/store';
+import MachineStats from './MachineStats';
 
 const SmartBar: React.FC = () => {
   const { isSomeActionRunning } = useStore();
@@ -119,6 +120,10 @@ const CommandOutput = () => {
         <pre className='px-2 overflow-x-auto text-xs border-l-2 border-gray-700'>
           {lastCommandOutput}
         </pre>
+
+        <div className="flex items-center justify-center mt-4">
+          <MachineStats />
+        </div>
       </div>
     </>
   );

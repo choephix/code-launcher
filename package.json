@@ -6,7 +6,7 @@
   "scripts": {
     "start": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build && node ./build-server/index.js",
     "dev:client": "pnpm --filter @code-launcher/both-with-nextjs run dev",
-    "dev": "pnpm -r run dev",
+    "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev", 
     "build": "pnpm -r run build",
     "test": "pnpm -r run test"
   },
