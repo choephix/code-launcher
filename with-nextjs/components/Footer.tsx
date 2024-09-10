@@ -1,7 +1,7 @@
 'use client';
 
 import { useStore } from '@/lib/store';
-import { Github, Heart, Twitter, MessageCircle, Coffee, Star } from 'lucide-react';
+import { Github, Heart } from 'lucide-react';
 
 export default function Footer() {
   const { stats } = useStore();
@@ -51,31 +51,6 @@ export default function Footer() {
               <Github className='mr-1 w-4 h-4' /> Star on GitHub
             </a>
           </span>
-
-          {/* Additional options (uncomment or modify as needed) */}
-          {/* <span className='mx-2'>|</span>
-          <a href='https://twitter.com/yourusername' className='flex items-center hover:text-blue-400 transition-colors duration-300' target='_blank' rel='noopener noreferrer'>
-            <Twitter className='mr-1 w-4 h-4' /> Twitter
-          </a> */}
-          {/* <span className='mx-2'>|</span>
-          <a href='https://discord.gg/yourinvite' className='flex items-center hover:text-blue-400 transition-colors duration-300' target='_blank' rel='noopener noreferrer'>
-            <MessageCircle className='mr-1 w-4 h-4' /> Discord
-          </a> */}
-          {/* <span className='mx-2'>|</span>
-          <a href='https://www.buymeacoffee.com/yourusername' className='flex items-center hover:text-blue-400 transition-colors duration-300' target='_blank' rel='noopener noreferrer'>
-            <Coffee className='mr-1 w-4 h-4' /> Buy me a coffee
-          </a> */}
-          {/* <span className='mx-2'>|</span>
-          <a
-            href='https://github.com/choephix/code-launcher/stargazers'
-            className='flex items-center hover:text-blue-400 transition-colors duration-300'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Star className='mr-1 w-4 h-4' /> Star on GitHub
-          </a> */}
-          {/* <span className='mx-2'>|</span>
-          <span>v1.0.0</span> */}
         </div>
       </div>
     </footer>
