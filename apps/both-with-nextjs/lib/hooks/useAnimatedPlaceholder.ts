@@ -38,7 +38,9 @@ export const useAnimatedPlaceholder = (inputRef: RefObject<HTMLInputElement>, me
       timeoutId = setTimeout(animatePlaceholder, speed);
     };
 
-    animatePlaceholder();
+    timeoutId = setTimeout(() => {
+      animatePlaceholder();
+    }, 1500);
 
     return () => clearTimeout(timeoutId); // Cleanup on unmount
   }, [inputRef, messages]);

@@ -63,7 +63,6 @@ const SmartBar: React.FC = () => {
           value={inputContent}
           onChange={e => setInputContent(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder='Enter Git repository URL'
           className='bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none'
           disabled={isSomeActionRunning}
         />
