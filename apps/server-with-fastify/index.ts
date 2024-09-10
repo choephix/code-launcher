@@ -3,24 +3,24 @@ import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 import path from 'path';
 
-const fastify: FastifyInstance = Fastify({
-  logger: true,
-});
+const fastify: FastifyInstance = Fastify({ logger: true });
 
 // Serve static files from ../../build-client at the root path
 fastify.register(fastifyStatic, {
   root: path.resolve('../../build-client'),
-  prefix: '/', // Serve at root path
+  prefix: '/', 
 });
 
 // API routes
 fastify.register(
   (fastify, _, done) => {
+    //// Get Project Directories List
     fastify.get('/ls', async (request, reply) => {
       const result = await CodeLauncherServerActions.getProjectDirectoriesList();
       return result;
     });
 
+    //// Run Shell Command
     fastify.post(
       '/run-command',
       async (
