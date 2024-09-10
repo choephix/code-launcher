@@ -2,6 +2,7 @@ import ProjectsList from '@/components/ProjectsList';
 import ExtraTools from './ExtraTools';
 import SmartBar from './SmartBar';
 import ProjectTemplates from './ProjectTemplates';
+import Footer from './Footer';
 
 export default function Launcher() {
   return (
@@ -23,7 +24,7 @@ export default function Launcher() {
         <ProjectsList />
       </div>
 
-      <ExtraTools />
+      <Footer />
     </div>
   );
 }
