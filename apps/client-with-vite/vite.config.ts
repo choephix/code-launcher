@@ -9,4 +9,12 @@ export default defineConfig({
     outDir: path.resolve(__dirname, '..', '..', 'build-client'),
     emptyOutDir: true,
   },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  css: {
+    postcss: './postcss.config.js',
+  },
 });

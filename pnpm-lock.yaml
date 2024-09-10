@@ -56,15 +56,24 @@ importers:
 
   apps/client-with-vite:
     dependencies:
+      '@code-launcher/data-types':
+        specifier: workspace:*
+        version: link:../../packages/data-types
       '@code-launcher/react-components':
         specifier: workspace:*
         version: link:../../packages/react-components
+      lucide-react:
+        specifier: ^0.439.0
+        version: 0.439.0(react@18.3.1)
       react:
         specifier: ^18.3.1
         version: 18.3.1
       react-dom:
         specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
+      valtio:
+        specifier: ^2.0.0
+        version: 2.0.0(@types/react@18.3.5)(react@18.3.1)
     devDependencies:
       '@eslint/js':
         specifier: ^9.9.0
@@ -78,6 +87,9 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.3.1
         version: 4.3.1(vite@5.4.3(@types/node@22.5.4))
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.20(postcss@8.4.45)
       eslint:
         specifier: ^9.9.0
         version: 9.10.0(jiti@1.21.6)
@@ -90,6 +102,12 @@ importers:
       globals:
         specifier: ^15.9.0
         version: 15.9.0
+      postcss:
+        specifier: ^8.4.45
+        version: 8.4.45
+      tailwindcss:
+        specifier: ^3.4.10
+        version: 3.4.10(ts-node@10.9.2(@types/node@22.5.4)(typescript@5.6.2))
       typescript:
         specifier: ^5.5.3
         version: 5.6.2
@@ -102,6 +120,9 @@ importers:
 
   apps/server-with-fastify:
     dependencies:
+      '@code-launcher/data-types':
+        specifier: workspace:*
+        version: link:../../packages/data-types
       '@code-launcher/shell-operations':
         specifier: workspace:*
         version: link:../../packages/shell-operations

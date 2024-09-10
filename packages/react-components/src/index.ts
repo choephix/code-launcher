@@ -1,1 +1,1 @@
-export * from './foo';
+export * from '@/components/Launcher';

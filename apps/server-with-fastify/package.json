@@ -12,6 +12,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@code-launcher/data-types": "workspace:*",
     "@code-launcher/shell-operations": "workspace:*",
     "@fastify/static": "^7.0.4",
     "fastify": "^4.28.1"
