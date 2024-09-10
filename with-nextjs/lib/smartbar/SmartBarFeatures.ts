@@ -3,7 +3,7 @@ import { DotIcon, GitBranch, SearchIcon, SparklesIcon, TerminalIcon } from 'luci
 
 const GIT_REPO_REGEX = /^(https?:\/\/)?([\w.-]+@)?([\w.-]+)(:\d+)?[\/\w.-]*\.git\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
-const SHELL_COMMAND_REGEX = /^(\$|>|bash)\s+.+/;
+const SHELL_COMMAND_REGEX = /^(\$|>|bash\s+)\s*/;
 
 export interface SmartBarFeature {
   readonly type: string;
@@ -51,7 +51,7 @@ export const SmartBarFeatures = [
     placeholder: 'CLI command to run',
     match: (input: string) => SHELL_COMMAND_REGEX.test(input.trim()),
     action: async (input: string) => {
-      const cleanCommand = input.trim().replace(/^(\$ |>|bash )/, '');
+      const cleanCommand = input.trim().replace(SHELL_COMMAND_REGEX, '');
       await apiService.runCommand(cleanCommand);
     },
     label: 'Run',
