@@ -1,7 +1,7 @@
 import { apiService } from '@/lib/apiService';
 import { DotIcon, GitBranch, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
-const GIT_REPO_REGEX = /^(https?:\/\/)?([\w.-]+@)?([\w.-]+)(:\d+)?[\/\w.-]*\.git\/?$/;
+const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
 const SHELL_COMMAND_REGEX = /^(\$|>|bash\s+)\s*/;
 

@@ -3,7 +3,7 @@
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { useStore } from '@/lib/store';
-import { ChevronsDown, ChevronsDownIcon, TerminalIcon } from 'lucide-react';
+import { ChevronsDownIcon } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SmartBar: React.FC = () => {
@@ -80,7 +80,15 @@ const SmartBar: React.FC = () => {
         </button>
       </div>
 
-      <CommandOutput />
+      {isBusy ? (
+        <div className='animate-fade-in-pop'>
+          <div className='flex items-center justify-center py-8'>
+            <div className='inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2'></div>
+          </div>
+        </div>
+      ) : (
+        <CommandOutput />
+      )}
     </div>
   );
 };
