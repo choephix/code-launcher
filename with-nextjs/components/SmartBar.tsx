@@ -37,7 +37,6 @@ const SmartBar: React.FC = () => {
   } = interpretSmartBarInput(inputContent);
 
   return (
-    <div className='mb-8'>
       <div className='flex'>
         <div className='flex items-center flex-grow border border-gray-600 bg-gray-700 rounded-full overflow-hidden'>
           <div className='flex items-center ml-3 mr-1'>
@@ -71,7 +70,6 @@ const SmartBar: React.FC = () => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

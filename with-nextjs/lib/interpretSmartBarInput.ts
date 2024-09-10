@@ -1,24 +1,12 @@
 import { apiService } from '@/lib/apiService';
-import { BadgeIcon, CodeIcon, DotIcon, GitBranch, HandMetalIcon, ShieldQuestionIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
+import { DotIcon, GitBranch, SearchIcon, ShieldQuestionIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
 export enum InputType {
   NULL,
   GIT,
   SHELL,
+  SEARCH,
   AI_PROMPT,
-}
-
-export type IconType =
-  | typeof GitBranch
-  | typeof HandMetalIcon
-  | typeof SparklesIcon
-  | typeof TerminalIcon;
-
-export interface InterpretedInput {
-  type: InputType;
-  icon: IconType;
-  action?: () => Promise<void>;
-  label?: string;
 }
 
 const GIT_REPO_REGEX = /^(https?:\/\/)?([\w.-]+@)?([\w.-]+)(:\d+)?[\/\w.-]*\.git\/?$/;
@@ -47,15 +35,18 @@ const handleAIPrompt = async (): Promise<void> => {
   alert('AI prompt handling not implemented yet');
 };
 
-export const interpretSmartBarInput = (input: string): InterpretedInput => {
+const handleSearch = async (query: string): Promise<void> => {
+  const encodedQuery = encodeURIComponent(query);
+  const searchUrl = `https://www.google.com/search?q=${encodedQuery}`;
+  window.open(searchUrl, '_blank');
+};
+
+export const interpretSmartBarInput = (input: string) => {
   const trimmedInput = input.trim();
 
   if (!trimmedInput) {
     return {
       type: InputType.NULL,
-      // icon: HandMetalIcon,
-      // icon: CodeIcon,
-      // icon: BadgeIcon,
       icon: DotIcon,
     };
   }
@@ -85,10 +76,21 @@ export const interpretSmartBarInput = (input: string): InterpretedInput => {
     };
   }
 
+  if (trimmedInput.startsWith('/ ')) {
+    return {
+      type: InputType.AI_PROMPT,
+      icon: SparklesIcon,
+      action: handleAIPrompt,
+      label: 'Ask AI',
+    };
+  }
+
   return {
-    type: InputType.AI_PROMPT,
-    icon: SparklesIcon,
-    action: handleAIPrompt,
-    label: 'Ask AI',
+    type: InputType.SEARCH,
+    icon: SearchIcon,
+    action: () => handleSearch(trimmedInput),
+    label: 'Search',
   };
 };
+
+export type InterpretedInput = ReturnType<typeof interpretSmartBarInput>;
