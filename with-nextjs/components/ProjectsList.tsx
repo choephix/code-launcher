@@ -36,7 +36,7 @@ const ProjectsList: React.FC = () => {
           {projects.map((project, index) => (
             <button
               key={index}
-              className='w-full text-left py-1 px-4 bg-gray-800 group hover:bg-gray-700 transition duration-300 hover:duration-0 flex justify-between items-center text-sm animate-fade-in-left'
+              className='w-full text-left py-1 px-4 bg-gray-800 group hover:bg-gray-700 transition duration-200 hover:duration-0 flex justify-between items-center text-sm animate-fade-in-left'
               style={{ opacity: 0, animationDelay: `${index * 16.67}ms`, animationFillMode: 'forwards' }}
               onClick={() => onProjectClick(project)}
             >
