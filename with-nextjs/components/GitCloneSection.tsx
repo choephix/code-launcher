@@ -34,7 +34,6 @@ const GitCloneSection: React.FC = () => {
 
   return (
     <div className='mb-8'>
-      <h2 className='text-xl font-bold text-blue-400 mb-4'>Clone Git Repository</h2>
       <div className='flex'>
         <input
           type='text'
