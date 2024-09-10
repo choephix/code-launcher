@@ -1,10 +1,11 @@
 'use client';
 
+import { ChevronsDownIcon, XIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { actions, useStore } from '@/lib/store';
-import { ChevronsDownIcon, XIcon } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
 
 const SmartBar: React.FC = () => {
   const { isSomeActionRunning } = useStore();
@@ -113,7 +114,7 @@ const CommandOutput = () => {
           onClick={handleClose}
           className='absolute top-2 right-2 text-gray-500 hover:text-gray-200 transition-colors'
         >
-          <XIcon size="1em" />
+          <XIcon size='1em' />
         </button>
         <h2 className='px-2 text-xmd font-bold text-blue-400 mb-2'>Command Output</h2>
         <pre className='px-2 overflow-x-auto text-xs border-l-2 border-gray-700'>
@@ -125,7 +126,9 @@ const CommandOutput = () => {
 };
 
 const getAllSmartBarFeatureHints = () => {
-  const placeholders = SmartBarFeatures.map(feature => feature.placeholder);
+  const placeholders = SmartBarFeatures.map(feature =>
+    feature.disabled ? null : feature.placeholder
+  );
   const nonEmptyPlaceholders = placeholders.filter(Boolean) as string[];
   return nonEmptyPlaceholders;
 };
