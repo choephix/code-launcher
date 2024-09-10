@@ -22,7 +22,7 @@ const ProjectsList: React.FC = () => {
 
   return (
     <div className="w-full">
-      <div className="flex justify-between items-center py-2 px-2 border-b-2 border-gray-700">
+      <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
         <h2 className="text-xs font-semibold text-gray-300">Existing Project Directories</h2>
         <button
           onClick={actions.toggleShowTemplates}
@@ -45,18 +45,19 @@ const ProjectsList: React.FC = () => {
           <span className="text-xs text-gray-400">Loading...</span>
         </div>
       ) : (
-        <ul className="divide-y divide-gray-700">
+        <ul className="">
           {projects.map((project, index) => (
             <li
               key={index}
-              className="animate-fade-in-left"
+              className="animate-fade-in-left opacity-0 border-b border-gray-700"
               style={{
                 animationDelay: `${index * 16.67}ms`,
                 animationFillMode: 'forwards',
               }}
             >
               <button
-                className="w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
+                className="
+                w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
                 onClick={() => onProjectClick(project)}
               >
                 <span className="flex items-center">
