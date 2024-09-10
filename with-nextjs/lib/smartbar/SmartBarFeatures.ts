@@ -1,14 +1,8 @@
 import { apiService } from '@/lib/apiService';
-import {
-  DotIcon,
-  GitBranch,
-  SearchIcon,
-  ShieldQuestionIcon,
-  SparklesIcon,
-  TerminalIcon,
-} from 'lucide-react';
+import { DotIcon, GitBranch, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
 const GIT_REPO_REGEX = /^(https?:\/\/)?([\w.-]+@)?([\w.-]+)(:\d+)?[\/\w.-]*\.git\/?$/;
+const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
 const SHELL_COMMAND_REGEX = /^(\$|>|bash)\s+.+/;
 
 export interface SmartBarFeature {
@@ -32,9 +26,10 @@ export const SmartBarFeatures = [
     type: 'git',
     icon: GitBranch,
     placeholder: 'Git repository URL to clone',
-    match: (input: string) => GIT_REPO_REGEX.test(input.trim()),
+    match: (input: string) =>
+      GIT_REPO_REGEX.test(input.trim()) || GIT_CLONE_PREFIX_REGEX.test(input.trim()),
     action: async (input: string) => {
-      const repoUrl = input.trim();
+      const repoUrl = input.trim().replace(GIT_CLONE_PREFIX_REGEX, '');
       const repoName = repoUrl.split('/').pop()?.replace('.git', '') || 'cloned-repo';
       const cloneCommand = `
         REPO_NAME="${repoName}"
