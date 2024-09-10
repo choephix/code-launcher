@@ -42,7 +42,7 @@ const config: Config = {
         'fade-in': 'fade-in 0.25s ease-out',
         'fade-in-left': 'fade-in-left 0.4s ease-out',
         'fade-in-pop': 'fade-in-pop 0.4s ease-out',
-        'slide-in-right': 'slide-in-right 0.3s ease-out',
+        'slide-in-right': 'slide-in-right 0.2s ease-out',
         'slide-in-from-up': 'slide-in-from-up 0.2s ease-out',
         'pop-in': 'pop-in 0.3s ease-out',
       },
