@@ -2,32 +2,33 @@
 
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
-import { useStore } from '@/lib/store';
+import { actions, useStore } from '@/lib/store';
 import { ChevronsDownIcon } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 const SmartBar: React.FC = () => {
+  const { isSomeActionRunning } = useStore();
+
   const [inputContent, setInputContent] = useState('');
-  const [isBusy, setIsBusy] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useAnimatedPlaceholder(inputRef, getAllSmartBarFeatureHints(), 'Enter ');
 
   useEffect(() => {
     inputRef.current?.focus();
-  }, []);
+  }, [isSomeActionRunning]);
 
   const handleActionButtonClick = async () => {
     if (!inputContent) return;
 
-    setIsBusy(true);
+    actions.setIsSomeActionRunning(true);
 
     try {
       await performButtonAction?.(inputContent);
 
       setInputContent('');
     } finally {
-      setIsBusy(false);
+      actions.setIsSomeActionRunning(false);
     }
   };
 
@@ -63,7 +64,7 @@ const SmartBar: React.FC = () => {
           onKeyDown={handleKeyDown}
           placeholder='Enter Git repository URL'
           className='bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none'
-          disabled={isBusy}
+          disabled={isSomeActionRunning}
         />
         <button
           onClick={handleActionButtonClick}
@@ -73,14 +74,14 @@ const SmartBar: React.FC = () => {
                 bg-blue-500 hover:bg-blue-600
                 animate-slide-in-right
               `}
-          disabled={isBusy || !performButtonAction}
+          disabled={isSomeActionRunning || !performButtonAction}
           hidden={!performButtonAction}
         >
           {buttonLabel}
         </button>
       </div>
 
-      {isBusy ? (
+      {isSomeActionRunning ? (
         <div className='animate-fade-in-pop'>
           <div className='flex items-center justify-center py-8'>
             <div className='inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2'></div>

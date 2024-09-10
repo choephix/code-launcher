@@ -8,6 +8,7 @@ interface State {
     memUsage: number;
     cpuUsage: number;
   };
+  isSomeActionRunning: boolean;
 }
 
 export const store = proxy<State>({
@@ -17,6 +18,7 @@ export const store = proxy<State>({
     memUsage: 0,
     cpuUsage: 0,
   },
+  isSomeActionRunning: false,
 });
 
 export const actions = {
@@ -28,6 +30,9 @@ export const actions = {
   },
   runCommand: async (command: string) => {
     return await apiService.runCommand(command);
+  },
+  setIsSomeActionRunning: (value: boolean) => {
+    store.isSomeActionRunning = value;
   },
 };
 

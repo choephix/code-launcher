@@ -21,7 +21,7 @@ const ProjectsList: React.FC = () => {
   };
 
   return (
-    <div className='bg-gray-800 border border-gray-700 rounded-lg overflow-hidden'>
+    <div className='bg-gray-800 border border-gray-700 rounded-lg overflow-hidden w-full'>
       <h2 className='text-xl font-bold text-blue-400 p-4 border-b border-gray-700'>
         Existing Project Directories
       </h2>

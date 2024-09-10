@@ -5,9 +5,16 @@ import React from 'react';
 import { apiService } from '@/lib/apiService';
 import { urlParams } from '@/lib/urlParams';
 
+import { useStore } from '@/lib/store';
 import templates from '@/lib/templates';
 
 const ProjectTemplates: React.FC = () => {
+  const { isSomeActionRunning, lastCommandOutput } = useStore();
+
+  if (isSomeActionRunning) return null;
+  
+  if (lastCommandOutput) return null;
+
   const createProjectFolder = async (template: any) => {
     const folderName = prompt(`Enter the project folder name for ${template.name}:`);
     if (folderName) {
