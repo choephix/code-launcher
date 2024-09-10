@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@code-launcher/data-types": "workspace:*",
     "@code-launcher/shell-operations": "workspace:*",
     "autoprefixer": "^10.4.20",
     "lucide-react": "^0.439.0",

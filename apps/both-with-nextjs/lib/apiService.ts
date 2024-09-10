@@ -1,5 +1,7 @@
 import { store } from './store';
 
+import type { WorkspaceConfiguration } from '@code-launcher/data-types';
+
 interface ApiResponse {
   projects?: string[];
   commandOutput?: string;
@@ -7,6 +9,7 @@ interface ApiResponse {
     memUsage: number;
     cpuUsage: number;
   };
+  configuration?: WorkspaceConfiguration;
 }
 
 const createApiService = () => {
@@ -14,15 +17,18 @@ const createApiService = () => {
     const response = await fetch(url, options);
     const data: ApiResponse = await response.json();
 
-    const { commandOutput, stats, projects } = data;
+    const { commandOutput, stats, projects, configuration } = data;
     if (commandOutput) store.lastCommandOutput = commandOutput;
     if (stats) store.stats = { ...store.stats, ...stats };
     if (projects) store.projects = projects;
+    if (configuration) store.configuration = configuration;
 
     return data;
   };
 
   return {
+
+
     fetchProjects: async (): Promise<ApiResponse> => {
       return fetchWithStats('/api/ls');
     },

@@ -1,6 +1,8 @@
 import { proxy, useSnapshot } from 'valtio';
 import { apiService } from './apiService';
 
+import { WorkspaceConfiguration } from '@code-launcher/data-types';
+
 interface State {
   projects: string[];
   lastCommandOutput: string | null;
@@ -9,6 +11,8 @@ interface State {
     cpuUsage: number;
   };
   isSomeActionRunning: boolean;
+
+  configuration: WorkspaceConfiguration;
 }
 
 export const store = proxy<State>({
@@ -19,6 +23,10 @@ export const store = proxy<State>({
     cpuUsage: 0,
   },
   isSomeActionRunning: false,
+
+  configuration: {
+    templates: [],
+  },
 });
 
 export const actions = {

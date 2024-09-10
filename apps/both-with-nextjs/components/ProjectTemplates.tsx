@@ -6,10 +6,10 @@ import { apiService } from '@/lib/apiService';
 import { urlParams } from '@/lib/urlParams';
 
 import { useStore } from '@/lib/store';
-import templates from '@/lib/templates';
 
 const ProjectTemplates: React.FC = () => {
-  const { isSomeActionRunning, lastCommandOutput } = useStore();
+  const { isSomeActionRunning, lastCommandOutput, configuration } = useStore();
+  const { templates } = configuration;
 
   if (isSomeActionRunning) return null;
   

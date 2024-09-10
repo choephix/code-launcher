@@ -10,6 +10,9 @@ importers:
 
   apps/both-with-nextjs:
     dependencies:
+      '@code-launcher/data-types':
+        specifier: workspace:*
+        version: link:../../packages/data-types
       '@code-launcher/shell-operations':
         specifier: workspace:*
         version: link:../../packages/shell-operations
@@ -110,6 +113,8 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.5.4)(typescript@5.6.2)
 
+  packages/data-types: {}
+
   packages/react-components:
     devDependencies:
       '@types/react':
@@ -130,6 +135,9 @@ importers:
 
   packages/shell-operations:
     dependencies:
+      '@code-launcher/data-types':
+        specifier: workspace:*
+        version: link:../data-types
       '@types/node':
         specifier: ^14.14.31
         version: 14.18.63

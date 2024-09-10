@@ -2,6 +2,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import YAML from 'yaml';
 
+import type { WorkspaceConfiguration } from '@code-launcher/data-types';
+
 export async function getProjectDirectoriesList(workspacePath: string): Promise<string[]> {
   try {
     const entries = await fs.readdir(workspacePath, { withFileTypes: true });
@@ -28,12 +30,4 @@ export async function getWorkspaceConfiguration(workspacePath: string): Promise<
       templates: [],
     };
   }
-}
-
-export interface WorkspaceConfiguration {
-  templates: {
-    name: string;
-    icon: string;
-    command: string;
-  }[];
 }
