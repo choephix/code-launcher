@@ -21,51 +21,53 @@ const ProjectsList: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden w-full">
-      <div className="flex justify-between items-center p-4 border-b border-gray-700">
-        <h2 className="text-sm font-bold text-blue-400">Existing Project Directories</h2>
+    <div className="w-full">
+      <div className="flex justify-between items-center py-2 px-2 border-b-2 border-gray-700">
+        <h2 className="text-xs font-semibold text-gray-300">Existing Project Directories</h2>
         <button
           onClick={actions.toggleShowTemplates}
           className="text-xs text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
         >
           {uiState.showTemplates ? (
-            <>Hide Templates</>
+            'Hide Templates'
           ) : (
             <>
-              <PlusIcon size={16} className="mr-1" />
+              <PlusIcon size={14} className="mr-1" />
               Create
             </>
           )}
         </button>
       </div>
-      
+
       {projects.length === 0 ? (
-        <div className="flex items-center justify-center p-8">
-          <div className="flex items-center flex-col text-center gap-4">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2"></div>
-            <span className="text-gray-400">Loading directories list...</span>
-          </div>
+        <div className="flex items-center justify-center py-4 border-b border-gray-700">
+          <div className="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500 mr-2"></div>
+          <span className="text-xs text-gray-400">Loading...</span>
         </div>
       ) : (
-        <div className="divide-y divide-gray-700">
+        <ul className="divide-y divide-gray-700">
           {projects.map((project, index) => (
-            <button
+            <li
               key={index}
-              className="w-full text-left py-1 px-4 bg-gray-800 group hover:bg-gray-700 transition duration-200 hover:duration-0 flex justify-between items-center text-sm animate-fade-in-left"
+              className="animate-fade-in-left"
               style={{
-                opacity: 0,
                 animationDelay: `${index * 16.67}ms`,
                 animationFillMode: 'forwards',
               }}
-              onClick={() => onProjectClick(project)}
             >
-              <span>
-                <FolderIcon size="1em" className="inline-block" /> &nbsp; {project}
-              </span>
-              <span className="text-blue-400">→</span>
-            </button>
+              <button
+                className="w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
+                onClick={() => onProjectClick(project)}
+              >
+                <span className="flex items-center">
+                  <FolderIcon size={12} className="mr-1" />
+                  {project}
+                </span>
+                <span className="text-blue-400 text-xs">→</span>
+              </button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );
