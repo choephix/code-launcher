@@ -32,7 +32,7 @@ const ProjectTemplates: React.FC = () => {
       {templates.map((template, index) => (
         <button
           key={index}
-          className='flex flex-col items-center p-4 bg-gray-800 border border-gray-700 rounded-lg transition duration-200 hover:bg-gray-700 hover:border-blue-500 animate-fade-in-pop'
+          className='flex flex-col items-center p-4 bg-gray-800 border border-gray-700 rounded-lg transition duration-200 hover:bg-gray-700 hover:border-blue-500 animate-fade-in-pop shadow-lg'
           style={{
             opacity: 0,
             animationDelay: `${index * 33.33}ms`,

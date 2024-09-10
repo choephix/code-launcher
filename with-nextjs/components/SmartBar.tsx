@@ -46,7 +46,7 @@ const SmartBar: React.FC = () => {
 
   return (
     <div className='flex flex-col items-stretch'>
-      <div className='flex items-center flex-grow border border-gray-600 bg-gray-700 rounded-full overflow-hidden'>
+      <div className='flex items-center flex-grow border border-gray-600 bg-gray-700 rounded-full overflow-hidden shadow-lg'>
         <div className='flex items-center ml-3 mr-1'>
           <Icon
             size='1.2em'
@@ -108,12 +108,12 @@ const CommandOutput = () => {
       <div className='text-center line-height-0'>
         <ChevronsDownIcon className='text-gray-400 w-4 h-4 inline-block' />
       </div>
-      <div className='bg-gray-800 border border-gray-700 rounded-lg p-4 text-start animate-slide-in-from-up relative min-h-32'>
+      <div className='bg-gray-800 border border-gray-700 rounded-lg p-4 text-start animate-slide-in-from-up relative min-h-32 shadow-lg'>
         <button
           onClick={handleClose}
           className='absolute top-2 right-2 text-gray-500 hover:text-gray-200 transition-colors'
         >
-          <XIcon size="1em" />
+          <XIcon size='1em' />
         </button>
         <h2 className='px-2 text-xmd font-bold text-blue-400 mb-2'>Command Output</h2>
         <pre className='px-2 overflow-x-auto text-xs border-l-2 border-gray-700'>
