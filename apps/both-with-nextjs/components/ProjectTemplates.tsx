@@ -7,8 +7,10 @@ import { useStore } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
 
 const ProjectTemplates: React.FC = () => {
-  const { isSomeActionRunning, lastCommandOutput, configuration } = useStore();
+  const { isSomeActionRunning, lastCommandOutput, configuration, uiState } = useStore();
   const { templates } = configuration;
+
+  if (!uiState.showTemplates) return null; 
 
   if (isSomeActionRunning) return null;
 

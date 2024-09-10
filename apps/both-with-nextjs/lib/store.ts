@@ -4,14 +4,17 @@ import { apiService } from './apiService';
 import { WorkspaceConfiguration } from '@code-launcher/data-types';
 
 interface State {
+  isSomeActionRunning: boolean;
+  uiState: {
+    showTemplates: boolean;
+  };
+  //// Workspace State
   projects: string[];
   lastCommandOutput: string | null;
   stats: {
     memUsage: number;
     cpuUsage: number;
   };
-  isSomeActionRunning: boolean;
-
   configuration: WorkspaceConfiguration;
 }
 
@@ -22,11 +25,11 @@ export const store = proxy<State>({
     memUsage: 0,
     cpuUsage: 0,
   },
-  isSomeActionRunning: false,
-
   configuration: {
     templates: [],
   },
+  uiState: { showTemplates: false },
+  isSomeActionRunning: false,
 });
 
 export const actions = {
@@ -44,6 +47,9 @@ export const actions = {
   },
   clearCommandOutput: () => {
     store.lastCommandOutput = null;
+  },
+  toggleShowTemplates: () => {
+    store.uiState.showTemplates = !store.uiState.showTemplates;
   },
 };
 
