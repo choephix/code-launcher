@@ -15,6 +15,7 @@ export async function runCommand(
     const defaultOptions: SpawnOptions = {
       shell: true,
       cwd: path.join(os.homedir(), 'workspace'),
+      stdio: 'pipe',
     };
     const mergedOptions = { ...defaultOptions, ...options };
     const process = spawn(command, [], mergedOptions);

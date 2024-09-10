@@ -1,4 +1,5 @@
 import { getProjectDirectoriesList } from './lib/files';
+import { pathToWorkspaces } from './lib/pathToWorkspace';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU } from './lib/system';
 
@@ -12,27 +13,33 @@ type CodeLauncherServerActionResult = {
   exitCode: number | null;
 };
 
-export const CodeLauncherServerActions = {
-  getProjectDirectoriesList: async () => {
-    const projects = await getProjectDirectoriesList();
-    const { cpuUsage, memUsage } = getMemoryAndCPU();
-    return {
-      projects,
-      stats: { cpuUsage, memUsage },
-      exitCode: null,
-    };
-  },
+export function createCodeLauncherServerActions(_pathToWorkspaces: string) {
+  return {
+    getProjectDirectoriesList: async () => {
+      const projects = await getProjectDirectoriesList(pathToWorkspaces);
+      const { cpuUsage, memUsage } = getMemoryAndCPU();
+      return {
+        pathToWorkspaces,
+        projects,
+        stats: { cpuUsage, memUsage },
+        exitCode: null,
+      };
+    },
 
-  runCommand: async (command: string) => {
-    const { output, exitCode } = await runCommand(command);
-    const projects = await getProjectDirectoriesList();
-    const { cpuUsage, memUsage } = getMemoryAndCPU();
+    runCommand: async (command: string) => {
+      const { output, exitCode } = await runCommand(command, { cwd: pathToWorkspaces });
+      const projects = await getProjectDirectoriesList(pathToWorkspaces);
+      const { cpuUsage, memUsage } = getMemoryAndCPU();
 
-    return {
-      commandOutput: output,
-      stats: { cpuUsage, memUsage },
-      projects,
-      exitCode,
-    };
-  },
-} satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
+      return {
+        pathToWorkspaces,
+        commandOutput: output,
+        stats: { cpuUsage, memUsage },
+        projects,
+        exitCode,
+      };
+    },
+  } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
+}
+
+export const CodeLauncherServerActions = createCodeLauncherServerActions(pathToWorkspaces);

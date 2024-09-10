@@ -2,9 +2,9 @@ import fs from 'fs/promises';
 import os from 'os';
 import path from 'path';
 
-export async function getProjectDirectoriesList(basePath: string = 'workspace'): Promise<string[]> {
+export async function getProjectDirectoriesList(basePath: string): Promise<string[]> {
   try {
-    const workspacePath = path.join(os.homedir(), basePath);
+    const workspacePath = path.resolve(os.homedir(), basePath);
     const entries = await fs.readdir(workspacePath, { withFileTypes: true });
 
     return entries
