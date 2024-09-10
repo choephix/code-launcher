@@ -1,0 +1,14 @@
+{
+  "name": "@code-launcher/shell-operations",
+  "version": "1.0.0",
+  "main": "dist/src/index.js",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@types/node": "^14.14.31",
+    "typescript": "^4.2.3"
+  }
+}

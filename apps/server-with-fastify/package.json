@@ -1,0 +1,20 @@
+{
+  "name": "@code-launcher/server-with-fastify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "type": "module",
+  "module": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "dev2": "node --watch --experimental-strip-types index.ts",
+    "dev": "ts-node index.ts"
+  },
+  "dependencies": {
+    "@code-launcher/shell-operations": "workspace:*",
+    "fastify": "^4.28.1"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
