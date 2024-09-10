@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
-  "type": "module",
-  "module": "index.ts",
   "types": "index.ts",
+  "type": "module",
   "scripts": {
+    "dev": "node --loader ts-node/esm index.ts",
     "dev2": "node --watch --experimental-strip-types index.ts",
-    "dev": "ts-node index.ts"
+    "dev3": "ts-node index.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "@code-launcher/shell-operations": "workspace:*",

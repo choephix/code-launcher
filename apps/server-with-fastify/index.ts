@@ -1,5 +1,4 @@
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
-
 import { CodeLauncherServerActions } from '@code-launcher/shell-operations';
 
 const fastify: FastifyInstance = Fastify({
