@@ -4,28 +4,28 @@
     {
       "label": "Rebuild and Restart with PM2",
       "type": "shell",
-      "command": "npm run build && pm2 restart codelauncher && pm2 save",
+      "command": "pnpm run build && pm2 restart codelauncher && pm2 save",
       "problemMatcher": [],
       "group": {
         "kind": "build",
         "isDefault": true
       },
       "options": {
-        "cwd": "${workspaceFolder}/with-nextjs"
+        "cwd": "${workspaceFolder}"
       },
       "detail": "This task rebuilds the application and restarts it using PM2."
     },
     {
       "label": "Dev",
       "type": "shell",
-      "command": "npm run dev",
+      "command": "pnpm run dev",
       "problemMatcher": [],
       "group": {
         "kind": "none",
         "isDefault": true
       },
       "options": {
-        "cwd": "${workspaceFolder}/with-nextjs"
+        "cwd": "${workspaceFolder}"
       }
     }
   ]
