@@ -3,7 +3,7 @@
 import { apiService } from '@/lib/apiService';
 import React, { useState } from 'react';
 
-const GitCloneSection: React.FC = () => {
+const SmartBar: React.FC = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [isCloning, setIsCloning] = useState(false);
 
@@ -55,4 +55,4 @@ const GitCloneSection: React.FC = () => {
   );
 };
 
-export default GitCloneSection;
+export default SmartBar;
