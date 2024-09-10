@@ -121,9 +121,9 @@ const CommandOutput = () => {
           {lastCommandOutput}
         </pre>
 
-        <div className="flex items-center justify-center mt-4">
+        {/* <div className="flex items-center justify-center mt-4">
           <MachineStats />
-        </div>
+        </div> */}
       </div>
     </>
   );
