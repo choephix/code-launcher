@@ -1,75 +1,49 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Code Launcher
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Code Launcher is a web-based application designed to streamline the process of managing and interacting with your development projects. It provides a user-friendly interface to list, create, and manage project directories, execute shell commands, and clone Git repositories directly from your browser.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Project Management**: Easily view and manage your existing project directories.
+- **Command Execution**: Run shell commands directly from the web interface.
+- **Git Integration**: Clone Git repositories with a simple input.
+- **Smart Bar**: A versatile input bar that interprets various commands and actions.
+- **Resource Monitoring**: View real-time CPU and memory usage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How to Use
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Viewing Projects
 
-## Learn More
+1. Open the application.
+2. Navigate to the "Projects List" section.
+3. View your existing project directories.
 
-To learn more about Next.js, take a look at the following resources:
+### Creating a New Project
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Go to the "Project Templates" section.
+2. Select a template for your new project.
+3. Enter a name for the project folder when prompted.
+4. The project will be created and opened in your preferred IDE.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Running Commands
 
-## Deploy on Vercel
+1. Use the Smart Bar at the top of the interface.
+2. Enter a shell command prefixed with [`>`]("Go to definition") (e.g., `> ls`).
+3. Press Enter to execute the command.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Cloning a Git Repository
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. Use the Smart Bar.
+2. Enter the Git repository URL.
+3. Press Enter to clone the repository into your workspace.
 
-## How to auto-start on boot
+### Monitoring Resources
 
-Install `pm2` globally:
+1. View the footer of the application.
+2. Check the real-time CPU and memory usage displayed.
 
-```bash
-npm install -g pm2
-```
+## Technical Aspects
 
-Start the app with `pm2`:
-
-```bash
-pm2 start npm --name codelauncher -- run dev
-```
-
-To have the app start on boot:
-
-```bash
-pm2 startup
-pm2 save
-```
-
-To restart the app:
-
-```bash
-pm2 restart codelauncher
-```
-
-To view the logs:
-
-```bash
-pm2 logs codelauncher
-```
-
-To stop the app:
-
-```bash
-pm2 stop codelauncher
-```
+Code Launcher is built using modern web technologies including React, TypeScript, and Tailwind CSS. It leverages Valtio for state management and integrates with various APIs to provide its functionality. The backend services are designed to handle command execution and project management efficiently.
