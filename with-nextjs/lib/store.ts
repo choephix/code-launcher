@@ -35,4 +35,4 @@ export function useStore() {
   return useSnapshot(store);
 }
 
-Object.assign(window, { store, actions });
+Object.assign(globalThis, { store, actions });
