@@ -22,6 +22,13 @@ body {
     rgb(var(--background-start-rgb));
 
   overflow-y: scroll;
+  caret-color: transparent;
+  caret-shape: underscore;
+}
+
+input, textarea {
+  caret-color: rgb(var(--foreground-rgb));
+  caret-shape: bar;
 }
 
 @layer utilities {
