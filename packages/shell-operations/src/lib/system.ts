@@ -1,8 +1,8 @@
 import os from 'os';
 
 interface SystemStats {
-  cpuUsage: number|null;
-  memUsage: number|null;
+  cpuUsage: number | null;
+  memUsage: number | null;
 }
 
 export function getMemoryAndCPU(): SystemStats {
@@ -13,8 +13,8 @@ export function getMemoryAndCPU(): SystemStats {
     const memUsage = (totalMemory - freeMemory) / totalMemory;
 
     return {
-      cpuUsage: cpuUsage,
-      memUsage: memUsage,
+      cpuUsage: cpuUsage ?? null,
+      memUsage: memUsage ?? null,
     };
   } catch (error) {
     console.error(`Error getting system stats: ${error}`);
