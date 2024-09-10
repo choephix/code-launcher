@@ -48,7 +48,7 @@ export const SmartBarFeatures = [
   {
     type: 'shell',
     icon: TerminalIcon,
-    placeholder: 'CLI command to run',
+    placeholder: '">" + CLI command to run',
     match: (input: string) => SHELL_COMMAND_REGEX.test(input.trim()),
     action: async (input: string) => {
       const cleanCommand = input.trim().replace(SHELL_COMMAND_REGEX, '');
@@ -60,8 +60,8 @@ export const SmartBarFeatures = [
   {
     type: 'ai_prompt',
     icon: SparklesIcon,
-    placeholder: 'AI prompt to AI with',
-    match: (input: string) => input.trim().startsWith('/ '),
+    placeholder: '"*" + AI prompt to AI with',
+    match: (input: string) => input.trim().startsWith('/') || input.trim().startsWith('*'),
     action: async () => {
       alert('AI prompt handling not implemented yet');
     },
