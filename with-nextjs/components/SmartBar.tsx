@@ -47,7 +47,7 @@ const SmartBar: React.FC = () => {
         <div className='flex items-center ml-3 mr-1'>
           <Icon
             size='1.2em'
-            className={`${inputContent ? 'text-white' : 'text-gray-400'} animate-pop-in`}
+            className={`${inputContent ? 'text-white' : 'text-gray-400'} animate-pop-in transition-colors duration-500`}
             strokeWidth={1.5}
           />
         </div>
