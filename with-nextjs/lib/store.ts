@@ -34,6 +34,9 @@ export const actions = {
   setIsSomeActionRunning: (value: boolean) => {
     store.isSomeActionRunning = value;
   },
+  clearCommandOutput: () => {
+    store.lastCommandOutput = null;
+  },
 };
 
 export function useStore() {
