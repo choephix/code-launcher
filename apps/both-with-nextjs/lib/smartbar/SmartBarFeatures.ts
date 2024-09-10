@@ -34,11 +34,11 @@ export const SmartBarFeatures = [
       const cloneCommand = `
         REPO_NAME="${repoName}"
         COUNTER=0
-        while [ -d "$HOME/workspace/$REPO_NAME" ]; do
+        while [ -d "$REPO_NAME" ]; do
           COUNTER=$((COUNTER + 1))
           REPO_NAME="${repoName}-$COUNTER"
         done
-        git clone ${repoUrl} "$HOME/workspace/$REPO_NAME" && echo "Cloned to $REPO_NAME"
+        git clone ${repoUrl} "$REPO_NAME" && echo "Cloned to $REPO_NAME"
       `;
       await apiService.runCommand(cloneCommand);
     },
