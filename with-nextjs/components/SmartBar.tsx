@@ -1,11 +1,15 @@
 'use client';
 
 import { apiService } from '@/lib/apiService';
-import React, { useState } from 'react';
+import { SmartBarPlaceholderStrings, useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
+import React, { useRef, useState } from 'react';
 
 const SmartBar: React.FC = () => {
   const [repoUrl, setRepoUrl] = useState('');
   const [isCloning, setIsCloning] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useAnimatedPlaceholder(inputRef, SmartBarPlaceholderStrings, 'Enter ');
 
   const handleClone = async () => {
     if (!repoUrl) return;
@@ -36,6 +40,7 @@ const SmartBar: React.FC = () => {
     <div className='mb-8'>
       <div className='flex'>
         <input
+          ref={inputRef}
           type='text'
           value={repoUrl}
           onChange={e => setRepoUrl(e.target.value)}
