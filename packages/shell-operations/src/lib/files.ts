@@ -27,6 +27,9 @@ export async function getWorkspaceConfiguration(workspacePath: string): Promise<
   } catch (error) {
     console.error(`Error reading workspace configuration: ${error}`);
     return {
+      ui: {
+        showTemplatesByDefault: false,
+      },
       templates: [],
     };
   }
