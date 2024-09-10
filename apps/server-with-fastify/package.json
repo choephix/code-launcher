@@ -9,7 +9,8 @@
     "dev": "node --loader ts-node/esm index.ts",
     "dev2": "node --watch --experimental-strip-types index.ts",
     "dev3": "ts-node index.ts",
-    "build": "tsc"
+    "build": "node build.js",
+    "build2": "tsc"
   },
   "dependencies": {
     "@code-launcher/data-types": "workspace:*",
@@ -19,6 +20,7 @@
     "fastify": "^4.28.1"
   },
   "devDependencies": {
+    "esbuild": "^0.23.1",
     "ts-node": "^10.9.2"
   }
 }

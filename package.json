@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run dev",
+    "start": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build && node ./build-server/index.js",
     "dev:client": "pnpm --filter @code-launcher/both-with-nextjs run dev",
     "dev": "pnpm -r run dev",
     "build": "pnpm -r run build",

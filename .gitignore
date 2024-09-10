@@ -6,3 +6,4 @@ dist
 !.env.example
 
 build-client
+build-server
