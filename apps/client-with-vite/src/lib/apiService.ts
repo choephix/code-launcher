@@ -1,26 +1,19 @@
-import { store } from './store';
-import type { WorkspaceConfiguration } from '@code-launcher/data-types';
+import type { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 
-interface ApiResponse {
-  projects?: string[];
-  commandOutput?: string;
-  stats?: {
-    memUsage: number;
-    cpuUsage: number;
-  };
-  configuration?: WorkspaceConfiguration;
-}
+import { store } from './store';
+
+type ApiResponse = CodeLauncherServerActionResult;
 
 const createApiService = (baseUrl: string) => {
   const fetchWithStats = async (url: string, options?: RequestInit): Promise<ApiResponse> => {
     const response = await fetch(`${baseUrl}${url}`, options);
     const data: ApiResponse = await response.json();
 
-    const { commandOutput, stats, projects, configuration } = data;
-    if (commandOutput !== undefined) store.lastCommandOutput = commandOutput;
-    if (stats !== undefined) store.stats = { ...store.stats, ...stats };
-    if (projects !== undefined) store.projects = projects;
-    if (configuration !== undefined) store.configuration = configuration;
+    if (data.commandOutput !== undefined) store.lastCommandOutput = data.commandOutput;
+    if (data.stats !== undefined) store.stats = { ...store.stats, ...data.stats };
+    if (data.projects !== undefined) store.projects = data.projects;
+    if (data.configuration !== undefined) store.configuration = data.configuration;
+    if (data.pathToWorkspaces !== undefined) store.pathToWorkspaces = data.pathToWorkspaces;
 
     return data;
   };

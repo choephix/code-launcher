@@ -9,17 +9,19 @@ interface State {
     showTemplates: boolean;
   };
   //// Workspace State
+  pathToWorkspaces: string | null;
   projects: string[] | null;
   lastCommandOutput: string | null;
   stats: {
-    memUsage: number;
-    cpuUsage: number;
+    cpuUsage: number | null;
+    memUsage: number | null;
   };
   configuration: WorkspaceConfiguration;
 }
 
 export const store = proxy<State>({
   projects: null,
+  pathToWorkspaces: null,
   lastCommandOutput: null,
   stats: {
     memUsage: 0,

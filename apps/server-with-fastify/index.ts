@@ -34,10 +34,11 @@ if (pathsToServe.length > 0) {
   });
 }
 
+fastify.register(require('@fastify/websocket'));
+
 // API routes
 fastify.register(
   (fastify, _, done) => {
-    
     //// Get Project Directories List
     fastify.get('/ls', async () => {
       const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
@@ -45,7 +46,7 @@ fastify.register(
 
       return await CodeLauncherServerActions.getProjectDirectoriesList();
     });
-    
+
     //// Run Shell Command
     fastify.post(
       '/run-command',
@@ -57,6 +58,37 @@ fastify.register(
         return await CodeLauncherServerActions.runCommand(command);
       }
     );
+
+    //// Run Shell Command (WebSocket)
+    // @ts-ignore
+    fastify.get('/run-command-stream', { websocket: true }, (connection, req) => {
+      connection.socket.on('message', async (message: string) => {
+        const { command } = JSON.parse(message);
+        const { runCommandStream } = await import('@code-launcher/shell-operations');
+
+        const stream = runCommandStream(command);
+
+        let commandOutput = '';
+
+        for await (const progress of stream) {
+          if (progress.type === 'stdout') {
+            console.log('[STDOUT]:', progress.data);
+          } else {
+            console.error('[STDERR]:', progress.data);
+          }
+
+          commandOutput += progress.data;
+        }
+
+        const result = await stream;
+
+        return {
+          commandOutput,
+          result: result.output,
+          exitCode: result.exitCode,
+        }
+      });
+    });
 
     done();
   },
