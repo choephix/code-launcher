@@ -57,7 +57,7 @@ const ProjectsList: React.FC = () => {
                 }}
               >
                 <button
-                  className="w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm"
+                  className="w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-800 transition duration-300 hover:duration-0 flex justify-between items-center text-sm"
                   onClick={() => onProjectClick(project)}
                 >
                   <span className="flex items-center">
