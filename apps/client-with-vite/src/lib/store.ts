@@ -2,12 +2,14 @@ import { proxy, useSnapshot } from 'valtio';
 import { apiService } from './apiService';
 
 import { WorkspaceConfiguration } from '@code-launcher/data-types';
+import { SmartBarFeature, SmartBarFeatureType } from './smartbar/SmartBarFeatures';
 
 interface State {
   isSomeActionRunning: boolean;
   uiState: {
     showTemplates: boolean;
   };
+  activeSmartBarFeature: SmartBarFeature | null;
   //// Workspace State
   pathToWorkspaces: string | null;
   projects: string[] | null;
@@ -20,6 +22,10 @@ interface State {
 }
 
 export const store = proxy<State>({
+  isSomeActionRunning: false,
+  uiState: { showTemplates: false },
+  activeSmartBarFeature: null,
+  ////
   projects: null,
   pathToWorkspaces: null,
   lastCommandOutput: null,
@@ -30,8 +36,6 @@ export const store = proxy<State>({
   configuration: {
     templates: [],
   },
-  uiState: { showTemplates: false },
-  isSomeActionRunning: false,
 });
 
 export const actions = {
@@ -52,6 +56,11 @@ export const actions = {
   },
   toggleShowTemplates: () => {
     store.uiState.showTemplates = !store.uiState.showTemplates;
+  },
+  setActiveSmartBarFeature: (feature: SmartBarFeature | null) => {
+    if (feature !== store.activeSmartBarFeature) {
+      store.activeSmartBarFeature = feature;
+    }
   },
 };
 

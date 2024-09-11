@@ -1,5 +1,7 @@
-import { apiService } from '@/lib/apiService';
+import type React from 'react';
 import { DotIcon, GitBranch, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
+
+import { apiService } from '@/lib/apiService';
 
 const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
@@ -7,6 +9,10 @@ const SHELL_COMMAND_REGEX = /^(\$|>|bash\s+)\s*/;
 
 export interface SmartBarFeature {
   readonly type: string;
+  readonly bigTitle: {
+    readonly content: string;
+    readonly style: React.CSSProperties;
+  };
   readonly icon: any;
   readonly placeholder?: string;
   readonly match: (input: string) => boolean;
@@ -18,16 +24,27 @@ export interface SmartBarFeature {
 export const SmartBarFeatures = [
   {
     type: 'null',
+    bigTitle: {
+      content: '{code:launcher}',
+      style: {
+        fontFamily: 'monospace',
+      },
+    },
     icon: DotIcon,
     match: (input: string) => input.trim().length < 2,
     disabled: false,
   },
   {
     type: 'git',
+    bigTitle: {
+      content: 'git clone',
+      style: {
+        fontFamily: 'monospace',
+      },
+    },
     icon: GitBranch,
     placeholder: 'Git repository URL to clone',
-    match: (input: string) =>
-      GIT_REPO_REGEX.test(input.trim()) || GIT_CLONE_PREFIX_REGEX.test(input.trim()),
+    match: (input: string) => GIT_REPO_REGEX.test(input.trim()) || GIT_CLONE_PREFIX_REGEX.test(input.trim()),
     action: async (input: string) => {
       const repoUrl = input.trim().replace(GIT_CLONE_PREFIX_REGEX, '');
       const repoName = repoUrl.split('/').pop()?.replace('.git', '') || 'cloned-repo';
@@ -47,6 +64,13 @@ export const SmartBarFeatures = [
   },
   {
     type: 'shell',
+    bigTitle: {
+      content: 'run command',
+      style: {
+        fontFamily: 'monospace',
+        fontVariant: 'small-caps',
+      },
+    },
     icon: TerminalIcon,
     placeholder: '">" + CLI command to run',
     match: (input: string) => SHELL_COMMAND_REGEX.test(input.trim()),
@@ -59,6 +83,13 @@ export const SmartBarFeatures = [
   },
   {
     type: 'ai_prompt',
+    bigTitle: {
+      // content: '/Claude',
+      content: '/AI',
+      style: {
+        fontFamily: 'monospace',
+      },
+    },
     icon: SparklesIcon,
     placeholder: '"*" + AI prompt to AI with',
     match: (input: string) => input.trim().startsWith('/') || input.trim().startsWith('*'),
@@ -70,6 +101,13 @@ export const SmartBarFeatures = [
   },
   {
     type: 'search',
+    bigTitle: {
+      content: 'Search',
+      style: {
+        fontFamily: 'monospace',
+        // fontFamily: '"Open Sans", Manrope, "Product Sans", sans-serif',
+      },
+    },
     icon: SearchIcon,
     placeholder: 'a query to search',
     match: (input: string) => input.trim().length >= 2,

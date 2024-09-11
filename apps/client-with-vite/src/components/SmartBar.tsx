@@ -40,7 +40,9 @@ const SmartBar: React.FC = () => {
     }
   };
 
-  const { icon: Icon, action: performButtonAction, label: buttonLabel } = interpretSmartBarInput(inputContent);
+  const activeFeature = interpretSmartBarInput(inputContent);
+  const { icon: Icon, action: performButtonAction, label: buttonLabel } = activeFeature;
+  actions.setActiveSmartBarFeature(activeFeature);
 
   const adjustTextareaHeight = () => {
     const textarea = textareaRef.current;

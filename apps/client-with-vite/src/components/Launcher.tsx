@@ -6,24 +6,25 @@ import SmartBar from './SmartBar';
 import { actions, store, useStore } from '@/lib/store';
 import { useEffect } from 'react';
 
-export default function Launcher() {
-  const { pathToWorkspaces } = useStore();
+//// Feature Flags
 
-  const hideTemplatesAtProjectCount = 12;
+const hideTemplatesAtProjectCount = 12;
+
+const useDynamicTitle = true;
+
+////
+
+export default function Launcher() {
   useEffect(() => {
     actions.refreshProjects().then(() => {
       store.uiState.showTemplates = store.projects !== null && store.projects.length < hideTemplatesAtProjectCount;
     });
   }, []);
 
-  // const title = '{code:launcher}';
-  // const title = 'code:launcher';
-  const title = pathToWorkspaces || 'code:launcher';
-
   return (
     <div className="flex flex-col min-h-screen text-white w-full max-w-screen-md mx-auto animate-fade-in">
       <div className="flex-grow p-5">
-        <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono">{title}</h1>
+        <Title />
 
         <div className="mb-10">
           <SmartBar />
@@ -40,5 +41,27 @@ export default function Launcher() {
 
       <Footer />
     </div>
+  );
+}
+
+function Title() {
+  const { pathToWorkspaces, activeSmartBarFeature } = useStore();
+
+  // const defaultTitleContent = '{code:launcher}';
+  // const defaultTitleContent = 'code:launcher';
+  const defaultTitleContent = pathToWorkspaces || 'code:launcher';
+
+  if (!useDynamicTitle) {
+    return <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono">{defaultTitleContent}</h1>;
+  }
+
+  const titleContent = activeSmartBarFeature?.bigTitle?.content || defaultTitleContent;
+
+  const titleStyle = activeSmartBarFeature?.bigTitle?.style || {};
+
+  return (
+    <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono" style={titleStyle}>
+      {titleContent}
+    </h1>
   );
 }
