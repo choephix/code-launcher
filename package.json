@@ -1,6 +1,6 @@
 {
   "name": "code-launcher",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -10,6 +10,10 @@
     "type": "git",
     "url": "https://github.com/choephix/code-launcher.git"
   },
+  "files": [
+    "build",
+    "README.md"
+  ],
   "scripts": {
     "start": "pnpm run build && node ./build/server/index.js",
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
