@@ -4,22 +4,22 @@
   "description": "",
   "author": "Stefan Ginev",
   "license": "GPL-3.0",
-  "main": "build/index.js",
+  "main": "dist/index.js",
   "homepage": "http://github.com/choephix/code-launcher",
   "bugs": "https://github.com/choephix/code-launcher/issues",
   "bin": {
-    "code-launcher": "./build/server/index.js"
+    "code-launcher": "./dist/server/index.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/choephix/code-launcher.git"
   },
   "files": [
-    "build",
+    "dist",
     "README.md"
   ],
   "scripts": {
-    "start": "pnpm run build && node ./build/server/index.js",
+    "start": "pnpm run build && node ./dist/server/index.js",
     "build": "pnpm -r --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
     "prepublishOnly": "pnpm run build",
