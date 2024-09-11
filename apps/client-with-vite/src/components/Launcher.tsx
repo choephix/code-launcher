@@ -3,9 +3,12 @@ import Footer from './Footer';
 import ProjectTemplates from './ProjectTemplates';
 import SmartBar from './SmartBar';
 
+import { store } from '@/lib/store';
+
 export default function Launcher() {
   // const title = '{code:launcher}';
-  const title = 'code:launcher';
+  // const title = 'code:launcher';
+  const title = store.pathToWorkspaces || 'code:launcher';
   
   return (
     <div className="flex flex-col min-h-screen text-white w-full max-w-screen-md mx-auto animate-fade-in">
