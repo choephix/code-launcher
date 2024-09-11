@@ -2,6 +2,19 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Dev",
+      "type": "shell",
+      "command": "pnpm run dev",
+      "problemMatcher": [],
+      "group": {
+        "kind": "none",
+        "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
       "label": "Rebuild and Restart with PM2",
       "type": "shell",
       "command": "pnpm run build && pm2 restart codelauncher && pm2 save",
@@ -14,19 +27,6 @@
         "cwd": "${workspaceFolder}"
       },
       "detail": "This task rebuilds the application and restarts it using PM2."
-    },
-    {
-      "label": "Dev",
-      "type": "shell",
-      "command": "pnpm run dev",
-      "problemMatcher": [],
-      "group": {
-        "kind": "none",
-        "isDefault": true
-      },
-      "options": {
-        "cwd": "${workspaceFolder}"
-      }
     }
   ]
 }
