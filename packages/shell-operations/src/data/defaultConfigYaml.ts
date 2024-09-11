@@ -1,4 +1,3 @@
-
 export const defaultConfigYaml = `
 templates:
   - name: Empty Project
@@ -30,7 +29,6 @@ templates:
       mkdir -p {folderName} && cd {folderName} && npm init -y && npm install
       pixi.js && echo "import * as PIXI from 'pixi.js';
 
-
       const app = new PIXI.Application();
 
       document.body.appendChild(app.view);" > index.js
@@ -39,7 +37,6 @@ templates:
     command: >-
       mkdir -p {folderName} && cd {folderName} && npm init -y && npm install three
       && echo "import * as THREE from 'three';
-
 
       const scene = new THREE.Scene();
 
@@ -63,16 +60,10 @@ templates:
       express @types/express typescript ts-node @types/node && npx tsc --init &&
       echo "import express from 'express';
 
-
       const app = express();
-
       const port = 3000;
 
-
-      app.get('/', (req, res) => {
-        res.send('Hello World!');
-      });
-
+      app.get('/', (req, res) => { res.send('Hello World!'); });
 
       app.listen(port, () => {
         console.log(\`Server running at http://localhost:\${port}\`);
@@ -80,15 +71,10 @@ templates:
   - name: Elysia App
     icon: 'https://simpleicons.org/icons/bun.svg'
     command: >-
-      mkdir -p {folderName} && cd {folderName} && bun init -y && bun add elysia &&
+      mkdir -p {folderName}/src && cd {folderName} && bun init -y && bun add elysia &&
       echo "import { Elysia } from 'elysia';
-
-
       const app = new Elysia().get('/', () => 'Hello Elysia').listen(3000);
-
-
-      console.log(\`Elysia is running at
-      \${app.server?.hostname}:\${app.server?.port}\`);" > src/index.ts
+      console.log(\`Elysia is running at \${app.server?.hostname}:\${app.server?.port}\`);" > src/index.ts
   - name: v0 Powered App
     icon: >-
       data:image/svg+xml,%3Csvg fill='currentColor' viewBox='0 0 40 20'
