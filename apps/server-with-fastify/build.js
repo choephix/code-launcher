@@ -1,5 +1,7 @@
 import * as esbuild from 'esbuild';
 
+console.log('Starting esbuild...');
+
 esbuild
   .build({
     entryPoints: ['index.ts'],
@@ -17,5 +19,13 @@ esbuild
         process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces'
       ),
     },
+    logLevel: 'info',
+    external: ['node:*'],
   })
-  .catch(() => process.exit(1));
+  .then(() => {
+    console.log('Build completed successfully');
+  })
+  .catch(error => {
+    console.error('Build failed:', error);
+    process.exit(1);
+  });

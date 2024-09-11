@@ -10,7 +10,6 @@
   "bin": {
     "code-launcher": "./dist/server.js"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/choephix/code-launcher.git"
@@ -19,6 +18,7 @@
     "dist",
     "README.md"
   ],
+  "type": "module",
   "scripts": {
     "start": "pnpm run build && node ./dist/server/index.js",
     "build": "pnpm -r --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
