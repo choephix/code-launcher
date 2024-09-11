@@ -5,7 +5,7 @@ const { createCodeLauncherServerActions } = require('@code-launcher/shell-operat
 
 console.log('//// __dirname:', __dirname);
 
-const fastify = Fastify({ logger: true });
+const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 
 const PORT = +(process.env.PORT || 19999);
 
@@ -44,12 +44,7 @@ fastify.register(
     //// Run Shell Command
     fastify.post(
       '/run-command',
-      async (
-        request: FastifyRequest<{
-          Body: { command: string };
-        }>,
-        reply
-      ) => {
+      async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>, reply) => {
         const { command } = request.body;
         const result = await CodeLauncherServerActions.runCommand(command);
         return result;
