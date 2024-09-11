@@ -5,14 +5,14 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # This ensures all history and tags are fetched
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for checkou
       - name: define git identity
         run: |
           git config --local user.email "action@github.com"
