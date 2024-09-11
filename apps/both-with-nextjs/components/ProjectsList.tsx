@@ -39,35 +39,41 @@ const ProjectsList: React.FC = () => {
         </button>
       </div>
 
-      {projects.length === 0 ? (
+      {projects === null ? (
         <div className="flex items-center justify-center py-4 border-b border-gray-700">
           <div className="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500 mr-2"></div>
           <span className="text-xs text-gray-400">Loading...</span>
         </div>
       ) : (
         <ul className="">
-          {projects.map((project, index) => (
-            <li
-              key={index}
-              className="animate-fade-in-left opacity-0 border-b border-gray-700"
-              style={{
-                animationDelay: `${index * 16.67}ms`,
-                animationFillMode: 'forwards',
-              }}
-            >
-              <button
-                className="
-                w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
-                onClick={() => onProjectClick(project)}
+          {projects.length > 0 ? (
+            projects.map((project, index) => (
+              <li
+                key={index}
+                className="animate-fade-in-left opacity-0 border-b border-gray-700"
+                style={{
+                  animationDelay: `${index * 16.67}ms`,
+                  animationFillMode: 'forwards',
+                }}
               >
-                <span className="flex items-center">
-                  <FolderIcon size={12} className="mr-1" />
-                  {project}
-                </span>
-                <span className="text-blue-400 text-xs">→</span>
-              </button>
-            </li>
-          ))}
+                <button
+                  className="
+                w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
+                  onClick={() => onProjectClick(project)}
+                >
+                  <span className="flex items-center">
+                    <FolderIcon size={12} className="mr-1" />
+                    {project}
+                  </span>
+                  <span className="text-blue-400 text-xs">→</span>
+                </button>
+              </li>
+            ))
+          ) : (
+            <div className="flex items-center justify-center py-4 border-b border-gray-700">
+              <p>No projects found.</p>
+            </div>
+          )}
         </ul>
       )}
     </div>
