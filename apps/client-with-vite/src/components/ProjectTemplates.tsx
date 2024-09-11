@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { apiService } from '@/lib/apiService';
-import { useStore } from '@/lib/store';
+import { useStore, actions } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
 
 const ProjectTemplates: React.FC = () => {
@@ -19,12 +19,16 @@ const ProjectTemplates: React.FC = () => {
   const createProjectFolder = async (template: any) => {
     const folderName = prompt(`Enter the project folder name for ${template.name}:`);
     if (folderName) {
-      const command = template.command.replace(/\{folderName\}/g, folderName);
+      actions.setIsSomeActionRunning(true);
+      try {
+        const command = template.command.replace(/\{folderName\}/g, folderName);
+        await apiService.runCommand(command);
 
-      await apiService.runCommand(command);
-
-      const ideCmd = urlParams.ide;
-      await apiService.runCommand(`${ideCmd} ~/workspace/${folderName}`);
+        const ideCmd = urlParams.ide;
+        await apiService.runCommand(`${ideCmd} ~/workspace/${folderName}`);
+      } finally {
+        actions.setIsSomeActionRunning(false);
+      }
     }
   };
 
