@@ -2,7 +2,7 @@ import { proxy, useSnapshot } from 'valtio';
 import { apiService } from './apiService';
 
 import { WorkspaceConfiguration } from '@code-launcher/data-types';
-import { SmartBarFeature, SmartBarFeatureType } from './smartbar/SmartBarFeatures';
+import { SmartBarFeature } from './smartbar/SmartBarFeatures';
 
 interface State {
   isSomeActionRunning: boolean;
