@@ -20,7 +20,7 @@ const PORT = +(process.env.PORT || 19999);
 console.log('//// process.env.CODELAUNCHER_WORKSPACE_PATH', process.env.CODELAUNCHER_WORKSPACE_PATH);
 
 fastify.register(fastifyStatic, {
-  root: path.resolve('./build/client'),
+  root: path.resolve('./client'),
   prefix: '/',
 });
 
