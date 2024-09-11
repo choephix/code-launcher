@@ -49,3 +49,6 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 }
 
 export const CodeLauncherServerActions = createCodeLauncherServerActions(defaultPathToWorkspaces);
+
+//// Experimental
+export * from './lib/shell-stream';

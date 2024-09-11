@@ -7,10 +7,7 @@ export interface CommandResult {
   exitCode: number | null;
 }
 
-export async function runCommand(
-  command: string,
-  options: SpawnOptions = {}
-): Promise<CommandResult> {
+export async function runCommand(command: string, options: SpawnOptions = {}): Promise<CommandResult> {
   return new Promise(resolve => {
     const defaultOptions: SpawnOptions = {
       shell: true,
