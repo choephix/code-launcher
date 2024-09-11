@@ -1,4 +1,5 @@
 const esbuild = require('esbuild');
+const buildOptions = require('./build-options');
 
 console.log('Starting esbuild...');
 

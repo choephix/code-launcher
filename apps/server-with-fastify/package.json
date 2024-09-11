@@ -6,11 +6,8 @@
   "types": "index.ts",
   "type": "commonjs",
   "scripts": {
-    "dev": "node --loader ts-node/esm index.ts",
-    "dev2": "node --watch --experimental-strip-types index.ts",
-    "dev3": "ts-node index.ts",
-    "build": "node build.js",
-    "build2": "tsc"
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js"
   },
   "dependencies": {
     "@code-launcher/data-types": "workspace:*",
