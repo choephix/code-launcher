@@ -18,7 +18,8 @@
     "start": "pnpm run build && node ./build/server/index.js",
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
-    "prepublishOnly": "pnpm run build && npm version patch --force"
+    "prepublishOnly": "pnpm run build && npm version patch --force",
+    "update:all": "pnpm update --recursive --latest"
   },
   "keywords": [],
   "author": "",
