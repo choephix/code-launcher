@@ -1,9 +1,11 @@
 node_modules
 .pnpm-store
-dist
+
 .env
 .env.*
 !.env.example
 
+dist
 build
 *.tgz
+
