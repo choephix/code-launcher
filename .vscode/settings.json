@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/apps/both-with-nextjs": true,
+    "**/packages/react-components": true
+  },
+  "search.exclude": {
+    "**/apps/both-with-nextjs": true,
+    "**/packages/react-components": true
+  }
+}
