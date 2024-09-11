@@ -8,7 +8,7 @@
   "homepage": "http://github.com/choephix/code-launcher",
   "bugs": "https://github.com/choephix/code-launcher/issues",
   "bin": {
-    "code-launcher": "./dist/server/index.js"
+    "code-launcher": "./dist/server.js"
   },
   "repository": {
     "type": "git",
