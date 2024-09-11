@@ -17,7 +17,12 @@ if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
 const fastify: FastifyInstance = Fastify({ logger: true });
 
 const PORT = +(process.env.PORT || 19999);
-console.log('//// process.env.CODELAUNCHER_WORKSPACE_PATH', process.env.CODELAUNCHER_WORKSPACE_PATH);
+
+const cmdArgs = parseCommandLineArgs();
+const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH;
+
+console.log('//// Workspace Path:', workspacePath);
+console.log('//// Port:', PORT);
 
 fastify.register(fastifyStatic, {
   root: [path.resolve('./client'), path.resolve('./build/client')],
@@ -27,7 +32,7 @@ fastify.register(fastifyStatic, {
 // API routes
 fastify.register(
   (fastify, _, done) => {
-    const CodeLauncherServerActions = createCodeLauncherServerActions(process.env.CODELAUNCHER_WORKSPACE_PATH!);
+    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
 
     //// Get Project Directories List
     fastify.get('/ls', async (request, reply) => {
@@ -66,3 +71,27 @@ const start = async () => {
 };
 
 start();
+
+//// //// //// ////
+
+interface CommandLineArgs {
+  workspacePath?: string;
+  port?: number;
+}
+
+function parseCommandLineArgs(): CommandLineArgs {
+  const args = process.argv.slice(2);
+  const result: CommandLineArgs = {};
+
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === '-w' || args[i] === '--workspace') {
+      result.workspacePath = args[i + 1];
+      i++;
+    } else if (args[i] === '-p' || args[i] === '--port') {
+      result.port = parseInt(args[i + 1], 10);
+      i++;
+    }
+  }
+
+  return result;
+}
