@@ -16,9 +16,12 @@
     "@code-launcher/data-types": "workspace:*",
     "@code-launcher/shell-operations": "workspace:*",
     "@fastify/static": "^7.0.4",
+    "chokidar": "^3.6.0",
     "dotenv": "^16.4.5",
     "esm": "^3.2.25",
-    "fastify": "^4.28.1"
+    "fastify": "^4.28.1",
+    "http": "0.0.1-security",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "@types/node": "^22.5.4",
