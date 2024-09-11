@@ -5,7 +5,7 @@ import React from 'react';
 
 const Bar: React.FC<{
   label: string;
-  value: number;
+  value: number | null;
   color: string;
   className?: string;
 }> = ({ label, value, color, className = '' }) => (
@@ -14,7 +14,7 @@ const Bar: React.FC<{
       <div className={`${color} h-1 `} style={{ width: `${value}%` }}></div>
     </div>
     <span>
-      {label} {~~value}%
+      {label} {value === null ? '??' : ~~value}%
     </span>
   </div>
 );

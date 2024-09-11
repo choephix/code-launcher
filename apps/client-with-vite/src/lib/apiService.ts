@@ -9,11 +9,11 @@ const createApiService = (baseUrl: string) => {
     const response = await fetch(`${baseUrl}${url}`, options);
     const data: ApiResponse = await response.json();
 
-    const { commandOutput, stats, projects, configuration } = data;
-    if (commandOutput !== undefined) store.lastCommandOutput = commandOutput;
-    if (stats !== undefined) store.stats = { ...store.stats, ...stats };
-    if (projects !== undefined) store.projects = projects;
-    if (configuration !== undefined) store.configuration = configuration;
+    if (data.commandOutput !== undefined) store.lastCommandOutput = data.commandOutput;
+    if (data.stats !== undefined) store.stats = { ...store.stats, ...data.stats };
+    if (data.projects !== undefined) store.projects = data.projects;
+    if (data.configuration !== undefined) store.configuration = data.configuration;
+    if (data.pathToWorkspaces !== undefined) store.pathToWorkspaces = data.pathToWorkspaces;
 
     return data;
   };
