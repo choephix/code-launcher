@@ -6,7 +6,7 @@ esbuild
     bundle: true,
     platform: 'node',
     target: ['node18'],
-    outfile: '../../dist/server/index.js',
+    outfile: '../../dist/server.js',
     banner: {
       js: '#!/usr/bin/env node',
     },

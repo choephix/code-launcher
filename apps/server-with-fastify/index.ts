@@ -29,7 +29,7 @@ console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
 fastify.register(fastifyStatic, {
-  root: [path.resolve(__dirname, './client'), path.resolve(__dirname, './dist/client')],
+  root: [path.resolve('./client'), path.resolve('./dist/client')],
   prefix: '/',
 });
 
