@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/choephix/code-launcher.git"
+    "url": "git+https://github.com/choephix/code-launcher.git"
   },
   "files": [
     "dist",
