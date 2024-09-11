@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import path from 'path';
 
 import fastifyStatic from '@fastify/static';
@@ -7,6 +8,8 @@ import dotenv from 'dotenv';
 
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
@@ -17,7 +20,7 @@ if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
-const PORT = +(process.env.PORT || 19999);
+const PORT = +(process.env.PORT || 19997);
 
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH;
