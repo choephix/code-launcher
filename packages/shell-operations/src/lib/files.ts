@@ -22,7 +22,7 @@ export async function getProjectDirectoriesList(workspacePath: string): Promise<
 export async function getWorkspaceConfiguration(workspacePath: string): Promise<WorkspaceConfiguration> {
   try {
     const configFilePath = path.resolve(workspacePath, '.code-launcher.yaml');
-    const configFileContent = await loadConfigFileContent(configFilePath);
+    const configFileContent = await loadConfigFileContent(configFilePath, false);
     const configuration = YAML.parse(configFileContent);
     return configuration;
   } catch (error) {
@@ -35,7 +35,7 @@ const defaultWorkspaceConfiguration: WorkspaceConfiguration = {
   templates: [],
 };
 
-async function loadConfigFileContent(configFilePath: string): Promise<string> {
+async function loadConfigFileContent(configFilePath: string, writeIfMissing: boolean): Promise<string> {
   try {
     const configFileContent = await fs.readFile(configFilePath, 'utf8');
     return configFileContent;
@@ -44,7 +44,9 @@ async function loadConfigFileContent(configFilePath: string): Promise<string> {
       throw error;
     }
 
-    await fs.writeFile(configFilePath, defaultConfigYaml, 'utf8');
+    if (writeIfMissing) {
+      await fs.writeFile(configFilePath, defaultConfigYaml, 'utf8');
+    }
 
     return defaultConfigYaml;
   }
