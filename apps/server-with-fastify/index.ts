@@ -1,19 +1,7 @@
 import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 
-import dotenv from 'dotenv';
-
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-// dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-dotenv.config();
-
-if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
-  console.error('CODELAUNCHER_WORKSPACE_PATH environment variable is not set.');
-  throw process.exit(1);
-}
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
@@ -21,6 +9,13 @@ const PORT = +(process.env.PORT || 19999);
 
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH;
+
+if (!workspacePath) {
+  console.error(
+    'Workspace path not given. Please provide a --workspace argument or set the CODELAUNCHER_WORKSPACE_PATH environment variable.'
+  );
+  throw process.exit(1);
+}
 
 console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
