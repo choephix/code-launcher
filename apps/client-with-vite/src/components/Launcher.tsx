@@ -9,9 +9,10 @@ import { useEffect } from 'react';
 export default function Launcher() {
   const { pathToWorkspaces } = useStore();
 
+  const hideTemplatesAtProjectCount = 12;
   useEffect(() => {
     actions.refreshProjects().then(() => {
-      store.uiState.showTemplates = store.projects !== null && store.projects.length < 10;
+      store.uiState.showTemplates = store.projects !== null && store.projects.length < hideTemplatesAtProjectCount;
     });
   }, []);
 
