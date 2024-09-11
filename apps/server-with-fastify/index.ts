@@ -20,7 +20,7 @@ if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
-const PORT = +(process.env.PORT || 19997);
+const PORT = +(process.env.PORT || 19999);
 
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH;
@@ -29,7 +29,7 @@ console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
 fastify.register(fastifyStatic, {
-  root: ['./client', './dist/client'],
+  root: [path.resolve('./client'), path.resolve('./dist/client')],
   prefix: '/',
 });
 
