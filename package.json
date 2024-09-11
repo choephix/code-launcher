@@ -1,6 +1,6 @@
 {
   "name": "code-launcher",
-  "version": "1.0.31",
+  "version": "1.0.32",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -19,7 +19,7 @@
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
     "prepublishOnly": "pnpm run build && npm version patch --force && cd packages/publish && npm version patch --force && cd ../.. && cp packages/publish/package.json build/package.json && cp README.md build/README.md",
-    "publish:custom": "pnpm run prepublishOnly && npm pack && npm publish"
+    "publish:custom": "pnpm run prepublishOnly && cd packages/publish && npm pack && npm publish"
   },
   "keywords": [],
   "author": "",
