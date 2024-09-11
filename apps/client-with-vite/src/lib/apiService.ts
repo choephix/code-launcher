@@ -1,5 +1,4 @@
 import { store } from './store';
-
 import type { WorkspaceConfiguration } from '@code-launcher/data-types';
 
 interface ApiResponse {
@@ -12,9 +11,9 @@ interface ApiResponse {
   configuration?: WorkspaceConfiguration;
 }
 
-const createApiService = () => {
+const createApiService = (baseUrl: string) => {
   const fetchWithStats = async (url: string, options?: RequestInit): Promise<ApiResponse> => {
-    const response = await fetch(url, options);
+    const response = await fetch(`${baseUrl}${url}`, options);
     const data: ApiResponse = await response.json();
 
     const { commandOutput, stats, projects, configuration } = data;
@@ -27,14 +26,12 @@ const createApiService = () => {
   };
 
   return {
-
-
     fetchProjects: async (): Promise<ApiResponse> => {
-      return fetchWithStats('/api/ls');
+      return fetchWithStats('/ls');
     },
 
     runCommand: async (command: string): Promise<ApiResponse> => {
-      return fetchWithStats('/api/run-command', {
+      return fetchWithStats('/run-command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command }),
@@ -43,4 +40,4 @@ const createApiService = () => {
   };
 };
 
-export const apiService = createApiService();
+export const apiService = createApiService('/api');
