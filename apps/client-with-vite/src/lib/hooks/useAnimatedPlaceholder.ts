@@ -1,6 +1,6 @@
 import { RefObject, useEffect } from 'react';
 
-export const useAnimatedPlaceholder = (inputRef: RefObject<HTMLInputElement>, messages: string[], messagePrefix: string = '') => {
+export const useAnimatedPlaceholder = (inputRef: RefObject<HTMLInputElement | HTMLTextAreaElement>, messages: string[], messagePrefix: string = '') => {
   useEffect(() => {
     const input = inputRef.current;
     if (!input) return;
