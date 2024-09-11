@@ -14,7 +14,7 @@
     "start": "pnpm run build && node ./build/server/index.js",
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
-    "prepublishOnly": "pnpm run build && cp packages/publish/package.json build/package.json && cp README.md build/REDME.md",
+    "prepublishOnly": "pnpm run build && cd packages/publish && npm version patch && cd ../.. && cp packages/publish/package.json build/package.json && cp README.md build/README.md",
     "publish:custom": "pnpm run prepublishOnly && cd build && npm version patch && npm pack && npm publish"
   },
   "keywords": [],
