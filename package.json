@@ -11,8 +11,7 @@
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
     "prepublishOnly": "pnpm run build && cp packages/publish/package.json build/package.json && cp README.md build/REDME.md",
-    "publish": "cd build && npm publish",
-    "publish:custom": "pnpm run prepublishOnly && cd build && npm pack && npm publish"
+    "publish:custom": "pnpm run prepublishOnly && cd build && npm version patch && npm pack && npm publish"
   },
   "keywords": [],
   "author": "",
