@@ -17,12 +17,9 @@ if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
 const fastify: FastifyInstance = Fastify({ logger: true });
 
 console.log('//// process.env.CODELAUNCHER_WORKSPACE_PATH', process.env.CODELAUNCHER_WORKSPACE_PATH);
-console.log('//// client build path', path.resolve('./build-client'));
 
-// Serve static files from ../../build-client at the root path
 fastify.register(fastifyStatic, {
-  // root: path.resolve('../../build-client'),
-  root: path.resolve('./build-client'),
+  root: path.resolve('./build/client'),
   prefix: '/',
 });
 
