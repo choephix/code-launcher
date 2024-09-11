@@ -1,6 +1,8 @@
 import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 
+import path from 'path';
+
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
 
 const fastify: FastifyInstance = Fastify({ logger: true });
@@ -21,8 +23,8 @@ console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
 fastify.register(fastifyStatic, {
-  // root: [path.resolve('./client'), path.resolve('./dist/client')],
-  root: ['./client', './dist/client'],
+  root: [path.resolve('./client'), path.resolve('./dist/client')],
+  // root: ['./client', './dist/client'],
   prefix: '/',
 });
 
