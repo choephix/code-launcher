@@ -1,6 +1,7 @@
 const fastifyStatic = require('@fastify/static');
 const Fastify = require('fastify');
 const path = require('path');
+const fs = require('fs');
 
 console.log('//// prod/dev:', process.env.NODE_ENV);
 console.log('//// __dirname:', __dirname);
@@ -22,9 +23,11 @@ if (!workspacePath) {
 console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
-if (process.env.NODE_ENV === 'production') {
-  const pathsToServe = [path.join(__dirname, 'dist', 'client')];
-  console.log('//// Paths to serve statically:', pathsToServe);
+const pathsToServeMaybe = [path.join(__dirname, 'client')];
+const pathsToServe = pathsToServeMaybe.filter(p => fs.existsSync(p));
+console.log('//// Paths to serve statically:', pathsToServeMaybe, pathsToServe);
+// if (process.env.NODE_ENV === 'production') {
+if (pathsToServe.length > 0) {
   fastify.register(fastifyStatic, {
     root: pathsToServe,
     prefix: '/',

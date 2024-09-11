@@ -22,7 +22,7 @@
   "scripts": {
     "start": "pnpm run build && node ./dist/server/index.js",
     "build": "pnpm -r --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
-    "dev": "pnpm -r --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
+    "dev": "pnpm --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
     "prepublishOnly": "pnpm run build",
     "update:all": "pnpm update --recursive --latest"
   },
