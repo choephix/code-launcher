@@ -1,8 +1,8 @@
 const fastifyStatic = require('@fastify/static');
 const Fastify = require('fastify');
 const path = require('path');
-const { createCodeLauncherServerActions } = require('@code-launcher/shell-operations');
 
+console.log('//// prod/dev:', process.env.NODE_ENV);
 console.log('//// __dirname:', __dirname);
 
 const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
@@ -10,7 +10,7 @@ const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 const PORT = +(process.env.PORT || 19999);
 
 const cmdArgs = parseCommandLineArgs();
-const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH;
+const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
 
 if (!workspacePath) {
   console.error(
@@ -22,32 +22,36 @@ if (!workspacePath) {
 console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
-const pathsToServe = [path.join(__dirname, 'client'), path.join(__dirname, 'dist', 'client')];
-console.log('//// Paths to serve statically:', pathsToServe);
-
-fastify.register(fastifyStatic, {
-  root: pathsToServe,
-  prefix: '/',
-});
+if (process.env.NODE_ENV === 'production') {
+  const pathsToServe = [path.join(__dirname, 'dist', 'client')];
+  console.log('//// Paths to serve statically:', pathsToServe);
+  fastify.register(fastifyStatic, {
+    root: pathsToServe,
+    prefix: '/',
+  });
+}
 
 // API routes
 fastify.register(
   (fastify, _, done) => {
-    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
-
+    
     //// Get Project Directories List
-    fastify.get('/ls', async (request, reply) => {
-      const result = await CodeLauncherServerActions.getProjectDirectoriesList();
-      return result;
-    });
+    fastify.get('/ls', async () => {
+      const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
+      const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
 
+      return await CodeLauncherServerActions.getProjectDirectoriesList();
+    });
+    
     //// Run Shell Command
     fastify.post(
       '/run-command',
       async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>, reply) => {
+        const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
+        const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+
         const { command } = request.body;
-        const result = await CodeLauncherServerActions.runCommand(command);
-        return result;
+        return await CodeLauncherServerActions.runCommand(command);
       }
     );
 
