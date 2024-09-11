@@ -23,7 +23,7 @@ const ProjectsList: React.FC = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
-        <h2 className="text-xs font-semibold text-gray-300">Existing Project Directories</h2>
+        <h2 className="text-sm font-semibold text-gray-300">Existing Project Directories</h2>
         <button
           onClick={actions.toggleShowTemplates}
           className="text-xs text-blue-400 hover:text-blue-300 transition-colors duration-200 flex items-center"
@@ -57,8 +57,7 @@ const ProjectsList: React.FC = () => {
                 }}
               >
                 <button
-                  className="
-                w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-xs"
+                  className="w-full text-left py-1 px-2 text-gray-300 hover:text-white hover:bg-gray-700 transition duration-200 flex justify-between items-center text-sm"
                   onClick={() => onProjectClick(project)}
                 >
                   <span className="flex items-center">
