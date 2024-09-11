@@ -1,15 +1,8 @@
-import { store } from './store';
-import type { WorkspaceConfiguration } from '@code-launcher/data-types';
+import type { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 
-interface ApiResponse {
-  projects?: string[];
-  commandOutput?: string;
-  stats?: {
-    memUsage: number;
-    cpuUsage: number;
-  };
-  configuration?: WorkspaceConfiguration;
-}
+import { store } from './store';
+
+type ApiResponse = CodeLauncherServerActionResult;
 
 const createApiService = (baseUrl: string) => {
   const fetchWithStats = async (url: string, options?: RequestInit): Promise<ApiResponse> => {

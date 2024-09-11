@@ -1,17 +1,8 @@
+import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import { getProjectDirectoriesList, getWorkspaceConfiguration } from './lib/files';
 import { pathToWorkspaces as defaultPathToWorkspaces } from './lib/pathToWorkspace';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU } from './lib/system';
-
-type CodeLauncherServerActionResult = {
-  projects?: string[];
-  stats?: {
-    cpuUsage: number | null;
-    memUsage: number | null;
-  };
-  commandOutput?: string;
-  exitCode: number | null;
-};
 
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   return {
