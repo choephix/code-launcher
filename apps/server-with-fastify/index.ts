@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
 
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
 if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
