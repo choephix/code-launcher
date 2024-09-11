@@ -22,9 +22,11 @@ if (!workspacePath) {
 console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
+const pathsToServe = [path.resolve('./client'), path.resolve('./dist/client')];
+console.log('//// Paths to serve statically:', pathsToServe);
+
 fastify.register(fastifyStatic, {
-  root: [path.resolve('./client'), path.resolve('./dist/client')],
-  // root: ['./client', './dist/client'],
+  root: pathsToServe,
   prefix: '/',
 });
 
