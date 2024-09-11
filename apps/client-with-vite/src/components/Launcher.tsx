@@ -11,7 +11,7 @@ export default function Launcher() {
 
   useEffect(() => {
     actions.refreshProjects().then(() => {
-      store.uiState.showTemplates = true;
+      store.uiState.showTemplates = store.projects !== null && store.projects.length < 10;
     });
   }, []);
 
