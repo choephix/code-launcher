@@ -6,7 +6,7 @@ import path from 'path';
 export default defineConfig({
   plugins: [reactSWC()],
   build: {
-    outDir: path.resolve(__dirname, '../../distclient'),
+    outDir: path.resolve(__dirname, '../../dist/client'),
     emptyOutDir: true,
   },
   resolve: {
