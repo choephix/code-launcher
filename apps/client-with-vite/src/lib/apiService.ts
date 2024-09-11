@@ -18,10 +18,10 @@ const createApiService = () => {
     const data: ApiResponse = await response.json();
 
     const { commandOutput, stats, projects, configuration } = data;
-    if (commandOutput) store.lastCommandOutput = commandOutput;
-    if (stats) store.stats = { ...store.stats, ...stats };
-    if (projects) store.projects = projects;
-    if (configuration) store.configuration = configuration;
+    if (commandOutput !== undefined) store.lastCommandOutput = commandOutput;
+    if (stats !== undefined) store.stats = { ...store.stats, ...stats };
+    if (projects !== undefined) store.projects = projects;
+    if (configuration !== undefined) store.configuration = configuration;
 
     return data;
   };
