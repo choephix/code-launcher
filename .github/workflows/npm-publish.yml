@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # This ensures all history and tags are fetched
+          token: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for checkou
       - name: define git identity
         run: |
           git config --local user.email "action@github.com"
@@ -31,7 +34,7 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-          
+
       - name: Push version bump
         run: |
           git config --local user.email "action@github.com"
