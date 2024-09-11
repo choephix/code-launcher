@@ -8,7 +8,7 @@ import { actions, useStore } from '@/lib/store';
 import { urlParams } from '@/lib/urlParams';
 
 const ProjectsList: React.FC = () => {
-  const { projects, uiState } = useStore();
+  const { projects, uiState, pathToWorkspaces } = useStore();
 
   useEffect(() => {
     actions.refreshProjects();
@@ -16,7 +16,7 @@ const ProjectsList: React.FC = () => {
 
   const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {
-    const command = ideCmd + ` ~/workspace/${project}`;
+    const command = ideCmd + ` ${pathToWorkspaces}/${project}`;
     await apiService.runCommand(command);
   };
 
