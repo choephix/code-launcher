@@ -45,6 +45,16 @@ export default function Launcher() {
 }
 
 function Title() {
+  const { titleContent, titleStyle } = getTitleContentAndStyle();
+
+  return (
+    <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono" style={titleStyle}>
+      {titleContent}
+    </h1>
+  );
+}
+
+function getTitleContentAndStyle() {
   const { pathToWorkspaces, activeSmartBarFeature } = useStore();
 
   // const defaultTitleContent = '{code:launcher}';
@@ -52,16 +62,14 @@ function Title() {
   const defaultTitleContent = pathToWorkspaces || 'code:launcher';
 
   if (!useDynamicTitle) {
-    return <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono">{defaultTitleContent}</h1>;
+    return {
+      titleContent: defaultTitleContent,
+      titleStyle: {},
+    };
   }
 
-  const titleContent = activeSmartBarFeature?.bigTitle?.content || defaultTitleContent;
-
-  const titleStyle = activeSmartBarFeature?.bigTitle?.style || {};
-
-  return (
-    <h1 className="text-md font-bold text-center text-blue-400 mb-4 mt-8 font-mono" style={titleStyle}>
-      {titleContent}
-    </h1>
-  );
+  return {
+    titleContent: activeSmartBarFeature?.bigTitle?.content || defaultTitleContent,
+    titleStyle: activeSmartBarFeature?.bigTitle?.style || {},
+  };
 }
