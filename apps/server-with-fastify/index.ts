@@ -8,10 +8,10 @@ console.log('//// __dirname:', __dirname);
 
 const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 
-const PORT = +(process.env.PORT || 19999);
-
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
+
+const port = +(cmdArgs.port || process.env.PORT || 19999);
 
 if (!workspacePath) {
   console.error(
@@ -21,7 +21,7 @@ if (!workspacePath) {
 }
 
 console.log('//// Workspace Path:', workspacePath);
-console.log('//// Port:', PORT);
+console.log('//// Port:', port);
 
 const pathsToServeMaybe = [path.join(__dirname, 'client')];
 const pathsToServe = pathsToServeMaybe.filter(p => fs.existsSync(p));
@@ -97,7 +97,7 @@ fastify.register(
 
 const start = async () => {
   try {
-    await fastify.listen({ port: PORT });
+    await fastify.listen({ port });
     console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
   } catch (err) {
     fastify.log.error(err);
