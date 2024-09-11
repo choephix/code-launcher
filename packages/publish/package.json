@@ -1,6 +1,6 @@
 {
   "name": "code-launcher",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Your new awesome New Tab.",
   "bin": {
     "code-launcher": "server/index.js"
