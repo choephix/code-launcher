@@ -16,7 +16,7 @@ const ProjectsList: React.FC = () => {
 
   const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {
-    const command = ideCmd + ` ${pathToWorkspaces}/${project}`;
+    const command = ideCmd + ` "${pathToWorkspaces}/${project}"`;
     await apiService.runCommand(command);
   };
 
