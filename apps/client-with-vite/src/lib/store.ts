@@ -9,7 +9,7 @@ interface State {
     showTemplates: boolean;
   };
   //// Workspace State
-  projects: string[];
+  projects: string[] | null;
   lastCommandOutput: string | null;
   stats: {
     memUsage: number;
@@ -19,7 +19,7 @@ interface State {
 }
 
 export const store = proxy<State>({
-  projects: [],
+  projects: null,
   lastCommandOutput: null,
   stats: {
     memUsage: 0,
