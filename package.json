@@ -4,7 +4,7 @@
   "description": "",
   "author": "Stefan Ginev",
   "license": "GPL-3.0",
-  "main": "index.js",
+  "main": "build/index.js",
   "homepage": "http://github.com/choephix/code-launcher",
   "bugs": "https://github.com/choephix/code-launcher/issues",
   "bin": {
