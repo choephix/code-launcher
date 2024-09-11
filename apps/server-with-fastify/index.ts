@@ -1,6 +1,3 @@
-import { fileURLToPath } from 'url';
-import path from 'path';
-
 import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 
@@ -8,9 +5,9 @@ import dotenv from 'dotenv';
 
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
+// dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 dotenv.config();
 
 if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
