@@ -16,6 +16,7 @@ if (!process.env.CODELAUNCHER_WORKSPACE_PATH) {
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
+const PORT = +(process.env.PORT || 19999);
 console.log('//// process.env.CODELAUNCHER_WORKSPACE_PATH', process.env.CODELAUNCHER_WORKSPACE_PATH);
 
 fastify.register(fastifyStatic, {
@@ -56,7 +57,7 @@ fastify.register(
 
 const start = async () => {
   try {
-    await fastify.listen({ port: 3000 });
+    await fastify.listen({ port: PORT });
     console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
   } catch (err) {
     fastify.log.error(err);
