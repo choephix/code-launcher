@@ -1,9 +1,16 @@
 import fastifyStatic from '@fastify/static';
 import Fastify, { FastifyInstance, FastifyRequest } from 'fastify';
 
+import { fileURLToPath } from 'url';
 import path from 'path';
 
 import { createCodeLauncherServerActions } from '@code-launcher/shell-operations';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log('//// import.meta.url:', import.meta.url);
+console.log('//// __dirname:', __dirname);
 
 const fastify: FastifyInstance = Fastify({ logger: true });
 
@@ -22,7 +29,10 @@ if (!workspacePath) {
 console.log('//// Workspace Path:', workspacePath);
 console.log('//// Port:', PORT);
 
-const pathsToServe = [path.resolve('./client'), path.resolve('./dist/client')];
+const pathsToServe = [
+  path.join(__dirname, 'client'),
+  path.join(__dirname, 'dist', 'client')
+];
 console.log('//// Paths to serve statically:', pathsToServe);
 
 fastify.register(fastifyStatic, {

@@ -7,6 +7,7 @@ esbuild
     platform: 'node',
     target: ['node18'],
     outfile: '../../dist/server.js',
+    format: 'esm',
     banner: {
       js: '#!/usr/bin/env node',
     },
