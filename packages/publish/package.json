@@ -2,6 +2,10 @@
   "name": "code-launcher",
   "version": "1.0.5",
   "description": "Your new awesome New Tab.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/choephix/code-launcher.git"
+  },
   "bin": {
     "code-launcher": "server/index.js"
   },
@@ -15,6 +19,6 @@
     "code",
     "launcher"
   ],
-  "author": "Your Name",
+  "author": "Stefan Ginev",
   "license": "ISC"
 }

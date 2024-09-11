@@ -6,6 +6,10 @@
   "bin": {
     "code-launcher": "./build/server/index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/choephix/code-launcher.git"
+  },
   "scripts": {
     "start": "pnpm run build && node ./build/server/index.js",
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
