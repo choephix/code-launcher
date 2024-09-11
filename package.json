@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "code-launcher": "./build/server/index.js"
+  },
   "scripts": {
     "start": "pnpm run build && node ./build/server/index.js",
     "build": "pnpm --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
