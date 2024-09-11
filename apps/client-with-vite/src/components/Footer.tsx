@@ -1,11 +1,15 @@
 import { Github, Heart } from 'lucide-react';
 
 export default function Footer() {
+  const title = '{code:launcher}';
+
   return (
     <footer className="mt-8 mb-8 pt-4 border-t border-gray-700">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap items-center justify-center text-xs text-gray-400">
           <span className="flex items-center">
+            <span className="font-mono">{title}</span>
+            <span className="mx-2">|</span>
             Made with <Heart className="text-red-500 mx-1 w-4 h-4" /> by{' '}
             <a
               href="https://github.com/choephix"
