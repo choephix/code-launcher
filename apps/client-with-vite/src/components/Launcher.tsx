@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 
 const hideTemplatesAtProjectCount = 12;
 
-const useDynamicTitle = true;
+const useDynamicTitle = false;
 
 ////
 
