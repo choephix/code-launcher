@@ -10,6 +10,7 @@
   "bin": {
     "code-launcher": "./dist/server.js"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/choephix/code-launcher.git"
