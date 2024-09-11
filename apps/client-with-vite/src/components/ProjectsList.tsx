@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { FolderIcon, PlusIcon } from 'lucide-react';
 
 import { apiService } from '@/lib/apiService';
@@ -9,10 +9,6 @@ import { urlParams } from '@/lib/urlParams';
 
 const ProjectsList: React.FC = () => {
   const { projects, uiState, pathToWorkspaces } = useStore();
-
-  useEffect(() => {
-    actions.refreshProjects();
-  }, []);
 
   const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {

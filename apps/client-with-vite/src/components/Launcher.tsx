@@ -3,10 +3,17 @@ import Footer from './Footer';
 import ProjectTemplates from './ProjectTemplates';
 import SmartBar from './SmartBar';
 
-import { useStore } from '@/lib/store';
+import { actions, store, useStore } from '@/lib/store';
+import { useEffect } from 'react';
 
 export default function Launcher() {
   const { pathToWorkspaces } = useStore();
+
+  useEffect(() => {
+    actions.refreshProjects().then(() => {
+      store.uiState.showTemplates = true;
+    });
+  }, []);
 
   // const title = '{code:launcher}';
   // const title = 'code:launcher';
