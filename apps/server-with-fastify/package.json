@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "types": "index.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "node --loader ts-node/esm index.ts",
     "dev2": "node --watch --experimental-strip-types index.ts",
@@ -20,6 +20,7 @@
     "fastify": "^4.28.1"
   },
   "devDependencies": {
+    "@types/node": "^22.5.4",
     "esbuild": "^0.23.1",
     "ts-node": "^10.9.2"
   }

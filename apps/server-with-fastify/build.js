@@ -1,4 +1,4 @@
-import * as esbuild from 'esbuild';
+const esbuild = require('esbuild');
 
 console.log('Starting esbuild...');
 
@@ -9,7 +9,7 @@ esbuild
     platform: 'node',
     target: ['node18'],
     outfile: '../../dist/server.js',
-    format: 'esm',
+    format: 'cjs',
     banner: {
       js: '#!/usr/bin/env node',
     },

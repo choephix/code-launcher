@@ -18,7 +18,7 @@
     "dist",
     "README.md"
   ],
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "start": "pnpm run build && node ./dist/server/index.js",
     "build": "pnpm -r --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
