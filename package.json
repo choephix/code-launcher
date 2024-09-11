@@ -2,7 +2,11 @@
   "name": "code-launcher",
   "version": "1.0.41",
   "description": "",
+  "author": "Stefan Ginev",
+  "license": "GPL-3.0",
   "main": "index.js",
+  "homepage": "http://github.com/choephix/code-launcher",
+  "bugs": "https://github.com/choephix/code-launcher/issues",
   "bin": {
     "code-launcher": "./build/server/index.js"
   },
@@ -22,8 +26,6 @@
     "update:all": "pnpm update --recursive --latest"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "prettier": {
     "semi": true,
     "singleQuote": true,
