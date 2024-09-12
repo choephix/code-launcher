@@ -21,7 +21,31 @@ export async function getProjectDirectoriesList(workspacePath: string): Promise<
 
 //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// ////
 
-const IGNORED_DIRECTORIES = ['node_modules', '.git', 'dist', 'build', 'target', 'out'];
+const IGNORED_PATTERNS = [
+  // Package managers
+  /^(?:node_modules|bower_components|jspm_packages|packages)$/,
+
+  // Version control
+  /^\.(?:git|svn|hg|bzr|fossil)$/,
+
+  // Build outputs and caches
+  /^(?:dist|build|target|out|bin|obj|lib|es|publish)$/,
+  /^\.(?:next|nuxt|vuepress|docusaurus|gatsby-cache)$/,
+  /^(?:\.cache|\.output|\.parcel-cache)$/,
+
+  // Temporary and log files
+  /^(?:tmp|temp|logs?|coverage|test-results)$/,
+
+  // Vendor directories
+  /^(?:vendor|third-party)$/,
+
+  // Custom ignore pattern
+  /^\.ignore-.+/,
+];
+
+function shouldIgnoreDirectory(name: string): boolean {
+  return IGNORED_PATTERNS.some(pattern => pattern.test(name));
+}
 
 export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<string[]> {
   const workspaceFiles: string[] = [];
@@ -30,7 +54,7 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<st
     const entries = await fs.readdir(dir, { withFileTypes: true });
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory() && !IGNORED_DIRECTORIES.includes(entry.name)) {
+      if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
         await traverse(fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.code-workspace')) {
         workspaceFiles.push(fullPath);
@@ -52,7 +76,7 @@ export async function getGitRepoDirectories(workspacePath: string): Promise<stri
       return; // Don't traverse further if it's a git repo
     }
     for (const entry of entries) {
-      if (entry.isDirectory() && !IGNORED_DIRECTORIES.includes(entry.name)) {
+      if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
         await traverse(path.join(dir, entry.name));
       }
     }
