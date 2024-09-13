@@ -102,7 +102,7 @@ fastify.register(
 
 const start = async () => {
   try {
-    await fastify.listen({ port });
+    await fastify.listen({ port, host: '0.0.0.0' });
     console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
   } catch (err) {
     fastify.log.error(err);
