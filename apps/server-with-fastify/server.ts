@@ -9,9 +9,14 @@ console.log('//// __dirname:', __dirname);
 const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 
 const cmdArgs = parseCommandLineArgs();
-const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
 
-const port = +(cmdArgs.port || process.env.PORT || 19001);
+if (cmdArgs.help) {
+  displayHelp();
+  process.exit(0);
+}
+
+const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
+const port = +(cmdArgs.port || process.env.CODELAUNCHER_PORT || 19001);
 
 if (!workspacePath) {
   console.error(
@@ -119,6 +124,7 @@ interface CommandLineArgs {
   workspacePath?: string;
   port?: number;
   expose?: boolean;
+  help?: boolean;
 }
 
 function parseCommandLineArgs(): CommandLineArgs {
@@ -134,8 +140,27 @@ function parseCommandLineArgs(): CommandLineArgs {
       i++;
     } else if (args[i] === '--expose') {
       result.expose = true;
+    } else if (args[i] === '-h' || args[i] === '--help') {
+      result.help = true;
     }
   }
 
   return result;
+}
+
+function displayHelp() {
+  console.log(`
+Usage: node server.js [options]
+
+Options:
+  -w, --workspace <path>  Set the workspace path
+  -p, --port <number>     Set the port number (default: 19001)
+  --expose                Make the server externally accessible
+
+  -h, --help              Display this help message
+
+Environment variables:
+  CODELAUNCHER_WORKSPACE_PATH  Set the workspace path
+  CODELAUNCHER_PORT            Set the port number
+`);
 }
