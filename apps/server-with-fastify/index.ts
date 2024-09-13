@@ -11,7 +11,7 @@ const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
 
-const port = +(cmdArgs.port || process.env.PORT || 19999);
+const port = +(cmdArgs.port || process.env.PORT || 19001);
 
 if (!workspacePath) {
   console.error(
