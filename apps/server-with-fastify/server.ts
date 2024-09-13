@@ -30,13 +30,9 @@ console.log('//// Port:', port);
 
 const pathsToServeMaybe = [path.join(__dirname, 'client')];
 const pathsToServe = pathsToServeMaybe.filter(p => fs.existsSync(p));
-console.log('//// Paths to serve statically:', pathsToServeMaybe, pathsToServe);
-// if (process.env.NODE_ENV === 'production') {
+console.log('//// Paths to serve statically?', pathsToServeMaybe);
 if (pathsToServe.length > 0) {
-  fastify.register(fastifyStatic, {
-    root: pathsToServe,
-    prefix: '/',
-  });
+  fastify.register(fastifyStatic, { root: pathsToServe, prefix: '/' });
 }
 
 fastify.register(require('@fastify/websocket'));
