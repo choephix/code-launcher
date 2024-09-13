@@ -82,7 +82,6 @@ const SmartBarInputBox: React.FC = () => {
   }, [inputContent]);
 
   const multilineMode = inputContent.includes('\n');
-  console.log('multilineMode', multilineMode);
 
   return (
     <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
