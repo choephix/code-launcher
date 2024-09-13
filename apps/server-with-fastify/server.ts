@@ -3,16 +3,21 @@ const Fastify = require('fastify');
 const path = require('path');
 const fs = require('fs');
 
-console.log('//// prod/dev:', process.env.NODE_ENV);
-console.log('//// __dirname:', __dirname);
-
-const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
+log('//// prod/dev:', process.env.NODE_ENV);
+log('//// __dirname:', __dirname);
 
 const cmdArgs = parseCommandLineArgs();
+const verbose = cmdArgs.verbose || false;
 
 if (cmdArgs.help) {
   displayHelp();
   process.exit(0);
+}
+
+function log(...args: any[]) {
+  if (verbose) {
+    console.log(...args);
+  }
 }
 
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
@@ -25,12 +30,14 @@ if (!workspacePath) {
   throw process.exit(1);
 }
 
-console.log('//// Workspace Path:', workspacePath);
-console.log('//// Port:', port);
+log('//// Workspace Path:', workspacePath);
+log('//// Port:', port);
+
+const fastify = Fastify({ logger: verbose }) as import('fastify').FastifyInstance;
 
 const pathsToServeMaybe = [path.join(__dirname, 'client')];
 const pathsToServe = pathsToServeMaybe.filter(p => fs.existsSync(p));
-console.log('//// Paths to serve statically?', pathsToServeMaybe);
+log('//// Paths to serve statically?', pathsToServeMaybe);
 if (pathsToServe.length > 0) {
   fastify.register(fastifyStatic, { root: pathsToServe, prefix: '/' });
 }
@@ -78,7 +85,7 @@ fastify.register(
 
         for await (const progress of stream) {
           if (progress.type === 'stdout') {
-            console.log('[STDOUT]:', progress.data);
+            log('[STDOUT]:', progress.data);
           } else {
             console.error('[STDERR]:', progress.data);
           }
@@ -121,6 +128,7 @@ interface CommandLineArgs {
   port?: number;
   expose?: boolean;
   help?: boolean;
+  verbose?: boolean;
 }
 
 function parseCommandLineArgs(): CommandLineArgs {
@@ -138,6 +146,8 @@ function parseCommandLineArgs(): CommandLineArgs {
       result.expose = true;
     } else if (args[i] === '-h' || args[i] === '--help') {
       result.help = true;
+    } else if (args[i] === '-v' || args[i] === '--verbose') {
+      result.verbose = true;
     }
   }
 
@@ -152,7 +162,7 @@ Options:
   -w, --workspace <path>  Set the workspace path
   -p, --port <number>     Set the port number (default: 19001)
   -x, --expose            Make the server externally accessible
-
+  -v, --verbose           Enable verbose logging
   -h, --help              Display this help message
 
 Environment variables:
