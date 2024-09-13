@@ -22,7 +22,9 @@ function startServer(args = []) {
     serverProcess.kill();
   }
 
-  serverProcess = spawn('node', ['../../dist/server.js', ...args], { stdio: 'inherit' });
+  serverProcess = spawn('node', ['../../dist/server.js', ...args], {
+    stdio: 'inherit',
+  });
   console.log('Server started');
 
   serverProcess.on('close', code => {

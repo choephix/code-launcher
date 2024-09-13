@@ -10,7 +10,7 @@ const ProjectTemplates: React.FC = () => {
   const { isSomeActionRunning, lastCommandOutput, configuration, uiState } = useStore();
   const { templates } = configuration;
 
-  if (!uiState.showTemplates) return null; 
+  if (!uiState.showTemplates) return null;
 
   if (isSomeActionRunning) return null;
 

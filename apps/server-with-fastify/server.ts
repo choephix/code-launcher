@@ -11,7 +11,7 @@ const fastify = Fastify({ logger: true }) as import('fastify').FastifyInstance;
 const cmdArgs = parseCommandLineArgs();
 const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
 
-const port = +(cmdArgs.port || process.env.PORT || 19999);
+const port = +(cmdArgs.port || process.env.PORT || 19001);
 
 if (!workspacePath) {
   console.error(
@@ -50,7 +50,12 @@ fastify.register(
     //// Run Shell Command
     fastify.post(
       '/run-command',
-      async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>, reply) => {
+      async (
+        request: import('fastify').FastifyRequest<{
+          Body: { command: string };
+        }>,
+        reply
+      ) => {
         const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
         const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
 
@@ -86,7 +91,7 @@ fastify.register(
           commandOutput,
           result: result.output,
           exitCode: result.exitCode,
-        }
+        };
       });
     });
 
@@ -97,7 +102,7 @@ fastify.register(
 
 const start = async () => {
   try {
-    await fastify.listen({ port });
+    await fastify.listen({ port, host: '0.0.0.0' });
     console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
   } catch (err) {
     fastify.log.error(err);

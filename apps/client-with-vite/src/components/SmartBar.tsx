@@ -10,6 +10,26 @@ import { actions, useStore } from '@/lib/store';
 const SmartBar: React.FC = () => {
   const { isSomeActionRunning } = useStore();
 
+  return (
+    <div className="flex flex-col items-stretch">
+      <SmartBarInputBox />
+
+      {isSomeActionRunning ? (
+        <div className="animate-fade-in-pop">
+          <div className="flex items-center justify-center py-8">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2"></div>
+          </div>
+        </div>
+      ) : (
+        <CommandOutput />
+      )}
+    </div>
+  );
+};
+
+const SmartBarInputBox: React.FC = () => {
+  const { isSomeActionRunning } = useStore();
+
   const [inputContent, setInputContent] = useState('');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -61,56 +81,54 @@ const SmartBar: React.FC = () => {
     adjustTextareaHeight();
   }, [inputContent]);
 
+  const multilineMode = inputContent.includes('\n');
+
   return (
-    <div className="flex flex-col items-stretch">
-      <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
-        <div className="flex items-center ml-3 mr-1 mt-2">
-          <Icon
-            size="1.4em"
-            className={`${
-              inputContent ? 'text-white' : 'text-gray-400'
-            } animate-pop-in transition-colors duration-500 h-full flex flex-col items-center`}
-            strokeWidth={1.5}
-          />
-        </div>
-        <textarea
-          ref={textareaRef}
-          value={inputContent}
-          onChange={e => {
-            setInputContent(e.target.value);
-            adjustTextareaHeight();
-          }}
-          onKeyDown={handleKeyDown}
-          className="bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none resize-none overflow-hidden"
-          disabled={isSomeActionRunning}
-          rows={1}
-          style={{ minHeight: '40px' }}
-        />
-        <button
-          onClick={handleActionButtonClick}
+    <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
+      <div
+        className={`
+      flex items-center ml-3 mr-1 mt-2
+      transition-all duration-200
+      ${multilineMode ? ' mt-4 ml-4' : ''}
+      `}
+      >
+        <Icon
+          size="1.4em"
           className={`
+            ${inputContent ? 'text-white' : 'text-gray-400'} 
+            animate-pop-in transition-colors duration-500 h-full 
+            flex flex-col items-center`}
+          strokeWidth={1.5}
+        />
+      </div>
+      <textarea
+        ref={textareaRef}
+        value={inputContent}
+        onChange={e => {
+          setInputContent(e.target.value);
+          adjustTextareaHeight();
+        }}
+        onKeyDown={handleKeyDown}
+        className="bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none resize-none overflow-hidden"
+        disabled={isSomeActionRunning}
+        rows={1}
+        style={{ minHeight: '40px' }}
+      />
+      <button
+        onClick={handleActionButtonClick}
+        className={`
             px-6 py-2 text-white focus:outline-none rounded-full
-            transition-colors duration-200
+            transition-all duration-200
             bg-blue-500 hover:bg-blue-600
             animate-slide-in-right
             self-end
+            ${multilineMode ? 'm-2' : ''}
           `}
-          disabled={isSomeActionRunning || !performButtonAction}
-          hidden={!performButtonAction}
-        >
-          {buttonLabel}
-        </button>
-      </div>
-
-      {isSomeActionRunning ? (
-        <div className="animate-fade-in-pop">
-          <div className="flex items-center justify-center py-8">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mr-2"></div>
-          </div>
-        </div>
-      ) : (
-        <CommandOutput />
-      )}
+        disabled={isSomeActionRunning || !performButtonAction}
+        hidden={!performButtonAction}
+      >
+        {buttonLabel}
+      </button>
     </div>
   );
 };

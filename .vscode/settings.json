@@ -1,7 +1,7 @@
 {
   "files.exclude": {
-    "**/apps/both-with-nextjs": true,
-    "**/packages/react-components": true
+    "**/apps/both-with-nextjs": false,
+    "**/packages/react-components": false
   },
   "search.exclude": {
     "**/apps/both-with-nextjs": true,

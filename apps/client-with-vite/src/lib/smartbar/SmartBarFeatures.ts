@@ -5,7 +5,7 @@ import { apiService } from '@/lib/apiService';
 
 const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
-const SHELL_COMMAND_REGEX = /^(\$|>|bash\s+)\s*/;
+const SHELL_COMMAND_REGEX = /^(\$|>)\s*/m;
 
 export interface SmartBarFeature {
   readonly type: string;
@@ -75,8 +75,11 @@ export const SmartBarFeatures = [
     placeholder: '">" + CLI command to run',
     match: (input: string) => SHELL_COMMAND_REGEX.test(input.trim()),
     action: async (input: string) => {
-      const cleanCommand = input.trim().replace(SHELL_COMMAND_REGEX, '');
-      await apiService.runCommand(cleanCommand);
+      const commandLines = input.split('\n');
+      const trimmedCommandLines = commandLines.map(line => line.trim());
+      const cleanCommandLines = trimmedCommandLines.map(line => line.replace(SHELL_COMMAND_REGEX, ''));
+      const command = cleanCommandLines.join('\n');
+      await apiService.runCommand(command);
     },
     label: 'Run',
     disabled: false,
