@@ -6,3 +6,6 @@
   - [ ] Make parts of app non-interactable while loading
 - [ ] Clean up server console logs
 - [ ] Add tiny top-ribbon with current workspace and maybe settings?
+- [ ] Add version bump npm scripts (esp for minor)
+- [ ] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
+  - [ ] Folder: last changes in any file datetime?
