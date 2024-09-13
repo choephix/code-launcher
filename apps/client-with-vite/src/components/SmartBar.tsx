@@ -81,14 +81,24 @@ const SmartBarInputBox: React.FC = () => {
     adjustTextareaHeight();
   }, [inputContent]);
 
+  const multilineMode = inputContent.includes('\n');
+  console.log('multilineMode', multilineMode);
+
   return (
     <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
-      <div className="flex items-center ml-3 mr-1 mt-2">
+      <div
+        className={`
+      flex items-center ml-3 mr-1 mt-2
+      transition-all duration-200
+      ${multilineMode ? ' mt-4 ml-4' : ''}
+      `}
+      >
         <Icon
           size="1.4em"
-          className={`${
-            inputContent ? 'text-white' : 'text-gray-400'
-          } animate-pop-in transition-colors duration-500 h-full flex flex-col items-center`}
+          className={`
+            ${inputContent ? 'text-white' : 'text-gray-400'} 
+            animate-pop-in transition-colors duration-500 h-full 
+            flex flex-col items-center`}
           strokeWidth={1.5}
         />
       </div>
@@ -109,10 +119,11 @@ const SmartBarInputBox: React.FC = () => {
         onClick={handleActionButtonClick}
         className={`
             px-6 py-2 text-white focus:outline-none rounded-full
-            transition-colors duration-200
+            transition-all duration-200
             bg-blue-500 hover:bg-blue-600
             animate-slide-in-right
             self-end
+            ${multilineMode ? 'm-2' : ''}
           `}
         disabled={isSomeActionRunning || !performButtonAction}
         hidden={!performButtonAction}
