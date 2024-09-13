@@ -1,0 +1,1 @@
+- [ ] Proper backend error handling (e.g. non-existent workspace folder)
