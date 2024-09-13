@@ -102,7 +102,8 @@ fastify.register(
 
 const start = async () => {
   try {
-    await fastify.listen({ port, host: '0.0.0.0' });
+    const host = cmdArgs.expose ? '0.0.0.0' : 'localhost';
+    await fastify.listen({ port, host });
     console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
   } catch (err) {
     fastify.log.error(err);
@@ -117,6 +118,7 @@ start();
 interface CommandLineArgs {
   workspacePath?: string;
   port?: number;
+  expose?: boolean;
 }
 
 function parseCommandLineArgs(): CommandLineArgs {
@@ -130,6 +132,8 @@ function parseCommandLineArgs(): CommandLineArgs {
     } else if (args[i] === '-p' || args[i] === '--port') {
       result.port = parseInt(args[i + 1], 10);
       i++;
+    } else if (args[i] === '--expose') {
+      result.expose = true;
     }
   }
 
