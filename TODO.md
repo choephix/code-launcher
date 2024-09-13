@@ -5,3 +5,4 @@
 - [ ] Cache workspace state in localstorage for faster load time
   - [ ] Make parts of app non-interactable while loading
 - [ ] Clean up server console logs
+- [ ] Add tiny top-ribbon with current workspace and maybe settings?
