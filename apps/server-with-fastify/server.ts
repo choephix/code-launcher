@@ -138,7 +138,7 @@ function parseCommandLineArgs(): CommandLineArgs {
     } else if (args[i] === '-p' || args[i] === '--port') {
       result.port = parseInt(args[i + 1], 10);
       i++;
-    } else if (args[i] === '--expose') {
+    } else if (args[i] === '-x' || args[i] === '--expose') {
       result.expose = true;
     } else if (args[i] === '-h' || args[i] === '--help') {
       result.help = true;
@@ -155,7 +155,7 @@ Usage: node server.js [options]
 Options:
   -w, --workspace <path>  Set the workspace path
   -p, --port <number>     Set the port number (default: 19001)
-  --expose                Make the server externally accessible
+  -x, --expose            Make the server externally accessible
 
   -h, --help              Display this help message
 
