@@ -5,7 +5,7 @@ import { apiService } from '@/lib/apiService';
 
 const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
-const SHELL_COMMAND_REGEX = /^(\$|>|bash\s+)\s*/;
+const SHELL_COMMAND_REGEX = /^(\$|>\s+)\s*/gm;
 
 export interface SmartBarFeature {
   readonly type: string;
