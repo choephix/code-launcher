@@ -3,6 +3,7 @@ const Fastify = require('fastify') as typeof import('fastify');
 const path = require('path') as typeof import('path');
 const fs = require('fs') as typeof import('fs');
 
+const { parseCommandLineArgs, displayCommandLineHelp } = require('./lib/cmd-args') as typeof import('./lib/cmd-args');
 
 log('//// prod/dev:', process.env.NODE_ENV);
 log('//// __dirname:', __dirname);
@@ -11,7 +12,7 @@ const cmdArgs = parseCommandLineArgs();
 const verbose = cmdArgs.verbose || false;
 
 if (cmdArgs.help) {
-  displayHelp();
+  displayCommandLineHelp();
   process.exit(0);
 }
 
@@ -121,53 +122,3 @@ const start = async () => {
 };
 
 start();
-
-//// //// //// ////
-
-interface CommandLineArgs {
-  workspacePath?: string;
-  port?: number;
-  expose?: boolean;
-  help?: boolean;
-  verbose?: boolean;
-}
-
-function parseCommandLineArgs(): CommandLineArgs {
-  const args = process.argv.slice(2);
-  const result: CommandLineArgs = {};
-
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === '-w' || args[i] === '--workspace') {
-      result.workspacePath = args[i + 1];
-      i++;
-    } else if (args[i] === '-p' || args[i] === '--port') {
-      result.port = parseInt(args[i + 1], 10);
-      i++;
-    } else if (args[i] === '-x' || args[i] === '--expose') {
-      result.expose = true;
-    } else if (args[i] === '-h' || args[i] === '--help') {
-      result.help = true;
-    } else if (args[i] === '-v' || args[i] === '--verbose') {
-      result.verbose = true;
-    }
-  }
-
-  return result;
-}
-
-function displayHelp() {
-  console.log(`
-Usage: node server.js [options]
-
-Options:
-  -w, --workspace <path>  Set the workspace path
-  -p, --port <number>     Set the port number (default: 19001)
-  -x, --expose            Make the server externally accessible
-  -v, --verbose           Enable verbose logging
-  -h, --help              Display this help message
-
-Environment variables:
-  CODELAUNCHER_WORKSPACE_PATH  Set the workspace path
-  CODELAUNCHER_PORT            Set the port number
-`);
-}
