@@ -1,7 +1,8 @@
-const fastifyStatic = require('@fastify/static');
-const Fastify = require('fastify');
-const path = require('path');
-const fs = require('fs');
+const fastifyStatic = require('@fastify/static') as typeof import('@fastify/static');
+const Fastify = require('fastify') as typeof import('fastify');
+const path = require('path') as typeof import('path');
+const fs = require('fs') as typeof import('fs');
+
 
 log('//// prod/dev:', process.env.NODE_ENV);
 log('//// __dirname:', __dirname);
