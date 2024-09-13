@@ -18,15 +18,15 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 
   overflow-y: scroll;
   caret-color: transparent;
   caret-shape: underscore;
 }
 
-input, textarea {
+input,
+textarea {
   caret-color: rgb(var(--foreground-rgb));
   caret-shape: bar;
 }

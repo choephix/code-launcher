@@ -27,8 +27,6 @@ const createApiService = () => {
   };
 
   return {
-
-
     fetchProjects: async (): Promise<ApiResponse> => {
       return fetchWithStats('/api/ls');
     },

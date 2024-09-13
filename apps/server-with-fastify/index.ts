@@ -50,7 +50,12 @@ fastify.register(
     //// Run Shell Command
     fastify.post(
       '/run-command',
-      async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>, reply) => {
+      async (
+        request: import('fastify').FastifyRequest<{
+          Body: { command: string };
+        }>,
+        reply
+      ) => {
         const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
         const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
 
@@ -86,7 +91,7 @@ fastify.register(
           commandOutput,
           result: result.output,
           exitCode: result.exitCode,
-        }
+        };
       });
     });
 

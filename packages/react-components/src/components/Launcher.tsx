@@ -6,7 +6,7 @@ import SmartBar from './SmartBar';
 export function Launcher() {
   // const title = '{code:launcher}';
   const title = 'code:launcher';
-  
+
   return (
     <div className="flex flex-col min-h-screen text-white w-full max-w-screen-md mx-auto animate-fade-in">
       <div className="flex-grow p-5">

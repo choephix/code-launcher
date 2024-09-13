@@ -39,7 +39,9 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
     },
 
     runCommand: async (command: string) => {
-      const { output, exitCode } = await runCommand(command, { cwd: pathToWorkspaces });
+      const { output, exitCode } = await runCommand(command, {
+        cwd: pathToWorkspaces,
+      });
       const workspaceState = await getTheStuff();
 
       return {
