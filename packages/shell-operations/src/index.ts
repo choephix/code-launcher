@@ -1,3 +1,5 @@
+import path from 'path';
+
 import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import {
   getGitRepoDirectories as getGitRepositories,
@@ -5,11 +7,12 @@ import {
   getVSCodeWorkspaceFiles,
   getWorkspaceConfiguration,
 } from './lib/files';
-import { pathToWorkspaces as defaultPathToWorkspaces } from './lib/pathToWorkspace';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU } from './lib/system';
 
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
+  pathToWorkspaces = path.resolve(pathToWorkspaces);
+
   async function getTheStuff() {
     const configuration = await getWorkspaceConfiguration(pathToWorkspaces);
     const { cpuUsage, memUsage } = getMemoryAndCPU();
@@ -52,8 +55,6 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
     },
   } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
 }
-
-export const CodeLauncherServerActions = createCodeLauncherServerActions(defaultPathToWorkspaces);
 
 //// Experimental
 export * from './lib/shell-stream';

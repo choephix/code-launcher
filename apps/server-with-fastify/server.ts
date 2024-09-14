@@ -22,18 +22,21 @@ function log(...args: any[]) {
   }
 }
 
-const workspacePath = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
+const workspacePathRaw = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
 const port = +(cmdArgs.port || process.env.CODELAUNCHER_PORT || 19001);
 
-if (!workspacePath) {
+if (!workspacePathRaw) {
   console.error(
     'Workspace path not given. Please provide a --workspace argument or set the CODELAUNCHER_WORKSPACE_PATH environment variable.'
   );
   throw process.exit(1);
 }
 
-log('//// Workspace Path:', workspacePath);
 log('//// Port:', port);
+log('//// Workspace Path:', workspacePathRaw);
+
+const workspacePath = path.resolve(workspacePathRaw);
+log('//// Workspace Path (resolved):', workspacePath);
 
 const fastify = Fastify({ logger: verbose }) as import('fastify').FastifyInstance;
 
