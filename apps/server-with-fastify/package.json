@@ -2,8 +2,8 @@
   "name": "@code-launcher/server-with-fastify",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
-  "types": "index.ts",
+  "main": "server.ts",
+  "types": "server.ts",
   "type": "commonjs",
   "scripts": {
     "dev": "node scripts/dev.js",
