@@ -23,7 +23,7 @@ export default function Home() {
     <main className="bg-gray-900 min-h-screen flex flex-col justify-start items-center animate-fade-in">
       <TopBar />
       <div className="flex flex-col min-h-screen text-white w-full max-w-screen-md mx-auto animate-fade-in">
-        <div className="flex-grow p-5">
+        <div className="flex-grow p-5 mt-16">
           <TitleThing />
 
           <div className="mb-10">

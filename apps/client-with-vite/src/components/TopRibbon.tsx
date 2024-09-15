@@ -29,7 +29,8 @@ const TopBar: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-gray-800 text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center">
+    // <div className="w-full bg-gray-800 text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center">
+    <div className="w-full text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center absolute">
       <div>{pathToWorkspaces}</div>
       <div className="flex items-center">
         <span className="mr-1">default ide:</span>
