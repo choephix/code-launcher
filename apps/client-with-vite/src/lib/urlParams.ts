@@ -2,12 +2,12 @@ const queryString = globalThis?.location?.search ?? '';
 const urlParamsObject = new URLSearchParams(queryString);
 
 const defaults = {
-  ide: 'code', // "code" or "cursor"
-};
+  // ide: 'code', // "code" or "cursor"
+} satisfies Record<string, any>;
 
 export const urlParams = new Proxy(defaults, {
   get: (target, prop: keyof typeof defaults) => {
-    const value = urlParamsObject.get(prop.toString());
+    const value = urlParamsObject.get(String(prop));
 
     if (value === null) {
       return target[prop];
