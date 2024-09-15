@@ -14,6 +14,7 @@ const createApiService = (baseUrl: string) => {
     if (data.projects !== undefined) store.projects = data.projects;
     if (data.configuration !== undefined) store.configuration = data.configuration;
     if (data.pathToWorkspaces !== undefined) store.pathToWorkspaces = data.pathToWorkspaces;
+    if (data.workspaceInfo !== undefined) store.workspaceInfo = data.workspaceInfo;
 
     return data;
   };

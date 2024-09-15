@@ -1,7 +1,7 @@
 import { proxy, useSnapshot } from 'valtio';
 import { apiService } from './apiService';
 
-import { WorkspaceConfiguration } from '@code-launcher/data-types';
+import { CodeLauncherServerActionResult, WorkspaceConfiguration } from '@code-launcher/data-types';
 import { SmartBarFeature } from './smartbar/SmartBarFeatures';
 
 interface State {
@@ -13,6 +13,7 @@ interface State {
   //// Workspace State
   pathToWorkspaces: string | null;
   projects: string[] | null;
+  workspaceInfo: CodeLauncherServerActionResult['workspaceInfo'] | null;
   lastCommandOutput: string | null;
   stats: {
     cpuUsage: number | null;
@@ -28,6 +29,7 @@ export const store = proxy<State>({
   activeSmartBarFeature: null,
   ////
   projects: null,
+  workspaceInfo: null,
   pathToWorkspaces: null,
   lastCommandOutput: null,
   stats: {
