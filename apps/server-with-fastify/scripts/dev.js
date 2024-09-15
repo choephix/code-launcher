@@ -42,8 +42,14 @@ async function rebuildAndRestart(args = []) {
 // Initial build and start
 rebuildAndRestart(process.argv.slice(2));
 
+
+const watchPaths = [
+  path.join(__dirname, '..', '..', '..', 'packages', '**', '*.{ts,js}'),
+  path.join(__dirname, '..', '**', '*.{ts,js}'),
+];
+
 // Watch for changes
-chokidar.watch(['**/*.ts', '**/*.js'], { ignored: /node_modules|dist/ }).on('change', path => {
+chokidar.watch(watchPaths, { ignored: /node_modules|dist|build/ }).on('change', path => {
   console.log(`File ${path} has been changed`);
   rebuildAndRestart(process.argv.slice(2));
 });
