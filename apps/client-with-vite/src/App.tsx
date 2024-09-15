@@ -17,7 +17,7 @@ export default function Home() {
     actions.refreshProjects().then(() => {
       store.uiState.showTemplates = store.projects !== null && store.projects.length < hideTemplatesAtProjectCount;
 
-      if (store.configuration.idePaths[0]) {
+      if (store.configuration.idePaths?.[0]) {
         store.idePath = store.configuration.idePaths[0].path;
       }
     });
