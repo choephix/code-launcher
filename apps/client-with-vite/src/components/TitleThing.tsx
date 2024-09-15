@@ -15,11 +15,10 @@ export function TitleThing() {
 }
 
 function getTitleContentAndStyle() {
-  const { pathToWorkspaces, activeSmartBarFeature } = useStore();
+  const { activeSmartBarFeature } = useStore();
 
-  // const defaultTitleContent = '{code:launcher}';
+  const defaultTitleContent = '{code:launcher}';
   // const defaultTitleContent = 'code:launcher';
-  const defaultTitleContent = pathToWorkspaces || 'code:launcher';
 
   if (!useDynamicTitle) {
     return {
