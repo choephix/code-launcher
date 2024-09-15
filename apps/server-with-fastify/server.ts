@@ -117,7 +117,7 @@ const start = async () => {
   try {
     const host = cmdArgs.expose ? '0.0.0.0' : 'localhost';
     await fastify.listen({ port, host });
-    console.log(`🚀 Fastify server is running on ${fastify.server.address()}`);
+    console.log(`🚀 Fastify server is running on ${host}:${port}`);
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
