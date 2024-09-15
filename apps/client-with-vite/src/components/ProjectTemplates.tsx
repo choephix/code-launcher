@@ -4,10 +4,9 @@ import React from 'react';
 
 import { apiService } from '@/lib/apiService';
 import { useStore, actions } from '@/lib/store';
-import { urlParams } from '@/lib/urlParams';
 
 const ProjectTemplates: React.FC = () => {
-  const { isSomeActionRunning, lastCommandOutput, configuration, uiState } = useStore();
+  const { isSomeActionRunning, lastCommandOutput, configuration, uiState, idePath } = useStore();
   const { templates } = configuration;
 
   if (!uiState.showTemplates) return null;
@@ -24,7 +23,7 @@ const ProjectTemplates: React.FC = () => {
         const command = template.command.replace(/\{folderName\}/g, folderName);
         await apiService.runCommand(command);
 
-        const ideCmd = urlParams.ide;
+        const ideCmd = idePath;
         await apiService.runCommand(`${ideCmd} ~/workspace/${folderName}`);
       } finally {
         actions.setIsSomeActionRunning(false);
