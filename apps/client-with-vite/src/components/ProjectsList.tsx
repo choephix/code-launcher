@@ -1,18 +1,16 @@
 'use client';
 
-import React from 'react';
 import { FolderIcon, PlusIcon } from 'lucide-react';
+import React from 'react';
 
 import { apiService } from '@/lib/apiService';
 import { actions, useStore } from '@/lib/store';
-import { urlParams } from '@/lib/urlParams';
 
 const ProjectsList: React.FC = () => {
-  const { projects, uiState, pathToWorkspaces } = useStore();
+  const { projects, uiState, pathToWorkspaces, idePath } = useStore();
 
-  const ideCmd = urlParams.ide;
   const onProjectClick = async (project: string) => {
-    const command = ideCmd + ` "${pathToWorkspaces}/${project}"`;
+    const command = `${idePath} "${pathToWorkspaces}/${project}"`;
     await apiService.runCommand(command);
   };
 

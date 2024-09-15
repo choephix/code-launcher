@@ -1,4 +1,8 @@
 export interface WorkspaceConfiguration {
+  idePaths: {
+    name: string;
+    path: string;
+  }[];
   templates: {
     name: string;
     icon: string;

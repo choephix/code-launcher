@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useStore } from '@/lib/store';
+import { actions, useStore } from '@/lib/store';
 import { ChevronDownIcon } from 'lucide-react';
+import { getIdeOptions } from '@/lib/asorted';
 
 const TopBar: React.FC = () => {
-  const { pathToWorkspaces } = useStore();
-  const [defaultIde, setDefaultIde] = useState('code');
+  const { pathToWorkspaces, idePath } = useStore();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -24,9 +24,11 @@ const TopBar: React.FC = () => {
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const selectOption = (option: string) => {
-    setDefaultIde(option);
+    actions.setIdePath(option);
     setIsOpen(false);
   };
+
+  const ideOptions = getIdeOptions();
 
   return (
     // <div className="w-full bg-gray-800 text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center">
@@ -39,12 +41,12 @@ const TopBar: React.FC = () => {
             onClick={toggleDropdown}
             className="appearance-none bg-transparent text-gray-300 underline pr-4 focus:outline-none cursor-pointer"
           >
-            {defaultIde}
+            {idePath}
             <ChevronDownIcon className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 pointer-events-none" />
           </button>
           {isOpen && (
             <div className="absolute right-0 mt-1 w-20 bg-gray-800 border border-gray-700 rounded shadow-lg z-10">
-              {['code', 'cursor'].map(option => (
+              {ideOptions.map(option => (
                 <button
                   key={option}
                   onClick={() => selectOption(option)}

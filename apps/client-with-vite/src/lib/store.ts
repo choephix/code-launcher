@@ -19,6 +19,7 @@ interface State {
     memUsage: number | null;
   };
   configuration: WorkspaceConfiguration;
+  idePath: string;
 }
 
 export const store = proxy<State>({
@@ -34,8 +35,10 @@ export const store = proxy<State>({
     cpuUsage: 0,
   },
   configuration: {
+    idePaths: [],
     templates: [],
   },
+  idePath: 'code',
 });
 
 export const actions = {
@@ -61,6 +64,9 @@ export const actions = {
     if (feature !== store.activeSmartBarFeature) {
       store.activeSmartBarFeature = feature;
     }
+  },
+  setIdePath: (idePath: string) => {
+    store.idePath = idePath;
   },
 };
 
