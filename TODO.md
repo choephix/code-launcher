@@ -4,7 +4,7 @@
   - [ ] Move spinner in place of the button while running
 - [ ] Cache workspace state in localstorage for faster load time
   - [ ] Make parts of app non-interactable while loading
-- [ ] Clean up server console logs
+- [x] Clean up server console logs
 - [ ] Add tiny top-ribbon with current workspace and maybe settings?
 - [ ] Add version bump npm scripts (esp for minor)
 - [ ] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
@@ -12,4 +12,4 @@
   - [ ] Icon: just get the first image one you find, [favicon|logo].[ico|png|svg]
 - [ ] Configurability through .code-launcher.yaml - Default search engine (google)
 - [ ] Configurability through .code-launcher.yaml - Default IDE command (code)
-- [ ] IDE command uses relative paths instead of absolute, which breaks click actions
+- [x] IDE command uses relative paths instead of absolute, which breaks click actions
