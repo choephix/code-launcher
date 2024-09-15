@@ -12,6 +12,7 @@
 - [ ] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
   - [ ] Folder: last changes in any file datetime?
   - [ ] Icon: just get the first image one you find, [favicon|logo].[ico|png|svg]
+- [ ] Add Directories/Workspaces/Git Repos tabs
 
 - [ ] Configurability through .code-launcher.yaml - Default search engine (google)
 - [x] Configurability through .code-launcher.yaml - Default IDE command (code)
