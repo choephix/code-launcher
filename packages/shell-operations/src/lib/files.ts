@@ -96,13 +96,15 @@ export async function getWorkspaceConfiguration(workspacePath: string): Promise<
     return configuration;
   } catch (error) {
     console.error(`Error reading workspace configuration: ${error}. Using default configuration.`);
-    return defaultWorkspaceConfiguration;
+    return {
+      ui: {
+        projectDirectoriesPrefix: null,
+      },
+      idePaths: [],
+      templates: [],
+    };
   }
 }
-
-const defaultWorkspaceConfiguration: WorkspaceConfiguration = {
-  templates: [],
-};
 
 async function loadConfigFileContent(configFilePath: string, writeIfMissing: boolean): Promise<string> {
   try {
