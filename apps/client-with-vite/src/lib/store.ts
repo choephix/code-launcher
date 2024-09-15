@@ -35,6 +35,9 @@ export const store = proxy<State>({
     cpuUsage: 0,
   },
   configuration: {
+    ui: {
+      projectDirectoriesPrefix: null,
+    },
     idePaths: [],
     templates: [],
   },

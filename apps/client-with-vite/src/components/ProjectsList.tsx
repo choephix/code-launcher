@@ -7,11 +7,22 @@ import { apiService } from '@/lib/apiService';
 import { actions, useStore } from '@/lib/store';
 
 const ProjectsList: React.FC = () => {
-  const { projects, uiState, pathToWorkspaces, idePath } = useStore();
+  const { projects, uiState, pathToWorkspaces, idePath, configuration } = useStore();
 
   const onProjectClick = async (project: string) => {
     const command = `${idePath} "${pathToWorkspaces}/${project}"`;
     await apiService.runCommand(command);
+  };
+
+  const renderProjectDirectoriesPrefix = () => {
+    switch (configuration.ui.projectDirectoriesPrefix) {
+      case 'folderIcon':
+        return <FolderIcon size={12} className="mr-2 text-gray-500" />;
+      case 'backslash':
+        return <span className="text-gray-500">/</span>;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -55,8 +66,7 @@ const ProjectsList: React.FC = () => {
                   onClick={() => onProjectClick(project)}
                 >
                   <span className="flex items-center">
-                    <FolderIcon size={12} className="mr-2 text-gray-500" />
-                    {/* <span className="text-gray-500">/</span> */}
+                    {renderProjectDirectoriesPrefix()}
                     {project}
                   </span>
                   <span className="text-blue-400 text-xs">→</span>

@@ -1,4 +1,7 @@
 export interface WorkspaceConfiguration {
+  ui: {
+    projectDirectoriesPrefix: "folderIcon" | "backslash" | null;
+  };
   idePaths: {
     name: string;
     path: string;
