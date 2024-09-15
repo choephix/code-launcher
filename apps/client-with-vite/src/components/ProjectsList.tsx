@@ -81,7 +81,7 @@ const ProjectsList: React.FC = () => {
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
-        <div className="text-sm font-semibold text-gray-300 flex space-x-2">
+        <div className="text-sm text-gray-400 flex space-x-2">
           Existing project
           &nbsp;
           {Object.entries(tabLabels).map(([tab, label], index) => (
