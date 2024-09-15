@@ -90,8 +90,8 @@ const ProjectsList: React.FC = () => {
               <button
                 className={`transition-colors duration-200 ${
                   activeTab === tab
-                    ? 'text-white border-b-2 border-white'
-                    : 'text-gray-500 hover:text-gray-300'
+                    ? 'text-white underline underline-offset-2'
+                    : 'text-gray-600 hover:text-gray-300'
                 }`}
                 onClick={() => setActiveTab(tab as TabType)}
               >
