@@ -55,7 +55,8 @@ const ProjectsList: React.FC = () => {
                   onClick={() => onProjectClick(project)}
                 >
                   <span className="flex items-center">
-                    <FolderIcon size={12} className="mr-1" />
+                    <FolderIcon size={12} className="mr-2 text-gray-500" />
+                    {/* <span className="text-gray-500">/</span> */}
                     {project}
                   </span>
                   <span className="text-blue-400 text-xs">→</span>
