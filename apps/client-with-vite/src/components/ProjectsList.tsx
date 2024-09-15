@@ -31,29 +31,20 @@ const ProjectsList: React.FC = () => {
   const renderTabContent = () => {
     if (!workspaceInfo) return null;
 
-    let items: readonly {
-      readonly relativePath: string;
-      readonly absolutePath: string;
-    }[] = [];
+    const itemsMap = {
+      directories: workspaceInfo.rootDirectories,
+      gitRepos: workspaceInfo.gitRepositories,
+      codeWorkspaces: workspaceInfo.vscodeWorkspaceFiles,
+    };
 
-    switch (activeTab) {
-      case 'directories':
-        items = workspaceInfo.rootDirectories;
-        break;
-      case 'gitRepos':
-        items = workspaceInfo.gitRepositories;
-        break;
-      case 'codeWorkspaces':
-        items = workspaceInfo.vscodeWorkspaceFiles;
-        break;
-    }
+    const items = itemsMap[activeTab];
 
     return (
       <ul className="">
         {items.length > 0 ? (
           items.map((item, index) => (
             <li
-              key={activeTab + '|' + index}
+              key={`${activeTab}|${index}`}
               className="animate-fade-in-left opacity-0 border-b border-gray-700"
               style={{
                 animationDelay: `${index * 16.67}ms`,
@@ -81,22 +72,32 @@ const ProjectsList: React.FC = () => {
     );
   };
 
+  const tabLabels = {
+    directories: 'directories',
+    gitRepos: '.git repos',
+    codeWorkspaces: '.code-workspaces',
+  };
+
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
         <div className="text-sm font-semibold text-gray-300 flex space-x-2">
-          {['directories', 'gitRepos', 'codeWorkspaces'].map(tab => (
-            <button
-              key={tab}
-              className={`hover:text-white transition-colors duration-200 ${
-                activeTab === tab ? 'border-b-2 border-blue-400' : ''
-              }`}
-              onClick={() => setActiveTab(tab as TabType)}
-            >
-              {tab === 'directories' && 'Existing project'}
-              {tab === 'gitRepos' && '.git repos'}
-              {tab === 'codeWorkspaces' && '.code-workspaces'}
-            </button>
+          Existing project
+          &nbsp;
+          {Object.entries(tabLabels).map(([tab, label], index) => (
+            <React.Fragment key={tab}>
+              {index > 0 && <span className="text-gray-500">/</span>}
+              <button
+                className={`transition-colors duration-200 ${
+                  activeTab === tab
+                    ? 'text-white border-b-2 border-white'
+                    : 'text-gray-500 hover:text-gray-300'
+                }`}
+                onClick={() => setActiveTab(tab as TabType)}
+              >
+                {label}
+              </button>
+            </React.Fragment>
           ))}
         </div>
         <button
