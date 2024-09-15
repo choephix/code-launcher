@@ -25,10 +25,19 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       pathToWorkspaces,
       configuration,
       projects: rootDirectories,
-      workspaceFiles: {
-        rootDirectories,
-        vscodeWorkspaceFiles,
-        gitRepositories,
+      workspaceInfo: {
+        rootDirectories: rootDirectories.map(dir => ({
+          relativePath: dir,
+          absolutePath: path.resolve(pathToWorkspaces, dir),
+        })),
+        vscodeWorkspaceFiles: vscodeWorkspaceFiles.map(dir => ({
+          relativePath: dir,
+          absolutePath: path.resolve(pathToWorkspaces, dir),
+        })),
+        gitRepositories: gitRepositories.map(dir => ({
+          relativePath: dir,
+          absolutePath: path.resolve(pathToWorkspaces, dir),
+        })),
       },
       stats: { cpuUsage, memUsage },
       exitCode: null,

@@ -1,6 +1,6 @@
 export interface WorkspaceConfiguration {
   ui: {
-    projectDirectoriesPrefix: "folderIcon" | "backslash" | null;
+    projectDirectoriesPrefix: 'folderIcon' | 'backslash' | null;
   };
   idePaths: {
     name: string;
@@ -17,6 +17,11 @@ export interface CodeLauncherServerActionResult {
   pathToWorkspaces: string;
   configuration?: WorkspaceConfiguration;
   projects?: string[];
+  workspaceInfo?: {
+    rootDirectories: any[];
+    vscodeWorkspaceFiles: any[];
+    gitRepositories: any[];
+  };
   stats?: {
     cpuUsage: number | null;
     memUsage: number | null;

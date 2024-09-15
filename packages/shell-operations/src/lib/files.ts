@@ -5,11 +5,11 @@ import YAML from 'yaml';
 import type { WorkspaceConfiguration } from '@code-launcher/data-types';
 import { defaultConfigYaml } from '../data/defaultConfigYaml';
 
-export async function getProjectDirectoriesList(workspacePath: string): Promise<string[]> {
+export async function getProjectDirectoriesList(workspacePath: string) {
   try {
-    const entries = await fs.readdir(workspacePath, { withFileTypes: true });
+    const directoryNames = await fs.readdir(workspacePath, { withFileTypes: true });
 
-    return entries
+    return directoryNames
       .filter(entry => entry.isDirectory())
       .filter(entry => !entry.name.startsWith('.'))
       .map(entry => entry.name);
@@ -57,7 +57,8 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<st
       if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
         await traverse(fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.code-workspace')) {
-        workspaceFiles.push(fullPath);
+        const relativePath = path.relative(workspacePath, fullPath);
+        workspaceFiles.push(relativePath);
       }
     }
   }
@@ -72,7 +73,8 @@ export async function getGitRepoDirectories(workspacePath: string): Promise<stri
   async function traverse(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     if (entries.some(entry => entry.name === '.git' && entry.isDirectory())) {
-      gitRepos.push(dir);
+      const relativePath = path.relative(workspacePath, dir);
+      gitRepos.push(relativePath);
       return; // Don't traverse further if it's a git repo
     }
     for (const entry of entries) {
