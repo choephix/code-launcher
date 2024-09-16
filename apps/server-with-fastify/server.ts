@@ -22,7 +22,7 @@ function log(...args: any[]) {
   }
 }
 
-const workspacePathRaw = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces';
+const workspacePathRaw = cmdArgs.workspacePath || process.env.CODELAUNCHER_WORKSPACE_PATH || '..';
 const port = +(cmdArgs.port || process.env.CODELAUNCHER_PORT || 19001);
 
 if (!workspacePathRaw) {
