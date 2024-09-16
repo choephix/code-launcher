@@ -3,38 +3,21 @@
 import { FolderIcon, PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { apiService } from '@/lib/apiService';
 import { actions, useStore } from '@/lib/store';
+import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 
 type TabType = 'directories' | 'gitRepos' | 'codeWorkspaces';
 
 const ProjectsList: React.FC = () => {
-  const { workspaceInfo, uiState, pathToWorkspaces, selectedEditorIndex, configuration } = useStore();
+  const { workspaceInfo, uiState, configuration } = useStore();
+  const openEditorAt = useOpenEditorAt();
+  
   const [activeTab, setActiveTab] = useState<TabType>('directories');
 
   if (!configuration) return null;
 
-  const onProjectClick = async (project: string) => {
-    const editorCfg = configuration.editors[selectedEditorIndex];
-    if (!editorCfg) {
-      console.warn({ editors: configuration.editors, selectedEditorIndex });
-      throw new Error('No editor configuration found');
-    }
-
-    if (editorCfg.urlTemplate) {
-      const url = editorCfg.urlTemplate.replace('{path}', pathToWorkspaces + '/' + project);
-      window.open(url, '_blank');
-      return;
-    }
-
-    if (editorCfg.shellExecutable) {
-      const command = `"${editorCfg.shellExecutable}" "${pathToWorkspaces}/${project}"`;
-      await apiService.runCommand(command);
-      return;
-    }
-
-    console.warn({ editorCfg });
-    throw new Error('Editor configuration has neither urlTemplate nor shellExecutable');
+  const onProjectClick = (project: string) => {
+    openEditorAt(project);
   };
 
   const renderProjectDirectoriesPrefix = () => {

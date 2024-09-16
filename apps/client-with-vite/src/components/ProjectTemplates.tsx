@@ -4,11 +4,12 @@ import React from 'react';
 
 import { apiService } from '@/lib/apiService';
 import { useStore, actions } from '@/lib/store';
+import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 
 const ProjectTemplates: React.FC = () => {
-  const { isSomeActionRunning, lastCommandOutput, configuration, uiState, idePath } = useStore();
-  const { templates } = configuration;
-
+  const { isSomeActionRunning, lastCommandOutput, configuration, uiState } = useStore();
+  const openEditorAt = useOpenEditorAt();
+  
   if (!uiState.showTemplates) return null;
 
   if (isSomeActionRunning) return null;
@@ -23,8 +24,7 @@ const ProjectTemplates: React.FC = () => {
         const command = template.command.replace(/\{folderName\}/g, folderName);
         await apiService.runCommand(command);
 
-        const ideCmd = idePath;
-        await apiService.runCommand(`${ideCmd} ~/workspace/${folderName}`);
+        await openEditorAt(folderName);
       } finally {
         actions.setIsSomeActionRunning(false);
       }
@@ -33,7 +33,7 @@ const ProjectTemplates: React.FC = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {templates.map((template, index) => (
+      {configuration.templates.map((template, index) => (
         <button
           key={index}
           className="flex flex-col items-center p-4 bg-gray-800 border border-gray-700 rounded-lg transition duration-200 hover:bg-gray-700 hover:border-blue-500 animate-fade-in-pop"
