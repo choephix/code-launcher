@@ -122,13 +122,13 @@ const ProjectsList: React.FC = () => {
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
         <div className="text-sm text-gray-400 flex items-center">
           Existing project&nbsp;
-          <div className="relative" ref={dropdownRef}>
+          <div className="relative group" ref={dropdownRef}>
             <button
               onClick={toggleDropdown}
               className="appearance-none bg-transparent text-gray-300 pr-4 focus:outline-none cursor-pointer"
             >
               {tabLabels[activeTab]}
-              <ChevronDownIcon className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 pointer-events-none" />
+              <ChevronDownIcon className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
             </button>
             {isOpen && (
               <div className="absolute left-0 mt-1 min-w-[120px] max-w-[200px] bg-gray-800 border border-gray-700 rounded shadow-lg z-10">
