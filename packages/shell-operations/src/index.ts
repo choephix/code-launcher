@@ -2,6 +2,7 @@ import path from 'path';
 
 import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import {
+  getGitRemoteDomain,
   getGitRepoDirectories as getGitRepositories,
   getProjectDirectoriesList,
   getVSCodeWorkspaceFiles,
@@ -34,10 +35,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
           relativePath: dir,
           absolutePath: path.resolve(pathToWorkspaces, dir),
         })),
-        gitRepositories: gitRepositories.map(dir => ({
-          relativePath: dir,
-          absolutePath: path.resolve(pathToWorkspaces, dir),
-        })),
+        gitRepositories: gitRepositories,
       },
       stats: { cpuUsage, memUsage },
       exitCode: null,

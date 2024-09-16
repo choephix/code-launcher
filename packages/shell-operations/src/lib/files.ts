@@ -67,15 +67,52 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<st
   return workspaceFiles;
 }
 
-export async function getGitRepoDirectories(workspacePath: string): Promise<string[]> {
-  const gitRepos: string[] = [];
+export async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
+  try {
+    const gitConfigPath = path.join(gitRepoPath, '.git', 'config');
+    const configContent = await fs.readFile(gitConfigPath, 'utf-8');
+
+    // Regular expression to match the remote origin URL
+    const remoteOriginRegex = /\[remote "origin"\][\s\S]*?url = (.+)/;
+    const match = configContent.match(remoteOriginRegex);
+
+    if (match && match[1]) {
+      const url = match[1].trim();
+
+      // Extract domain from URL
+      const domainRegex = /(?:https?:\/\/)?(?:www\.)?([^\/]+)/i;
+      const domainMatch = url.match(domainRegex);
+
+      if (domainMatch && domainMatch[1]) {
+        let domain = domainMatch[1].toLowerCase();
+        domain = domain.replace(/^.*@/, '');
+        domain = domain.replace(/:[^:]*$/, '');
+        return String(domain);
+      }
+    }
+
+    return null; // No remote origin found or couldn't extract domain
+  } catch (error) {
+    console.error('Error reading git config:', error);
+    return null;
+  }
+}
+
+export async function getGitRepoDirectories(workspacePath: string) {
+  const gitRepos: {
+    relativePath: string;
+    absolutePath: string;
+    originDomain: string | null;
+  }[] = [];
 
   async function traverse(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
     const isGitRepo = entries.some(entry => entry.name === '.git' && entry.isDirectory());
     if (isGitRepo) {
       const relativePath = path.relative(workspacePath, dir);
-      gitRepos.push(relativePath);
+      const absolutePath = path.resolve(workspacePath, dir);
+      const originDomain = await getGitRemoteDomain(absolutePath);
+      gitRepos.push({ relativePath, absolutePath, originDomain });
       return; // Don't traverse further if it's a git repo
     }
 
