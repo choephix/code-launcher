@@ -72,11 +72,13 @@ export async function getGitRepoDirectories(workspacePath: string): Promise<stri
 
   async function traverse(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
-    if (entries.some(entry => entry.name === '.git' && entry.isDirectory())) {
+    const isGitRepo = entries.some(entry => entry.name === '.git' && entry.isDirectory());
+    if (isGitRepo) {
       const relativePath = path.relative(workspacePath, dir);
       gitRepos.push(relativePath);
       return; // Don't traverse further if it's a git repo
     }
+
     for (const entry of entries) {
       if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
         await traverse(path.join(dir, entry.name));
@@ -102,6 +104,7 @@ export async function getWorkspaceConfiguration(workspacePath: string): Promise<
       ui: {
         projectDirectoriesPrefix: null,
       },
+      editors: [],
       idePaths: [],
       templates: [],
     };
