@@ -32,7 +32,7 @@ const TopBar: React.FC = () => {
 
   return (
     // <div className="w-full bg-gray-800 text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center">
-    <div className="w-full text-gray-600 hover:text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center absolute transition-all duration-200">
+    <div className="w-full text-gray-400 opacity-40 hover:opacity-100 text-[10px] py-1 px-4 flex justify-between items-center absolute transition-opacity duration-700 hover:duration-150">
       {' '}
       <div>{pathToWorkspaces}</div>
       <div className="flex items-center">
