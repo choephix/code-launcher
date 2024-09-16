@@ -16,12 +16,6 @@ editors:
   - name: Cursor (via shell)
     shellExecutable: cursor
 
-idePaths:
-  - name: VS Code
-    path: code
-  - name: Cursor
-    path: cursor
-    
 templates:
   - name: Empty Project
     icon: 'https://simpleicons.org/icons/git.svg'

@@ -41,7 +41,6 @@ export const store = proxy<State>({
       projectDirectoriesPrefix: null,
     },
     editors: [],
-    idePaths: [],
     templates: [],
   },
   selectedEditorIndex: 0,

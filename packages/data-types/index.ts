@@ -7,10 +7,6 @@ export interface WorkspaceConfiguration {
     shellExecutable?: string;
     urlTemplate?: string;
   }[];
-  idePaths: {
-    name: string;
-    path: string;
-  }[];
   templates: {
     name: string;
     icon: string;

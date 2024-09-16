@@ -105,7 +105,6 @@ export async function getWorkspaceConfiguration(workspacePath: string): Promise<
         projectDirectoriesPrefix: null,
       },
       editors: [],
-      idePaths: [],
       templates: [],
     };
   }
