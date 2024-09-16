@@ -45,12 +45,10 @@ const ProjectsList: React.FC = () => {
     }
   };
 
-  const renderItemRightPart = () => {
-    return <span className="text-blue-400 text-xs">→</span>;
-
-    // if (!selectedEditor) return null;
-    // return <span className="text-blue-400 text-xs">Open in {selectedEditor?.name}</span>;
-  };
+  // const renderItemRightPart = () => {
+  //   if (!selectedEditor) return null;
+  //   return <span className="text-blue-400 text-xs">Open in {selectedEditor?.name}</span>;
+  // };
 
   const renderTabContent = () => {
     if (!workspaceInfo) return null;
