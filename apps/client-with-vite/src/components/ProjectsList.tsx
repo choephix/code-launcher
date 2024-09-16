@@ -1,6 +1,6 @@
 'use client';
 
-import { FolderIcon, PlusIcon } from 'lucide-react';
+import { CodeIcon, FolderIcon, GitPullRequestIcon, PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
@@ -21,13 +21,21 @@ const ProjectsList: React.FC = () => {
   };
 
   const renderProjectDirectoriesPrefix = () => {
-    switch (configuration.ui.projectDirectoriesPrefix) {
-      case 'folderIcon':
-        return <FolderIcon size={12} className="mr-2 text-gray-500" />;
-      case 'backslash':
-        return <span className="text-gray-500">/</span>;
-      default:
-        return null;
+    switch (activeTab) {
+      case 'directories':
+        switch (configuration.ui.projectDirectoriesPrefix) {
+          case 'folderIcon':
+            return <FolderIcon size={12} className="mr-2 text-gray-500" />;
+          case 'backslash':
+            return <span className="text-gray-500">/</span>;
+          default:
+            return null;
+        }
+        break;
+      case 'gitRepos':
+        return <GitPullRequestIcon size={12} className="mr-2 text-gray-500" />;
+      case 'codeWorkspaces':
+        return <CodeIcon size={12} className="mr-2 text-gray-500" />;
     }
   };
 
