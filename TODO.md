@@ -18,3 +18,21 @@
 - [x] Configurability through .code-launcher.yaml - Default IDE command (code)
 
 - [x] IDE command uses relative paths instead of absolute, which breaks click actions
+
+- [ ] Open VSCode/Cursor client-side.
+  - [ ] <a href="vscode://file/a%3A/Revoltage">Open in VS Code Windows</a>
+  - [ ] <a href="vscode://vscode-remote/wsl+Ubuntu/home/cx/workspace/nilo-4">Open in VS Code WSL</a>
+  - [ ] <a href="cursor://vscode-remote/wsl+Ubuntu/home/cx/workspace/nilo-4">Open in Cursor</a>
+  - [ ] <a href="vscode://file//Users/username/My%20Project/">Open My Project in VS Code Mac</a>
+  - [ ] <a href="vscode://file//home/username/project/myworkspace.code-workspace">Open Workspace</a>
+  - [ ] <a href="vscode://file/c%3A/Users/username/project/myworkspace.code-workspace">Open Workspace Win</a>
+  - [ ] <a href="vscode://file//home/username/project/main.py:10:5">Open main.py at Line 10, Column 5</a>
+  - [ ] <a href="vscode://vscode-remote/ssh-remote+myserver/home/username/project/">Open Remote Project in VS Code</a>
+  - [ ] <a href="vscode://vscode-remote/container+mycontainerid/home/project/">Open Container Project in VS Code</a>
+  - [ ] <a href="vscode://github.codespaces/connect?name=mycodespace">Open GitHub Codespace in VS Code</a>
+  - [ ] <a href="vscode://command/workbench.action.showCommands">Open Command Palette</a>
+  - [ ] <a href="vscode://command/extension.sayHello?%5B%22World%22%5D">Say Hello to World</a>
+  - [ ] <a href="vscode://command/workbench.action.debug.start">Start Debugging</a>
+  - [ ] <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
+
+
