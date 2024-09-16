@@ -5,11 +5,13 @@ import React, { useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 import { actions, useStore } from '@/lib/store';
+import { useSelectedEditor } from '@/lib/hooks/useSelectedEditor';
 
 type TabType = 'directories' | 'gitRepos' | 'codeWorkspaces';
 
 const ProjectsList: React.FC = () => {
   const { workspaceInfo, uiState, configuration } = useStore();
+  const { selectedEditor } = useSelectedEditor();
   const openEditorAt = useOpenEditorAt();
 
   const [activeTab, setActiveTab] = useState<TabType>('directories');
@@ -41,6 +43,13 @@ const ProjectsList: React.FC = () => {
       case 'codeWorkspaces':
         return <CodeIcon size={12} className="mr-2 text-gray-500" />;
     }
+  };
+
+  const renderItemRightPart = () => {
+    return <span className="text-blue-400 text-xs">→</span>;
+
+    // if (!selectedEditor) return null;
+    // return <span className="text-blue-400 text-xs">Open in {selectedEditor?.name}</span>;
   };
 
   const renderTabContent = () => {
@@ -75,6 +84,7 @@ const ProjectsList: React.FC = () => {
                   {item.relativePath}
                 </span>
                 <span className="text-blue-400 text-xs">→</span>
+                {/* <span className="text-gray-600 text-xs">•</span> */}
               </button>
             </li>
           ))
