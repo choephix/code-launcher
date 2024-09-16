@@ -1,6 +1,6 @@
 'use client';
 
-import { CodeIcon, FolderIcon, GitPullRequestIcon, PlusIcon } from 'lucide-react';
+import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
@@ -20,7 +20,7 @@ const ProjectsList: React.FC = () => {
     openEditorAt(project);
   };
 
-  const renderProjectDirectoriesPrefix = () => {
+  const renderItemPrefix = (item: any) => {
     switch (activeTab) {
       case 'directories':
         switch (configuration.ui.projectDirectoriesPrefix) {
@@ -31,9 +31,13 @@ const ProjectsList: React.FC = () => {
           default:
             return null;
         }
-        break;
       case 'gitRepos':
-        return <GitPullRequestIcon size={12} className="mr-2 text-gray-500" />;
+        switch (item.originDomain) {
+          case 'github.com':
+            return <GithubIcon size={12} className="mr-2 text-gray-500" />;
+          default:
+            return <GitPullRequestIcon size={12} className="mr-2 text-gray-500" />;
+        }
       case 'codeWorkspaces':
         return <CodeIcon size={12} className="mr-2 text-gray-500" />;
     }
@@ -67,7 +71,7 @@ const ProjectsList: React.FC = () => {
                 onClick={() => onProjectClick(item.relativePath)}
               >
                 <span className="flex items-center">
-                  {renderProjectDirectoriesPrefix()}
+                  {renderItemPrefix(item)}
                   {item.relativePath}
                 </span>
                 <span className="text-blue-400 text-xs">→</span>
