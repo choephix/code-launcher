@@ -1,7 +1,7 @@
 'use client';
 
-import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon } from 'lucide-react';
-import React, { useState } from 'react';
+import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon, ChevronDownIcon } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 import { actions, useStore } from '@/lib/store';
@@ -14,6 +14,21 @@ const ProjectsList: React.FC = () => {
   const openEditorAt = useOpenEditorAt();
 
   const [activeTab, setActiveTab] = useState<TabType>('directories');
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   if (!configuration) return null;
 
@@ -89,30 +104,46 @@ const ProjectsList: React.FC = () => {
     );
   };
 
-  const tabLabels = {
+  const tabLabels: Record<TabType, string> = {
     directories: 'directories',
-    gitRepos: '.git repos',
+    gitRepos: 'repositories',
     codeWorkspaces: '.code-workspaces',
+  };
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const selectOption = (option: TabType) => {
+    setActiveTab(option);
+    setIsOpen(false);
   };
 
   return (
     <div className="w-full">
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
-        <div className="text-sm text-gray-400 flex space-x-2">
-          Existing project &nbsp;
-          {Object.entries(tabLabels).map(([tab, label], index) => (
-            <React.Fragment key={tab}>
-              {index > 0 && <span className="text-gray-500">/</span>}
-              <button
-                className={`transition-colors duration-200 ${
-                  activeTab === tab ? 'text-white underline underline-offset-2' : 'text-gray-600 hover:text-gray-300'
-                }`}
-                onClick={() => setActiveTab(tab as TabType)}
-              >
-                {label}
-              </button>
-            </React.Fragment>
-          ))}
+        <div className="text-sm text-gray-400 flex items-center">
+          Existing project&nbsp;
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={toggleDropdown}
+              className="appearance-none bg-transparent text-gray-300 pr-4 focus:outline-none cursor-pointer"
+            >
+              {tabLabels[activeTab]}
+              <ChevronDownIcon className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 pointer-events-none" />
+            </button>
+            {isOpen && (
+              <div className="absolute left-0 mt-1 min-w-[120px] max-w-[200px] bg-gray-800 border border-gray-700 rounded shadow-lg z-10">
+                {Object.entries(tabLabels).map(([tab, label]) => (
+                  <button
+                    key={tab}
+                    onClick={() => selectOption(tab as TabType)}
+                    className="block w-full text-left px-2 py-1 text-gray-300 hover:bg-gray-700 focus:outline-none whitespace-nowrap overflow-hidden text-ellipsis"
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <button
           onClick={actions.toggleShowTemplates}
