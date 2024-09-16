@@ -16,10 +16,6 @@ export default function Home() {
   useEffect(() => {
     actions.refreshProjects().then(() => {
       store.uiState.showTemplates = store.projects !== null && store.projects.length < hideTemplatesAtProjectCount;
-
-      if (store.configuration.editors.length > 0) {
-        store.selectedEditorIndex = 0;
-      }
     });
   }, []);
 
