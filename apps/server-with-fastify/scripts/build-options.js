@@ -9,8 +9,8 @@ const buildOptions = {
     js: '#!/usr/bin/env node',
   },
   define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-    'process.env.CODELAUNCHER_WORKSPACE_PATH': JSON.stringify(process.env.CODELAUNCHER_WORKSPACE_PATH || '/workspaces'),
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
+    'process.env.CODELAUNCHER_WORKSPACE_PATH': JSON.stringify(process.env.CODELAUNCHER_WORKSPACE_PATH || '/..'),
   },
   logLevel: 'info',
   external: ['node:*'],
