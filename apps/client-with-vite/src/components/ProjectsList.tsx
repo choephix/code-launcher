@@ -3,15 +3,15 @@
 import { FolderIcon, PlusIcon } from 'lucide-react';
 import React, { useState } from 'react';
 
-import { actions, useStore } from '@/lib/store';
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
+import { actions, useStore } from '@/lib/store';
 
 type TabType = 'directories' | 'gitRepos' | 'codeWorkspaces';
 
 const ProjectsList: React.FC = () => {
   const { workspaceInfo, uiState, configuration } = useStore();
   const openEditorAt = useOpenEditorAt();
-  
+
   const [activeTab, setActiveTab] = useState<TabType>('directories');
 
   if (!configuration) return null;
