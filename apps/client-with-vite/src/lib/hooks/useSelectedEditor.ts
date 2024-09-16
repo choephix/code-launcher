@@ -1,5 +1,16 @@
 import { useStore, store } from '../store';
 
+const SELECTED_EDITOR_KEY = 'selectedEditorIndex';
+
+export function getSelectedEditorIndexFromLocalStorage(): number {
+  const storedIndex = localStorage.getItem(SELECTED_EDITOR_KEY);
+  return storedIndex ? parseInt(storedIndex, 10) : 0;
+}
+
+function setSelectedEditorIndexToLocalStorage(index: number): void {
+  localStorage.setItem(SELECTED_EDITOR_KEY, index.toString());
+}
+
 export function useSelectedEditor() {
   const { configuration, selectedEditorIndex } = useStore();
 
@@ -7,20 +18,24 @@ export function useSelectedEditor() {
     return {
       editors: [],
       selectedEditor: null,
-      setSelectedEditorIndex() {
-        console.error('No configuration found');
-      },
+      setSelectedEditorIndex: () => console.error('No configuration found'),
     };
   }
 
   const editors = configuration.editors ?? [];
   const selectedEditor = editors[selectedEditorIndex];
 
+  const setSelectedEditorIndex = (index: number) => {
+    store.selectedEditorIndex = index;
+    setSelectedEditorIndexToLocalStorage(index);
+  };
+
   return {
     editors,
     selectedEditor,
-    setSelectedEditorIndex: (index: number) => {
-      store.selectedEditorIndex = index;
-    },
+    setSelectedEditorIndex,
   };
 }
+
+// Initialize the store with the saved index
+store.selectedEditorIndex = getSelectedEditorIndexFromLocalStorage();
