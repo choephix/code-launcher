@@ -32,25 +32,26 @@ const TopBar: React.FC = () => {
 
   return (
     // <div className="w-full bg-gray-800 text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center">
-    <div className="w-full text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center absolute">
+    <div className="w-full text-gray-600 hover:text-gray-400 text-[10px] py-1 px-4 flex justify-between items-center absolute transition-all duration-200">
+      {' '}
       <div>{pathToWorkspaces}</div>
       <div className="flex items-center">
         <span className="mr-1">default ide:</span>
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={toggleDropdown}
-            className="appearance-none bg-transparent text-gray-300 underline pr-4 focus:outline-none cursor-pointer"
+            className="appearance-none bg-transparent text-gray-300 pr-4 focus:outline-none cursor-pointer"
           >
             {selectedEditor?.name}
             <ChevronDownIcon className="absolute right-0 top-1/2 transform -translate-y-1/2 w-3 h-3 pointer-events-none" />
           </button>
           {isOpen && (
-            <div className="absolute right-0 mt-1 w-20 bg-gray-800 border border-gray-700 rounded shadow-lg z-10">
+            <div className="absolute right-0 mt-1 min-w-[120px] max-w-[200px] bg-gray-800 border border-gray-700 rounded shadow-lg z-10">
               {editors.map((editor, index) => (
                 <button
                   key={index}
                   onClick={() => selectOption(index)}
-                  className="block w-full text-left px-2 py-1 text-gray-300 hover:bg-gray-700 focus:outline-none"
+                  className="block w-full text-left px-2 py-1 text-gray-300 hover:bg-gray-700 focus:outline-none whitespace-nowrap overflow-hidden text-ellipsis"
                 >
                   {editor.name}
                 </button>
