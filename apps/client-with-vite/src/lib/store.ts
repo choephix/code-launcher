@@ -20,7 +20,7 @@ interface State {
     memUsage: number | null;
   };
   configuration: WorkspaceConfiguration;
-  idePath: string;
+  selectedEditorIndex: number;
 }
 
 export const store = proxy<State>({
@@ -40,10 +40,11 @@ export const store = proxy<State>({
     ui: {
       projectDirectoriesPrefix: null,
     },
+    editors: [],
     idePaths: [],
     templates: [],
   },
-  idePath: 'code',
+  selectedEditorIndex: 0,
 });
 
 export const actions = {
@@ -69,9 +70,6 @@ export const actions = {
     if (feature !== store.activeSmartBarFeature) {
       store.activeSmartBarFeature = feature;
     }
-  },
-  setIdePath: (idePath: string) => {
-    store.idePath = idePath;
   },
 };
 

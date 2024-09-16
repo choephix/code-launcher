@@ -9,12 +9,32 @@ import { actions, useStore } from '@/lib/store';
 type TabType = 'directories' | 'gitRepos' | 'codeWorkspaces';
 
 const ProjectsList: React.FC = () => {
-  const { workspaceInfo, uiState, pathToWorkspaces, idePath, configuration } = useStore();
+  const { workspaceInfo, uiState, pathToWorkspaces, selectedEditorIndex, configuration } = useStore();
   const [activeTab, setActiveTab] = useState<TabType>('directories');
 
+  if (!configuration) return null;
+
   const onProjectClick = async (project: string) => {
-    const command = `${idePath} "${pathToWorkspaces}/${project}"`;
-    await apiService.runCommand(command);
+    const editorCfg = configuration.editors[selectedEditorIndex];
+    if (!editorCfg) {
+      console.warn({ editors: configuration.editors, selectedEditorIndex });
+      throw new Error('No editor configuration found');
+    }
+
+    if (editorCfg.urlTemplate) {
+      const url = editorCfg.urlTemplate.replace('{path}', pathToWorkspaces + '/' + project);
+      window.open(url, '_blank');
+      return;
+    }
+
+    if (editorCfg.shellExecutable) {
+      const command = `"${editorCfg.shellExecutable}" "${pathToWorkspaces}/${project}"`;
+      await apiService.runCommand(command);
+      return;
+    }
+
+    console.warn({ editorCfg });
+    throw new Error('Editor configuration has neither urlTemplate nor shellExecutable');
   };
 
   const renderProjectDirectoriesPrefix = () => {
@@ -82,16 +102,13 @@ const ProjectsList: React.FC = () => {
     <div className="w-full">
       <div className="flex justify-between items-center py-2 px-2 border-b border-gray-700">
         <div className="text-sm text-gray-400 flex space-x-2">
-          Existing project
-          &nbsp;
+          Existing project &nbsp;
           {Object.entries(tabLabels).map(([tab, label], index) => (
             <React.Fragment key={tab}>
               {index > 0 && <span className="text-gray-500">/</span>}
               <button
                 className={`transition-colors duration-200 ${
-                  activeTab === tab
-                    ? 'text-white underline underline-offset-2'
-                    : 'text-gray-600 hover:text-gray-300'
+                  activeTab === tab ? 'text-white underline underline-offset-2' : 'text-gray-600 hover:text-gray-300'
                 }`}
                 onClick={() => setActiveTab(tab as TabType)}
               >

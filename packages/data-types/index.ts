@@ -2,6 +2,11 @@ export interface WorkspaceConfiguration {
   ui: {
     projectDirectoriesPrefix: 'folderIcon' | 'backslash' | null;
   };
+  editors: {
+    name: string;
+    shellExecutable?: string;
+    urlTemplate?: string;
+  }[];
   idePaths: {
     name: string;
     path: string;

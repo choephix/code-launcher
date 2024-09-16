@@ -2,6 +2,20 @@ export const defaultConfigYaml = `
 ui:
   projectDirectoriesPrefix: "folderIcon"
 
+editors:
+  - name: VS Code
+    urlTemplate: vscode://file/{path}
+  - name: VS Code + WSL
+    urlTemplate: vscode://vscode-remote/wsl+Ubuntu/{path}
+  - name: Cursor
+    urlTemplate: cursor://file/{path}
+  - name: Cursor + WSL
+    urlTemplate: cursor://vscode-remote/wsl+Ubuntu/{path}
+  - name: VS Code (via shell)
+    shellExecutable: code
+  - name: Cursor (via shell)
+    shellExecutable: cursor
+
 idePaths:
   - name: VS Code
     path: code
