@@ -37,4 +37,4 @@
   - <a href="vscode://command/workbench.action.debug.start">Start Debugging</a>
   - <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
 
-- [x] Persist selected projects list tab in localstorage
+- [x] Persist selected projects list tab via localstorage
