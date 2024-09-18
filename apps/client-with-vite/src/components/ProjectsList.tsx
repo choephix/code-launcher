@@ -23,7 +23,7 @@ import { ProjectsListTabType, useSelectedProjectsListTab } from '@/lib/hooks/use
 const ProjectsList: React.FC = () => {
   const { workspaceInfo, uiState, configuration } = useStore();
   const openEditorAt = useOpenEditorAt();
-  
+
   const [activeTab, setActiveTab] = useSelectedProjectsListTab();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -134,6 +134,17 @@ const ProjectsList: React.FC = () => {
             </span>
           )}
         </span>
+      );
+    }
+
+    if (activeTab === 'directories' && item.lastModified) {
+      return (
+        <>
+          <span className="text-slate-700 text-xs" title={new Date(item.lastModified).toLocaleString()}>
+            {formatDistanceToNow(new Date(item.lastModified), { addSuffix: true })}
+          </span>
+          <span className="text-blue-400 text-xs ml-2">→</span>
+        </>
       );
     }
 

@@ -8,15 +8,49 @@ import { defaultConfigYaml } from '../data/defaultConfigYaml';
 export async function getProjectDirectoriesList(workspacePath: string) {
   try {
     const directoryNames = await fs.readdir(workspacePath, { withFileTypes: true });
+    const projectDirs = [];
 
-    return directoryNames
-      .filter(entry => entry.isDirectory())
-      .filter(entry => !entry.name.startsWith('.'))
-      .map(entry => entry.name);
+    for (const entry of directoryNames) {
+      if (entry.isDirectory() && !entry.name.startsWith('.') && !shouldIgnoreDirectory(entry.name)) {
+        const dirPath = path.join(workspacePath, entry.name);
+        const lastModified = await getLastModifiedTime(dirPath);
+        projectDirs.push({
+          dirName: entry.name,
+          relativePath: entry.name,
+          absolutePath: path.resolve(workspacePath, entry.name),
+          lastModified,
+        });
+      }
+    }
+
+    console.log(`📂 Found ${projectDirs.length} project directories`);
+    return projectDirs;
   } catch (error) {
-    console.error(`Error reading directory: ${error}`);
+    console.error(`🚨 Error reading directory: ${error}`);
     return [];
   }
+}
+
+async function getLastModifiedTime(dirPath: string): Promise<number> {
+  // return 0;
+
+  let latestMtime = 0;
+
+  async function traverse(dir: string) {
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(dir, entry.name);
+      if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
+        await traverse(fullPath);
+      } else if (entry.isFile()) {
+        const stats = await fs.stat(fullPath);
+        latestMtime = Math.max(latestMtime, stats.mtimeMs);
+      }
+    }
+  }
+
+  await traverse(dirPath);
+  return latestMtime;
 }
 
 //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// //// ////
@@ -154,7 +188,10 @@ async function getGitStatus(
     };
   } catch (error) {
     console.error('🚨 Error getting git status:', error);
-    return null;
+    return {
+      // @ts-ignore
+      error: String(error),
+    };
   }
 }
 
@@ -174,7 +211,12 @@ export async function getGitRepoDirectories(workspacePath: string) {
       const absolutePath = path.resolve(workspacePath, dir);
       const originDomain = await getGitRemoteDomain(absolutePath);
       const status = await getGitStatus(absolutePath);
-      gitRepos.push({ relativePath, absolutePath, originDomain, status });
+      gitRepos.push({
+        relativePath,
+        absolutePath,
+        originDomain,
+        status,
+      });
       console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
       return; // Don't traverse further if it's a git repo
     }
