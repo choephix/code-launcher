@@ -98,29 +98,59 @@ async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
   }
 }
 
-async function getGitStatus(repoPath: string): Promise<{ ahead: number; behind: number } | null> {
+async function getGitStatus(
+  repoPath: string,
+  autoFetchAll: boolean = false
+): Promise<{
+  ahead: number;
+  behind: number;
+  branch: string;
+  lastCommitHash: string;
+  lastCommitDate: string;
+  lastCommitMessage: string;
+  unstagedChanges: number;
+  stagedChanges: number;
+  stashes: number;
+} | null> {
   try {
     const { execFile } = await import('child_process');
     const util = await import('util');
     const execFilePromise = util.promisify(execFile);
 
-    // Perform a git fetch first
-    // console.log('🔄 Fetching latest changes...');
-    // await execFilePromise('git', ['fetch'], { cwd: repoPath });
+    if (autoFetchAll) {
+      console.log('🔄 Fetching latest changes...');
+      await execFilePromise('git', ['fetch'], { cwd: repoPath });
+    }
 
-    // Get the current branch name
-    const { stdout: branchName } = await execFilePromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: repoPath });
-    const currentBranch = branchName.trim();
+    const [statusOutput, branchOutput, lastCommitOutput, stashOutput] = await Promise.all([
+      execFilePromise('git', ['status', '-sb'], { cwd: repoPath }),
+      execFilePromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: repoPath }),
+      execFilePromise('git', ['log', '-1', '--pretty=format:%h|%ad|%s'], { cwd: repoPath }),
+      execFilePromise('git', ['stash', 'list'], { cwd: repoPath }),
+    ]);
 
-    // Count commits ahead
-    const { stdout: aheadCount } = await execFilePromise('git', ['rev-list', `origin/${currentBranch}..${currentBranch}`, '--count'], { cwd: repoPath });
+    const currentBranch = branchOutput.stdout.trim();
 
-    // Count commits behind
-    const { stdout: behindCount } = await execFilePromise('git', ['rev-list', `${currentBranch}..origin/${currentBranch}`, '--count'], { cwd: repoPath });
+    const [aheadOutput, behindOutput] = await Promise.all([
+      execFilePromise('git', ['rev-list', `origin/${currentBranch}..${currentBranch}`, '--count'], { cwd: repoPath }),
+      execFilePromise('git', ['rev-list', `${currentBranch}..origin/${currentBranch}`, '--count'], { cwd: repoPath }),
+    ]);
+
+    const unstagedMatch = statusOutput.stdout.match(/\n\s*M\s/g);
+    const stagedMatch = statusOutput.stdout.match(/\n\w/g);
+
+    const [lastCommitHash, lastCommitDate, lastCommitMessage] = lastCommitOutput.stdout.split('|');
 
     return {
-      ahead: parseInt(aheadCount.trim(), 10),
-      behind: parseInt(behindCount.trim(), 10),
+      ahead: parseInt(aheadOutput.stdout.trim(), 10),
+      behind: parseInt(behindOutput.stdout.trim(), 10),
+      branch: currentBranch,
+      lastCommitHash,
+      lastCommitDate,
+      lastCommitMessage,
+      unstagedChanges: unstagedMatch ? unstagedMatch.length : 0,
+      stagedChanges: stagedMatch ? stagedMatch.length : 0,
+      stashes: stashOutput.stdout.split('\n').filter(Boolean).length,
     };
   } catch (error) {
     console.error('🚨 Error getting git status:', error);

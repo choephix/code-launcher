@@ -1,7 +1,21 @@
 'use client';
 
-import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon, ChevronDownIcon, ArrowUpIcon, ArrowDownIcon } from 'lucide-react';
-import React, { useState, useRef, useEffect } from 'react';
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  BoxSelectIcon,
+  ChevronDownIcon,
+  ClockIcon,
+  CodeIcon,
+  FilesIcon,
+  FolderIcon,
+  GitBranchIcon,
+  GithubIcon,
+  GitPullRequestIcon,
+  PackageIcon,
+  PlusIcon,
+} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 import { actions, useStore } from '@/lib/store';
@@ -60,25 +74,72 @@ const ProjectsList: React.FC = () => {
   };
 
   const renderItemSuffix = (item: any) => {
-    if (activeTab === 'gitRepos' && item.status) {
+    if (activeTab === 'gitRepos') {
+      if (!item.status) {
+        return null;
+      }
+
       return (
-        <span className="flex items-center text-xs">
+        <span className="flex items-center text-xs space-x-2 ml-2 text-slate-600" title={item.status.lastCommitMessage}>
+          <span className="flex items-center">
+            <GitBranchIcon size={12} className="mr-1" />
+            {item.status.branch}
+          </span>
+          {/* <span className="flex items-center overflow-hidden" title={item.status.lastCommitMessage}>
+            <span className="truncate max-w-[150px]">{item.status.lastCommitMessage}</span>
+          </span> */}
+        </span>
+      );
+    }
+    return null;
+  };
+
+  const renderRightPart = (item: any) => {
+    if (activeTab === 'gitRepos') {
+      if (!item.status) {
+        return null;
+      }
+
+      return (
+        <span className="flex items-center text-xs space-x-2">
+          {/* <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
+            {new Date(item.status.lastCommitDate).toLocaleDateString()}
+          </span> */}
+          {/* {item.status.stashes > 0 && (
+            <span className="flex items-center text-slate-500" title="Stashes">
+              <BoxSelectIcon size={12} className="mr-1" />
+              {item.status.stashes}
+            </span>
+          )} */}
+          {item.status.behind > 0 && (
+            <span className="flex items-center text-slate-400" title="Commits behind remote">
+              <ArrowDownIcon size={12} className="mr-1" />
+              {item.status.behind}
+            </span>
+          )}
           {item.status.ahead > 0 && (
-            <span className="flex items-center text-green-400 mr-2" title="Commits ahead of remote">
+            <span className="flex items-center text-green-400" title="Commits ahead of remote">
               <ArrowUpIcon size={12} className="mr-1" />
               {item.status.ahead}
             </span>
           )}
-          {item.status.behind > 0 && (
-            <span className="flex items-center text-red-400" title="Commits behind remote">
-              <ArrowDownIcon size={12} className="mr-1" />
-              {item.status.behind}
+          {item.status.unstagedChanges > 0 && (
+            <span className="flex items-center text-yellow-400" title="Unstaged changes">
+              <FilesIcon size={12} className="mr-1" />
+              {item.status.unstagedChanges}
+            </span>
+          )}
+          {item.status.stagedChanges > 0 && (
+            <span className="flex items-center text-red-400" title="Staged changes">
+              <PackageIcon size={12} className="mr-1" />
+              {item.status.stagedChanges}
             </span>
           )}
         </span>
       );
     }
-    return null;
+
+    return <span className="text-blue-400 text-xs ml-2">→</span>;
   };
 
   const renderTabContent = () => {
@@ -111,11 +172,9 @@ const ProjectsList: React.FC = () => {
                 <span className="flex items-center">
                   {renderItemPrefix(item)}
                   {item.relativePath}
-                </span>
-                <span className="flex items-center">
                   {renderItemSuffix(item)}
-                  <span className="text-blue-400 text-xs ml-2">→</span>
                 </span>
+                <span className="flex items-center">{renderRightPart(item)}</span>
               </button>
             </li>
           ))
