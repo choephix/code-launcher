@@ -38,3 +38,7 @@
   - <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
 
 - [x] Persist selected projects list tab via localstorage
+
+- [ ] Disable project list item while opening (incl muted visual)
+  - [ ] Stream command output to row component instead of globally? (if shell type)
+    - [ ] And differentiate between editors, so 1 output per editor, with disablement if current editor output ongoing
