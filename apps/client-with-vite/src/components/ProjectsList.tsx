@@ -13,12 +13,19 @@ import {
   GitPullRequestIcon,
   PackageIcon,
   PlusIcon,
+  BoxSelectIcon,
 } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 import { actions, useStore } from '@/lib/store';
 import { ProjectsListTabType, useSelectedProjectsListTab } from '@/lib/hooks/useSelectedProjectsTab';
+
+const showDirectoryLastModified = false;
+const showRepoStashes = false;
+const showRepoCommitMessage = false;
+const showRepoDatetime = false;
+const showRepoBranch = true;
 
 const ProjectsList: React.FC = () => {
   const { workspaceInfo, uiState, configuration } = useStore();
@@ -79,13 +86,17 @@ const ProjectsList: React.FC = () => {
 
       return (
         <span className="flex items-center text-xs space-x-2 ml-2 text-slate-600" title={item.status.lastCommitMessage}>
-          <span className="flex items-center">
-            <GitBranchIcon size={12} className="mr-1" />
-            {item.status.branch}
-          </span>
-          {/* <span className="flex items-center overflow-hidden" title={item.status.lastCommitMessage}>
-            <span className="truncate max-w-[150px]">{item.status.lastCommitMessage}</span>
-          </span> */}
+          {showRepoBranch && (
+            <span className="flex items-center">
+              <GitBranchIcon size={12} className="mr-1" />
+              {item.status.branch}
+            </span>
+          )}
+          {showRepoCommitMessage && (
+            <span className="flex items-center overflow-hidden" title={item.status.lastCommitMessage}>
+              <span className="truncate max-w-[150px]">{item.status.lastCommitMessage}</span>
+            </span>
+          )}
         </span>
       );
     }
@@ -100,15 +111,17 @@ const ProjectsList: React.FC = () => {
 
       return (
         <span className="flex items-center text-xs space-x-2">
-          <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
-            {formatDistanceToNow(new Date(item.status.lastCommitDate), { addSuffix: true })}
-          </span>
-          {/* {item.status.stashes > 0 && (
+          {showRepoDatetime && (
+            <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
+              {formatDistanceToNow(new Date(item.status.lastCommitDate), { addSuffix: true })}
+            </span>
+          )}
+          {showRepoStashes && item.status.stashes > 0 && (
             <span className="flex items-center text-slate-500" title="Stashes">
               <BoxSelectIcon size={12} className="mr-1" />
               {item.status.stashes}
             </span>
-          )} */}
+          )}
           {item.status.behind > 0 && (
             <span className="flex items-center text-slate-400" title="Commits behind remote">
               <ArrowDownIcon size={12} className="mr-1" />
@@ -140,9 +153,11 @@ const ProjectsList: React.FC = () => {
     if (activeTab === 'directories' && item.lastModified) {
       return (
         <>
-          <span className="text-slate-700 text-xs" title={new Date(item.lastModified).toLocaleString()}>
-            {formatDistanceToNow(new Date(item.lastModified), { addSuffix: true })}
-          </span>
+          {showDirectoryLastModified && (
+            <span className="text-slate-700 text-xs" title={new Date(item.lastModified).toLocaleString()}>
+              {formatDistanceToNow(new Date(item.lastModified), { addSuffix: true })}
+            </span>
+          )}
           <span className="text-blue-400 text-xs ml-2">→</span>
         </>
       );

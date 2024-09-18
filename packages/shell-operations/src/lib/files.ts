@@ -135,17 +135,7 @@ async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
 async function getGitStatus(
   repoPath: string,
   autoFetchAll: boolean = false
-): Promise<{
-  ahead: number;
-  behind: number;
-  branch: string;
-  lastCommitHash: string;
-  lastCommitDate: string;
-  lastCommitMessage: string;
-  unstagedChanges: number;
-  stagedChanges: number;
-  stashes: number;
-} | null> {
+) {
   try {
     const { execFile } = await import('child_process');
     const util = await import('util');
@@ -188,10 +178,7 @@ async function getGitStatus(
     };
   } catch (error) {
     console.error('🚨 Error getting git status:', error);
-    return {
-      // @ts-ignore
-      error: String(error),
-    };
+    return null;
   }
 }
 
@@ -200,7 +187,7 @@ export async function getGitRepoDirectories(workspacePath: string) {
     relativePath: string;
     absolutePath: string;
     originDomain: string | null;
-    status: { ahead: number; behind: number } | null;
+    status: Awaited<ReturnType<typeof getGitStatus>>;
   }[] = [];
 
   async function traverse(dir: string) {
