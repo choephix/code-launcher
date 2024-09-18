@@ -7,7 +7,9 @@ import { defaultConfigYaml } from '../data/defaultConfigYaml';
 
 export async function getProjectDirectoriesList(workspacePath: string) {
   try {
-    const directoryNames = await fs.readdir(workspacePath, { withFileTypes: true });
+    const directoryNames = await fs.readdir(workspacePath, {
+      withFileTypes: true,
+    });
     const projectDirs = [];
 
     for (const entry of directoryNames) {
@@ -144,10 +146,7 @@ async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
   }
 }
 
-async function getGitStatus(
-  repoPath: string,
-  autoFetchAll: boolean = false
-) {
+async function getGitStatus(repoPath: string, autoFetchAll: boolean = false) {
   try {
     const { execFile } = await import('child_process');
     const util = await import('util');
@@ -160,8 +159,14 @@ async function getGitStatus(
 
     const [statusOutput, branchOutput, lastCommitOutput, stashOutput] = await Promise.all([
       execFilePromise('git', ['status', '-sb'], { cwd: repoPath }),
-      execFilePromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: repoPath }),
-      execFilePromise('git', ['log', '-1', '--pretty=format:%h|%ad|%s'], { cwd: repoPath }).catch(() => ({ stdout: '||' })),
+      execFilePromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'], {
+        cwd: repoPath,
+      }),
+      execFilePromise('git', ['log', '-1', '--pretty=format:%h|%ad|%s'], {
+        cwd: repoPath,
+      }).catch(() => ({
+        stdout: '||',
+      })),
       execFilePromise('git', ['stash', 'list'], { cwd: repoPath }),
     ]);
 

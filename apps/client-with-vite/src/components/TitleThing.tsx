@@ -1,4 +1,4 @@
-import { useStore } from "@/lib/store";
+import { useStore } from '@/lib/store';
 
 //// Feature Flags
 const useDynamicTitle = false;

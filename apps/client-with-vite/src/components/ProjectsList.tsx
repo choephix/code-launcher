@@ -114,7 +114,9 @@ const ProjectsList: React.FC = () => {
         <span className="flex items-center text-xs space-x-2">
           {showRepoDatetime && (
             <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
-              {formatDistanceToNow(new Date(item.status.lastCommitDate), { addSuffix: true })}
+              {formatDistanceToNow(new Date(item.status.lastCommitDate), {
+                addSuffix: true,
+              })}
             </span>
           )}
           {showRepoStashes && item.status.stashes > 0 && (
@@ -156,12 +158,12 @@ const ProjectsList: React.FC = () => {
         <>
           {showDirectoryLastModified && (
             <span className="text-slate-700 text-xs" title={new Date(item.lastModified).toLocaleString()}>
-              {formatDistanceToNow(new Date(item.lastModified), { addSuffix: true })}
+              {formatDistanceToNow(new Date(item.lastModified), {
+                addSuffix: true,
+              })}
             </span>
           )}
-          {showDirectoryGitRepoIcon && item.isGitRepo && (
-            <GitBranchIcon size={14} className="text-slate-500 mr-2"/>
-          )}
+          {showDirectoryGitRepoIcon && item.isGitRepo && <GitBranchIcon size={14} className="text-slate-500 mr-2" />}
           <span className="text-blue-400 text-xs ml-2">→</span>
         </>
       );
