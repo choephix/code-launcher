@@ -18,15 +18,14 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 import { actions, useStore } from '@/lib/store';
-// import { useSelectedEditor } from '@/lib/hooks/useSelectedEditor';
-
-type TabType = 'directories' | 'gitRepos' | 'codeWorkspaces';
+import { ProjectsListTabType, useSelectedProjectsListTab } from '@/lib/hooks/useSelectedProjectsTab';
 
 const ProjectsList: React.FC = () => {
   const { workspaceInfo, uiState, configuration } = useStore();
   const openEditorAt = useOpenEditorAt();
+  
+  const [activeTab, setActiveTab] = useSelectedProjectsListTab();
 
-  const [activeTab, setActiveTab] = useState<TabType>('directories');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -148,7 +147,7 @@ const ProjectsList: React.FC = () => {
       directories: workspaceInfo.rootDirectories,
       gitRepos: workspaceInfo.gitRepositories,
       codeWorkspaces: workspaceInfo.vscodeWorkspaceFiles,
-    };
+    } satisfies Record<ProjectsListTabType, readonly any[]>;
 
     const items = itemsMap[activeTab];
 
@@ -186,15 +185,15 @@ const ProjectsList: React.FC = () => {
     );
   };
 
-  const tabLabels: Record<TabType, string> = {
+  const tabLabels: Record<ProjectsListTabType, string> = {
     directories: 'directories',
     gitRepos: 'repositories',
     codeWorkspaces: '.code-workspaces',
-  };
+  } satisfies Record<ProjectsListTabType, string>;
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const selectOption = (option: TabType) => {
+  const selectOption = (option: ProjectsListTabType) => {
     setActiveTab(option);
     setIsOpen(false);
   };
@@ -217,7 +216,7 @@ const ProjectsList: React.FC = () => {
                 {Object.entries(tabLabels).map(([tab, label]) => (
                   <button
                     key={tab}
-                    onClick={() => selectOption(tab as TabType)}
+                    onClick={() => selectOption(tab as ProjectsListTabType)}
                     className="block w-full text-left px-2 py-1 text-gray-300 hover:bg-gray-700 focus:outline-none whitespace-nowrap overflow-hidden text-ellipsis"
                   >
                     {label}
