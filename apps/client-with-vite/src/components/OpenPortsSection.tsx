@@ -38,17 +38,21 @@ function OpenPorts() {
           {loading ? (
             <div className="flex items-center py-1 px-2">
               <span className="text-xs text-gray-600">scanning...</span>
-              {/* <div className="inline-block animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500 mr-2"></div> */}
             </div>
           ) : openPorts.length > 0 ? (
-            openPorts.map(port => (
+            openPorts.map((port, index) => (
               <span
                 key={port.port}
-                className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer"
+                className="px-2 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-pop-in opacity-0"
+                style={{
+                  animationDelay: `${index * 50}ms`,
+                  animationFillMode: 'forwards',
+                }}
                 title={`${port.contentType} (Status: ${port.status})`}
               >
-                <span className="font-bold">{port.port}</span>
                 {port.title && <span className="ml-1">{port.title}</span>}
+                &nbsp;&nbsp;&nbsp;
+                <span className="font-bold">{port.port}</span>
               </span>
             ))
           ) : (
