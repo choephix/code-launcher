@@ -17,8 +17,8 @@ export function TitleThing() {
 function getTitleContentAndStyle() {
   const { activeSmartBarFeature } = useStore();
 
-  const defaultTitleContent = '{code:launcher}';
-  // const defaultTitleContent = 'code:launcher';
+  // const defaultTitleContent = '{code:launcher}';
+  const defaultTitleContent = 'code:launcher';
 
   if (!useDynamicTitle) {
     return {
