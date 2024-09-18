@@ -16,7 +16,8 @@ const hideTemplatesAtProjectCount = 12;
 export default function Home() {
   useEffect(() => {
     actions.refreshProjects().then(() => {
-      store.uiState.showTemplates = store.projects !== null && store.projects.length < hideTemplatesAtProjectCount;
+      const projectDirsCount = store.workspaceInfo?.rootDirectories.length ?? 0;
+      store.uiState.showTemplates = projectDirsCount < hideTemplatesAtProjectCount;
     });
   }, []);
 

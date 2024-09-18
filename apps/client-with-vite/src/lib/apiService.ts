@@ -18,7 +18,6 @@ const createApiService = (baseUrl: string) => {
 
     if (data.commandOutput !== undefined) store.lastCommandOutput = data.commandOutput;
     if (data.stats !== undefined) store.stats = { ...store.stats, ...data.stats };
-    if (data.projects !== undefined) store.projects = data.projects;
     if (data.configuration !== undefined) store.configuration = data.configuration;
     if (data.pathToWorkspaces !== undefined) store.pathToWorkspaces = data.pathToWorkspaces;
     if (data.workspaceInfo !== undefined) store.workspaceInfo = data.workspaceInfo;

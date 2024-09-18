@@ -26,7 +26,6 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
     return {
       pathToWorkspaces,
       configuration,
-      projects: rootDirectories.map(dir => dir.relativePath),
       workspaceInfo: {
         rootDirectories: rootDirectories,
         vscodeWorkspaceFiles: vscodeWorkspaceFiles.map(dir => ({

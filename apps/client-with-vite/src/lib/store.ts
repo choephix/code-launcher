@@ -12,7 +12,6 @@ interface State {
   activeSmartBarFeature: SmartBarFeature | null;
   //// Workspace State
   pathToWorkspaces: string | null;
-  projects: string[] | null;
   workspaceInfo: CodeLauncherServerActionResult['workspaceInfo'] | null;
   lastCommandOutput: string | null;
   stats: {
@@ -28,7 +27,6 @@ export const store = proxy<State>({
   uiState: { showTemplates: false },
   activeSmartBarFeature: null,
   ////
-  projects: null,
   workspaceInfo: null,
   pathToWorkspaces: null,
   lastCommandOutput: null,
