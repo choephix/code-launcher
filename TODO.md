@@ -12,7 +12,7 @@
 - [x] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
   - [x] Folder: last changes in any file datetime?
   - [ ] Icon: just get the first image one you find, [favicon|logo].[ico|png|svg]
-  - [ ] For folders: is git repo
+  - [x] For folders: is git repo
   - [x] For folders and repos: commits ahead/behind (gitinfo?)
 - [x] Add Directories/Workspaces/Git Repos tabs
 
