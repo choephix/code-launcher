@@ -14,11 +14,13 @@ export async function getProjectDirectoriesList(workspacePath: string) {
       if (entry.isDirectory() && !entry.name.startsWith('.') && !shouldIgnoreDirectory(entry.name)) {
         const dirPath = path.join(workspacePath, entry.name);
         const lastModified = await getLastModifiedTime(dirPath);
+        const isGitRepo = await checkIfGitRepo(dirPath);
         projectDirs.push({
           dirName: entry.name,
           relativePath: entry.name,
           absolutePath: path.resolve(workspacePath, entry.name),
           lastModified,
+          isGitRepo,
         });
       }
     }
@@ -28,6 +30,16 @@ export async function getProjectDirectoriesList(workspacePath: string) {
   } catch (error) {
     console.error(`🚨 Error reading directory: ${error}`);
     return [];
+  }
+}
+
+async function checkIfGitRepo(dirPath: string): Promise<boolean> {
+  try {
+    const gitDir = path.join(dirPath, '.git');
+    await fs.access(gitDir);
+    return true;
+  } catch {
+    return false;
   }
 }
 

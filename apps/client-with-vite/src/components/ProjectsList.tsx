@@ -22,6 +22,7 @@ import { actions, useStore } from '@/lib/store';
 import { ProjectsListTabType, useSelectedProjectsListTab } from '@/lib/hooks/useSelectedProjectsTab';
 
 const showDirectoryLastModified = false;
+const showDirectoryGitRepoIcon = false;
 const showRepoStashes = false;
 const showRepoCommitMessage = false;
 const showRepoDatetime = false;
@@ -157,6 +158,9 @@ const ProjectsList: React.FC = () => {
             <span className="text-slate-700 text-xs" title={new Date(item.lastModified).toLocaleString()}>
               {formatDistanceToNow(new Date(item.lastModified), { addSuffix: true })}
             </span>
+          )}
+          {showDirectoryGitRepoIcon && item.isGitRepo && (
+            <GitBranchIcon size={14} className="text-slate-500 mr-2"/>
           )}
           <span className="text-blue-400 text-xs ml-2">→</span>
         </>
