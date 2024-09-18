@@ -17,11 +17,34 @@ export interface WorkspaceConfiguration {
 export interface CodeLauncherServerActionResult {
   pathToWorkspaces: string;
   configuration?: WorkspaceConfiguration;
-  projects?: string[];
   workspaceInfo?: {
-    rootDirectories: any[];
-    vscodeWorkspaceFiles: any[];
-    gitRepositories: any[];
+    rootDirectories: {
+      dirName: string;
+      relativePath: string;
+      absolutePath: string;
+      lastModified: number;
+      isGitRepo: boolean;
+    }[];
+    vscodeWorkspaceFiles: {
+      relativePath: string;
+      absolutePath: string;
+    }[];
+    gitRepositories: {
+      relativePath: string;
+      absolutePath: string;
+      originDomain: string | null;
+      status: {
+        ahead: number;
+        behind: number;
+        branch: string;
+        lastCommitHash: string;
+        lastCommitDate: string;
+        lastCommitMessage: string;
+        unstagedChanges: number;
+        stagedChanges: number;
+        stashes: number;
+      } | null;
+    }[];
   };
   stats?: {
     cpuUsage: number | null;
