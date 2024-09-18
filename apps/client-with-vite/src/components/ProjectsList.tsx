@@ -1,6 +1,6 @@
 'use client';
 
-import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon, ChevronDownIcon } from 'lucide-react';
+import { CodeIcon, FolderIcon, GithubIcon, GitPullRequestIcon, PlusIcon, ChevronDownIcon, ArrowUpIcon, ArrowDownIcon } from 'lucide-react';
 import React, { useState, useRef, useEffect } from 'react';
 
 import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
@@ -59,6 +59,28 @@ const ProjectsList: React.FC = () => {
     }
   };
 
+  const renderItemSuffix = (item: any) => {
+    if (activeTab === 'gitRepos' && item.status) {
+      return (
+        <span className="flex items-center text-xs">
+          {item.status.ahead > 0 && (
+            <span className="flex items-center text-green-400 mr-2" title="Commits ahead of remote">
+              <ArrowUpIcon size={12} className="mr-1" />
+              {item.status.ahead}
+            </span>
+          )}
+          {item.status.behind > 0 && (
+            <span className="flex items-center text-red-400" title="Commits behind remote">
+              <ArrowDownIcon size={12} className="mr-1" />
+              {item.status.behind}
+            </span>
+          )}
+        </span>
+      );
+    }
+    return null;
+  };
+
   const renderTabContent = () => {
     if (!workspaceInfo) return null;
 
@@ -90,8 +112,10 @@ const ProjectsList: React.FC = () => {
                   {renderItemPrefix(item)}
                   {item.relativePath}
                 </span>
-                <span className="text-blue-400 text-xs">→</span>
-                {/* <span className="text-gray-600 text-xs">•</span> */}
+                <span className="flex items-center">
+                  {renderItemSuffix(item)}
+                  <span className="text-blue-400 text-xs ml-2">→</span>
+                </span>
               </button>
             </li>
           ))

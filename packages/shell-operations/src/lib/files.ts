@@ -67,7 +67,7 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<st
   return workspaceFiles;
 }
 
-export async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
+async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
   try {
     const gitConfigPath = path.join(gitRepoPath, '.git', 'config');
     const configContent = await fs.readFile(gitConfigPath, 'utf-8');
@@ -98,11 +98,42 @@ export async function getGitRemoteDomain(gitRepoPath: string): Promise<string | 
   }
 }
 
+async function getGitStatus(repoPath: string): Promise<{ ahead: number; behind: number } | null> {
+  try {
+    const { execFile } = await import('child_process');
+    const util = await import('util');
+    const execFilePromise = util.promisify(execFile);
+
+    // Perform a git fetch first
+    // console.log('🔄 Fetching latest changes...');
+    // await execFilePromise('git', ['fetch'], { cwd: repoPath });
+
+    // Get the current branch name
+    const { stdout: branchName } = await execFilePromise('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: repoPath });
+    const currentBranch = branchName.trim();
+
+    // Count commits ahead
+    const { stdout: aheadCount } = await execFilePromise('git', ['rev-list', `origin/${currentBranch}..${currentBranch}`, '--count'], { cwd: repoPath });
+
+    // Count commits behind
+    const { stdout: behindCount } = await execFilePromise('git', ['rev-list', `${currentBranch}..origin/${currentBranch}`, '--count'], { cwd: repoPath });
+
+    return {
+      ahead: parseInt(aheadCount.trim(), 10),
+      behind: parseInt(behindCount.trim(), 10),
+    };
+  } catch (error) {
+    console.error('🚨 Error getting git status:', error);
+    return null;
+  }
+}
+
 export async function getGitRepoDirectories(workspacePath: string) {
   const gitRepos: {
     relativePath: string;
     absolutePath: string;
     originDomain: string | null;
+    status: { ahead: number; behind: number } | null;
   }[] = [];
 
   async function traverse(dir: string) {
@@ -112,7 +143,9 @@ export async function getGitRepoDirectories(workspacePath: string) {
       const relativePath = path.relative(workspacePath, dir);
       const absolutePath = path.resolve(workspacePath, dir);
       const originDomain = await getGitRemoteDomain(absolutePath);
-      gitRepos.push({ relativePath, absolutePath, originDomain });
+      const status = await getGitStatus(absolutePath);
+      gitRepos.push({ relativePath, absolutePath, originDomain, status });
+      console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
       return; // Don't traverse further if it's a git repo
     }
 

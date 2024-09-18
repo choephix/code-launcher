@@ -3,6 +3,10 @@ ui:
   projectDirectoriesPrefix: "folderIcon"
 
 editors:
+  - name: VS Code (via shell)
+    shellExecutable: code
+  - name: Cursor (via shell)
+    shellExecutable: cursor
   - name: VS Code
     urlTemplate: vscode://file/{path}
   - name: VS Code + WSL
@@ -11,10 +15,6 @@ editors:
     urlTemplate: cursor://file/{path}
   - name: Cursor + WSL
     urlTemplate: cursor://vscode-remote/wsl+Ubuntu/{path}
-  - name: VS Code (via shell)
-    shellExecutable: code
-  - name: Cursor (via shell)
-    shellExecutable: cursor
 
 templates:
   - name: Empty Project
