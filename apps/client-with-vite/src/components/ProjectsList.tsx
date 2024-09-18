@@ -1,11 +1,10 @@
 'use client';
 
+import { formatDistanceToNow } from 'date-fns';
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  BoxSelectIcon,
   ChevronDownIcon,
-  ClockIcon,
   CodeIcon,
   FilesIcon,
   FolderIcon,
@@ -102,9 +101,9 @@ const ProjectsList: React.FC = () => {
 
       return (
         <span className="flex items-center text-xs space-x-2">
-          {/* <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
-            {new Date(item.status.lastCommitDate).toLocaleDateString()}
-          </span> */}
+          <span className="flex items-center text-slate-600" title={`Last commit: ${item.status.lastCommitMessage}`}>
+            {formatDistanceToNow(new Date(item.status.lastCommitDate), { addSuffix: true })}
+          </span>
           {/* {item.status.stashes > 0 && (
             <span className="flex items-center text-slate-500" title="Stashes">
               <BoxSelectIcon size={12} className="mr-1" />
