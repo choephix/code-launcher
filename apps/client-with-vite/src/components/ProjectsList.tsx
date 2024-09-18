@@ -75,7 +75,7 @@ const ProjectsList: React.FC = () => {
         {items.length > 0 ? (
           items.map((item, index) => (
             <li
-              key={`${activeTab}|${index}`}
+              key={`${activeTab}|${item.absolutePath}`}
               className="animate-fade-in-left opacity-0 border-b border-gray-700"
               style={{
                 animationDelay: `${index * 16.67}ms`,
