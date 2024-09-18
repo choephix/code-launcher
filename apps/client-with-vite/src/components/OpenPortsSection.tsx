@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { ExternalLinkIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { apiService } from '../lib/apiService';
 
 interface PortInfo {
@@ -61,7 +60,7 @@ function OpenPorts() {
                 {port.title && <span>{port.title}</span>}
                 &nbsp;&nbsp;&nbsp;
                 <span className="font-bold">{port.port}</span>
-                <ExternalLinkIcon size={10} className="inline ml-2 mb-1" />
+                {/* <ExternalLinkIcon size={10} className="inline ml-2 mb-1" /> */}
               </a>
             ))
           ) : (
