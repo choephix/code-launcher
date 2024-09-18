@@ -15,12 +15,13 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
   async function getTheStuff() {
-    const configuration = await getWorkspaceConfiguration(pathToWorkspaces);
     const { cpuUsage, memUsage } = getMemoryAndCPU();
-
-    const rootDirectories = await getProjectDirectoriesList(pathToWorkspaces);
-    const vscodeWorkspaceFiles = await getVSCodeWorkspaceFiles(pathToWorkspaces);
-    const gitRepositories = await getGitRepositories(pathToWorkspaces);
+    const [configuration, rootDirectories, vscodeWorkspaceFiles, gitRepositories] = await Promise.all([
+      getWorkspaceConfiguration(pathToWorkspaces),
+      getProjectDirectoriesList(pathToWorkspaces),
+      getVSCodeWorkspaceFiles(pathToWorkspaces),
+      getGitRepositories(pathToWorkspaces),
+    ]);
 
     return {
       pathToWorkspaces,
