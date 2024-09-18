@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { ExternalLinkIcon } from 'lucide-react';
 import { apiService } from '../lib/apiService';
 
 interface PortInfo {
@@ -30,6 +31,11 @@ function OpenPorts() {
     fetchOpenPorts();
   }, []);
 
+  const getPortUrl = (port: number) => {
+    const { protocol, hostname } = window.location;
+    return `${protocol}//${hostname}:${port}`;
+  };
+
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-2">
@@ -42,18 +48,20 @@ function OpenPorts() {
             openPorts.map((port, index) => (
               <a
                 key={port.port}
-                href={`http://localhost:${port.port}`}
+                href={getPortUrl(port.port)}
+                target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-pop-in opacity-0 no-underline"
+                className="px-4 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-pop-in opacity-0 no-underline"
                 style={{
                   animationDelay: `${index * 50}ms`,
                   animationFillMode: 'forwards',
                 }}
                 title={`${port.contentType} (Status: ${port.status})`}
               >
-              {port.title && <span>{port.title}</span>}
-              &nbsp;&nbsp;&nbsp;
-              <span className="font-bold">{port.port}</span>
+                {port.title && <span>{port.title}</span>}
+                &nbsp;&nbsp;&nbsp;
+                <span className="font-bold">{port.port}</span>
+                <ExternalLinkIcon size={10} className="inline ml-2 mb-1" />
               </a>
             ))
           ) : (
