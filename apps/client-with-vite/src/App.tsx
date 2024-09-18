@@ -7,6 +7,7 @@ import SmartBar from '@/components/SmartBar';
 import { TitleThing } from '@/components/TitleThing';
 import { actions, store } from '@/lib/store';
 import TopBar from './components/TopRibbon';
+import OpenPorts from './components/OpenPortsSection';
 
 //// Feature Flags
 const hideTemplatesAtProjectCount = 12;
@@ -28,6 +29,10 @@ export default function Home() {
 
           <div className="mb-10">
             <SmartBar />
+          </div>
+
+          <div className="mb-10">
+            <OpenPorts />
           </div>
 
           <div className="mb-10">

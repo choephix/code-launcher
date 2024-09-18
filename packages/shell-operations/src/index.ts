@@ -2,12 +2,12 @@ import path from 'path';
 
 import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import {
-  getGitRemoteDomain,
   getGitRepoDirectories as getGitRepositories,
   getProjectDirectoriesList,
   getVSCodeWorkspaceFiles,
   getWorkspaceConfiguration,
 } from './lib/files';
+import { scanOpenPorts } from './lib/ports';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU } from './lib/system';
 
@@ -61,6 +61,16 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       };
     },
   } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
+}
+
+export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
+  pathToWorkspaces = path.resolve(pathToWorkspaces);
+
+  return {
+    findOpenPorts: async () => {
+      return await scanOpenPorts();
+    },
+  } satisfies Record<string, (...args: any[]) => Promise<any>>;
 }
 
 //// Experimental

@@ -1,3 +1,5 @@
+import { createCodeLauncherServerExtraActions } from '@code-launcher/shell-operations';
+
 const fastifyStatic = require('@fastify/static') as typeof import('@fastify/static');
 const Fastify = require('fastify') as typeof import('fastify');
 const path = require('path') as typeof import('path');
@@ -106,6 +108,12 @@ fastify.register(
           exitCode: result.exitCode,
         };
       });
+    });
+
+    //// Find Open Ports
+    fastify.get('/find-open-ports', async () => {
+      const extraActions = createCodeLauncherServerExtraActions(workspacePath);
+      return await extraActions.findOpenPorts();
     });
 
     done();

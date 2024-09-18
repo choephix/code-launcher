@@ -4,6 +4,13 @@ import { store } from './store';
 
 type ApiResponse = CodeLauncherServerActionResult;
 
+interface PortInfo {
+  port: number;
+  contentType: string;
+  status: number;
+  title: string | null;
+}
+
 const createApiService = (baseUrl: string) => {
   const fetchWithStats = async (url: string, options?: RequestInit): Promise<ApiResponse> => {
     const response = await fetch(`${baseUrl}${url}`, options);
@@ -30,6 +37,12 @@ const createApiService = (baseUrl: string) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command }),
       });
+    },
+
+    findOpenPorts: async (): Promise<PortInfo[]> => {
+      const response = await fetch(`${baseUrl}/find-open-ports`);
+      const data: PortInfo[] = await response.json();
+      return data;
     },
   };
 };
