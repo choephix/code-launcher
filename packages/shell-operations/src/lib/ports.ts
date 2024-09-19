@@ -25,7 +25,7 @@ export async function scanOpenPorts(startPort = 1, endPort = 65535): Promise<Por
 }
 
 function checkHttpContent(port: number): Promise<PortInfo | null> {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const options: http.RequestOptions = {
       hostname: 'localhost',
       port: port,
@@ -33,9 +33,9 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
       timeout: 1000,
     };
 
-    const req = http.request(options, (res) => {
+    const req = http.request(options, res => {
       let data = '';
-      res.on('data', (chunk) => {
+      res.on('data', chunk => {
         data += chunk;
       });
       res.on('end', () => {

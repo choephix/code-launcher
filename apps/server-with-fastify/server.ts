@@ -40,7 +40,9 @@ log('//// Workspace Path:', workspacePathRaw);
 const workspacePath = path.resolve(workspacePathRaw);
 log('//// Workspace Path (resolved):', workspacePath);
 
-const fastify = Fastify({ logger: verbose }) as import('fastify').FastifyInstance;
+const fastify = Fastify({
+  logger: verbose,
+}) as import('fastify').FastifyInstance;
 
 const pathsToServeMaybe = [path.join(__dirname, 'client')];
 const pathsToServe = pathsToServeMaybe.filter(p => fs.existsSync(p));

@@ -9,7 +9,7 @@ import { useOpenEditorAt } from '@/lib/hooks/useOpenEditorAt';
 const ProjectTemplates: React.FC = () => {
   const { isSomeActionRunning, lastCommandOutput, configuration, uiState } = useStore();
   const openEditorAt = useOpenEditorAt();
-  
+
   if (!uiState.showTemplates) return null;
 
   if (isSomeActionRunning) return null;

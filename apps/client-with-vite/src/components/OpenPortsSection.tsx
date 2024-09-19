@@ -55,7 +55,7 @@ function OpenPorts() {
                   animationDelay: `${index * 50}ms`,
                   animationFillMode: 'forwards',
                 }}
-                title={`${port.contentType} (Status: ${port.status})`}
+                title={`${port.title} | ${port.contentType} (Status: ${port.status})`}
               >
                 {port.title && <span>{port.title}</span>}
                 &nbsp;&nbsp;&nbsp;
