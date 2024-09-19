@@ -36,7 +36,7 @@ export function getSystemInfo() {
 
   const wslDistroName = process.env.WSL_DISTRO_NAME;
   const wslInterop = process.env.WSL_INTEROP;
-  const isWSL = process.platform === 'linux' && (wslDistroName || wslInterop);
+  const isWSL = process.platform === 'linux' && Boolean(wslDistroName || wslInterop);
 
   // const procVersion = fs.readFileSync('/proc/version', 'utf8').toLowerCase();
   // const procVersionLowerCase = procVersion.toLowerCase();
