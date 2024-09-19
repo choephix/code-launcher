@@ -22,7 +22,7 @@ const SmartBarCommandOutput: React.FC = () => {
           fontSize: 12,
           fontFamily: 'Consolas, "Courier New", monospace',
           theme: {
-            background: '#1e1e1e',
+            background: '#0000',
             foreground: '#d4d4d4',
           },
         });
@@ -72,7 +72,9 @@ const SmartBarCommandOutput: React.FC = () => {
           <XIcon size="1em" />
         </button>
         <h2 className="px-2 text-xmd font-bold text-blue-400 mb-2">Command Output</h2>
-        <div ref={terminalRef} className="h-64" />
+        <div className="border border-gray-700 rounded-md p-2 relative" style={{ background: '#0002' }}>
+          <div ref={terminalRef} />
+        </div>
       </div>
     </>
   );
