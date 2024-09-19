@@ -71,4 +71,4 @@ export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
 }
 
 //// Experimental
-export * from './lib/shell-stream';
+export * from './experimental/shell-stream';
