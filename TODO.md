@@ -44,3 +44,9 @@
 - [ ] Disable project list item while opening (incl muted visual)
   - [ ] Stream command output to row component instead of globally? (if shell type)
     - [ ] And differentiate between editors, so 1 output per editor, with disablement if current editor output ongoing
+
+- [ ] Smartbar autocomplete
+  - [ ] Search directories/repos/workspaces
+  - [ ] Search/Run/Prompt
+  - [ ] Git clone
+    - [ ] Git clone to folder (if " "+)

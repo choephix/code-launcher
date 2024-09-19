@@ -1,5 +1,7 @@
+import { execFile } from 'child_process';
 import fs from 'fs/promises';
 import path from 'path';
+import util from 'util';
 import YAML from 'yaml';
 
 import type { WorkspaceConfiguration } from '@code-launcher/data-types';
@@ -150,8 +152,6 @@ async function getGitRemoteDomain(gitRepoPath: string): Promise<string | null> {
 
 async function getGitStatus(repoPath: string, autoFetchAll: boolean = false) {
   try {
-    const { execFile } = await import('child_process');
-    const util = await import('util');
     const execFilePromise = util.promisify(execFile);
 
     if (autoFetchAll) {
