@@ -1,57 +1,73 @@
 import { actions, useStore } from '@/lib/store';
 import { ChevronsDownIcon, XIcon } from 'lucide-react';
 import React, { useEffect, useRef } from 'react';
-import { Terminal } from '@xterm/xterm';
+import { ITerminalOptions, Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import '@xterm/xterm/css/xterm.css';
-
-const fitAddon = new FitAddon();
-const webLinksAddon = new WebLinksAddon();
 
 const SmartBarCommandOutput: React.FC = () => {
   const { lastCommandOutput } = useStore();
   const terminalRef = useRef<HTMLDivElement>(null);
   const terminalInstance = useRef<Terminal | null>(null);
 
+  const lastCommandOutputLines = lastCommandOutput?.split('\n') ?? [];
+  lastCommandOutputLines.pop();
+  console.log('lastCommandOutput', lastCommandOutputLines);
+
+  const terminalOptions: ITerminalOptions = {
+    cursorBlink: true,
+    fontSize: 12,
+    fontFamily: 'Consolas, "Courier New", monospace',
+    theme: {
+      background: '#0000',
+      foreground: '#d4d4d4',
+    },
+  };
+
   useEffect(() => {
-    if (terminalRef.current && lastCommandOutput) {
-      if (!terminalInstance.current) {
-        terminalInstance.current = new Terminal({
-          cursorBlink: true,
-          fontSize: 12,
-          fontFamily: 'Consolas, "Courier New", monospace',
-          theme: {
-            background: '#0000',
-            foreground: '#d4d4d4',
-          },
-        });
+    if (terminalInstance.current) return;
 
-        terminalInstance.current.loadAddon(fitAddon);
+    if (!terminalRef.current) return;
 
-        terminalInstance.current.loadAddon(webLinksAddon);
+    if (!lastCommandOutput) return;
 
-        terminalInstance.current.open(terminalRef.current);
-        fitAddon.fit();
-      }
+    terminalInstance.current = new Terminal(terminalOptions);
 
-      terminalInstance.current.clear();
-      // terminalInstance.current.write(lastCommandOutput);
+    const fitAddon = new FitAddon();
+    terminalInstance.current.loadAddon(fitAddon);
 
-      const lastCommandOutputLines = lastCommandOutput.split('\n');
-      lastCommandOutputLines.forEach((line: string) => {
-        terminalInstance.current?.writeln(line);
-      });
+    const webLinksAddon = new WebLinksAddon();
+    terminalInstance.current.loadAddon(webLinksAddon);
 
-      fitAddon.fit();
-    }
+    terminalInstance.current.open(terminalRef.current);
+    fitAddon.fit();
 
-    const interval = setInterval(() => {
-      fitAddon.fit();
-    }, 100);
-
+    const interval = setInterval(() => fitAddon.fit(), 100);
     return () => clearInterval(interval);
-  }, [lastCommandOutput]);
+  }, [terminalOptions]);
+
+  useEffect(() => {
+    const terminal = terminalInstance.current;
+    if (!terminal) return;
+
+    console.log('Clearing terminal');
+
+    if (!lastCommandOutput) return;
+
+    const handle = requestAnimationFrame(() => {
+      terminal.clear();
+      lastCommandOutputLines.forEach((line: string) => {
+        console.log('🖥️ [OUTPUT]:', line);
+        terminal.writeln(line);
+      });
+    });
+
+    return () => {
+      cancelAnimationFrame(handle);
+      terminal.clear();
+    };
+  }, [terminalInstance.current, lastCommandOutput]);
 
   if (!lastCommandOutput) return null;
 
