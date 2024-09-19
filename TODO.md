@@ -8,6 +8,8 @@
 - [x] Add tiny top-ribbon with current workspace and maybe settings?
 - [ ] Multiple workspace support
 - [ ] Add version bump npm scripts (esp for minor)
+- [x] Add additional system info to the 'stuff'
+  - [ ] Implement ^ in client (somehow)
 
 - [x] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
   - [x] Folder: last changes in any file datetime?
