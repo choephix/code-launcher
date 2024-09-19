@@ -52,16 +52,23 @@ const SmartBarCommandOutput: React.FC = () => {
     if (!terminal) return;
 
     console.log('Clearing terminal');
+    terminal.clear();
 
     if (!lastCommandOutput) return;
 
-    const handle = requestAnimationFrame(() => {
-      terminal.clear();
-      lastCommandOutputLines.forEach((line: string) => {
-        console.log('🖥️ [OUTPUT]:', line);
-        terminal.writeln(line);
-      });
-    });
+    const linesLeftToPrint = [...lastCommandOutputLines];
+
+    const loop = () => {
+
+      const line = linesLeftToPrint.shift();
+      if (!line) return;
+
+      console.log('🖥️ [OUTPUT]:', line);
+      terminal.writeln(line);
+
+      handle = requestAnimationFrame(loop);
+    };
+    let handle = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(handle);
