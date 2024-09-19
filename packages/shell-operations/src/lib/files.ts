@@ -95,8 +95,8 @@ function shouldIgnoreDirectory(name: string): boolean {
   return IGNORED_PATTERNS.some(pattern => pattern.test(name));
 }
 
-export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<string[]> {
-  const workspaceFiles: string[] = [];
+export async function getVSCodeWorkspaceFiles(workspacePath: string) {
+  const workspaceFiles: { relativePath: string; absolutePath: string }[] = [];
 
   async function traverse(dir: string) {
     const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -105,8 +105,10 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string): Promise<st
       if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
         await traverse(fullPath);
       } else if (entry.isFile() && entry.name.endsWith('.code-workspace')) {
-        const relativePath = path.relative(workspacePath, fullPath);
-        workspaceFiles.push(relativePath);
+        workspaceFiles.push({
+          relativePath: path.relative(workspacePath, fullPath),
+          absolutePath: fullPath,
+        });
       }
     }
   }
