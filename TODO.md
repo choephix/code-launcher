@@ -45,6 +45,7 @@
   - [ ] Stream command output to row component instead of globally? (if shell type)
     - [ ] And differentiate between editors, so 1 output per editor, with disablement if current editor output ongoing
 
+- [ ] Smartbar history - up arrow for last (or first autocomplete option while empty?)
 - [ ] Smartbar autocomplete
   - [ ] Search directories/repos/workspaces
   - [ ] Search/Run/Prompt

@@ -49,13 +49,13 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       const { output, exitCode } = await runCommand(command, {
         cwd: pathToWorkspaces,
       });
-      const workspaceState = await getTheStuff();
+      // const workspaceState = await getTheStuff();
 
       return {
-        ...workspaceState,
+        // ...workspaceState,
         commandOutput: output,
         exitCode,
-      };
+      } as any;
     },
   } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
 }

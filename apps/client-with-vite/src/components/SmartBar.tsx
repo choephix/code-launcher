@@ -1,11 +1,11 @@
 'use client';
 
-import { ChevronsDownIcon, XIcon } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { actions, useStore } from '@/lib/store';
+import SmartBarCommandOutput from './SmartBarCommandOutput';
 
 const SmartBar: React.FC = () => {
   const { isSomeActionRunning } = useStore();
@@ -21,7 +21,7 @@ const SmartBar: React.FC = () => {
           </div>
         </div>
       ) : (
-        <CommandOutput />
+        <SmartBarCommandOutput />
       )}
     </div>
   );
@@ -130,38 +130,6 @@ const SmartBarInputBox: React.FC = () => {
         {buttonLabel}
       </button>
     </div>
-  );
-};
-
-const CommandOutput = () => {
-  const { lastCommandOutput } = useStore();
-
-  if (!lastCommandOutput) return null;
-
-  const handleClose = () => {
-    actions.clearCommandOutput();
-  };
-
-  return (
-    <>
-      <div className="text-center line-height-0">
-        <ChevronsDownIcon className="text-gray-400 w-4 h-4 inline-block" />
-      </div>
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 text-start animate-slide-in-from-up relative min-h-32">
-        <button
-          onClick={handleClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-200 transition-colors"
-        >
-          <XIcon size="1em" />
-        </button>
-        <h2 className="px-2 text-xmd font-bold text-blue-400 mb-2">Command Output</h2>
-        <pre className="px-2 overflow-x-auto text-xs border-l-2 border-gray-700">{lastCommandOutput}</pre>
-
-        {/* <div className="flex items-center justify-center mt-4">
-          <MachineStats />
-        </div> */}
-      </div>
-    </>
   );
 };
 

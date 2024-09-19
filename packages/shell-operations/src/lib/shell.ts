@@ -17,24 +17,21 @@ export async function runCommand(command: string, options: SpawnOptions = {}): P
     const mergedOptions = { ...defaultOptions, ...options };
     const process = spawn(command, [], mergedOptions);
 
-    let commandOutput = '';
+    let commandOutput: string[] = [];
 
-    process.stdout?.on('data', data => {
-      const output = data.toString();
-      commandOutput += output;
-      console.log('[STDOUT]:', output);
-    });
+    const handleOutput = (data: Buffer) => {
+      const lines = data.toString().split('\n');
+      commandOutput.push(...lines);
+      console.log('🖥️ [OUTPUT]:', JSON.stringify(lines));
+    };
 
-    process.stderr?.on('data', data => {
-      const error = data.toString();
-      commandOutput += error;
-      console.error('[STDERR]:', error);
-    });
+    process.stdout?.on('data', handleOutput);
+    process.stderr?.on('data', handleOutput);
 
     process.on('close', code => {
-      console.log(`Command exited with code ${code}`);
+      console.log(`🏁 Command exited with code ${code}`);
       resolve({
-        output: commandOutput,
+        output: commandOutput.join('\n'),
         exitCode: code,
       });
     });
