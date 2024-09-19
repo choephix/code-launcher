@@ -59,7 +59,6 @@ const SmartBarCommandOutput: React.FC = () => {
     const linesLeftToPrint = [...lastCommandOutputLines];
 
     const loop = () => {
-
       const line = linesLeftToPrint.shift();
       if (!line) return;
 
@@ -85,19 +84,17 @@ const SmartBarCommandOutput: React.FC = () => {
   return (
     <>
       <div className="text-center line-height-0">
-        <ChevronsDownIcon className="text-gray-400 w-4 h-4 inline-block" />
+        <ChevronsDownIcon className="text-slate-500 w-4 h-4 inline-block" />
       </div>
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-4 text-start animate-slide-in-from-up relative min-h-32">
+      <div className="bg-gray-800 border border-gray-700 rounded-lg p-3 text-start animate-slide-in-from-up relative min-h-32">
         <button
           onClick={handleClose}
           className="absolute top-2 right-2 text-gray-500 hover:text-gray-200 transition-colors"
         >
           <XIcon size="1em" />
         </button>
-        <h2 className="px-2 text-xmd font-bold text-blue-400 mb-2">Command Output</h2>
-        <div className="border border-gray-700 rounded-md p-2 relative" style={{ background: '#0002' }}>
-          <div ref={terminalRef} />
-        </div>
+        <h2 className="text-xs text-gray-400 mb-2">Output</h2>
+        <div ref={terminalRef} />
       </div>
     </>
   );
