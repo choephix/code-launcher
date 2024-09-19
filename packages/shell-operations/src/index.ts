@@ -9,13 +9,15 @@ import {
 } from './lib/files';
 import { scanOpenPorts } from './lib/ports';
 import { runCommand } from './lib/shell';
-import { getMemoryAndCPU } from './lib/system';
+import { getMemoryAndCPU, getSystemInfo } from './lib/system';
 
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
   async function getTheStuff() {
     const { cpuUsage, memUsage } = getMemoryAndCPU();
+    const systemInfo = getSystemInfo();
+
     const [configuration, rootDirectories, vscodeWorkspaceFiles, gitRepositories] = await Promise.all([
       getWorkspaceConfiguration(pathToWorkspaces),
       getProjectDirectoriesList(pathToWorkspaces),
@@ -35,6 +37,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
         gitRepositories: gitRepositories,
       },
       stats: { cpuUsage, memUsage },
+      systemInfo,
       exitCode: null,
     };
   }

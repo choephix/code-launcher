@@ -50,6 +50,20 @@ export interface CodeLauncherServerActionResult {
     cpuUsage: number | null;
     memUsage: number | null;
   };
+  systemInfo?: {
+    platform: string;
+    architecture: string;
+    kernelVersion: string;
+    type: string;
+    userInfo: import('os').UserInfo<string>;
+    memTotal: number;
+    memFree: number;
+    memUsage: number;
+    cpuUsage: number;
+    isWSL: boolean;
+    wslDistroName?: string;
+    wslInterop?: string;
+  };
   commandOutput?: string;
   exitCode: number | null;
 }
