@@ -155,7 +155,7 @@ async function getGitStatus(repoPath: string, autoFetchAll: boolean = false) {
     const execFilePromise = util.promisify(execFile);
 
     if (autoFetchAll) {
-      console.log('🔄 Fetching latest changes...');
+      console.log('🔄 Fetching latest changes at', repoPath);
       await execFilePromise('git', ['fetch'], { cwd: repoPath });
     }
 
@@ -232,7 +232,7 @@ export async function getGitRepoDirectories(workspacePath: string) {
         originDomain,
         status,
       });
-      console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
+      // console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
       return; // Don't traverse further if it's a git repo
     }
 
