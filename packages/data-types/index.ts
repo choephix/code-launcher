@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 export interface WorkspaceConfiguration {
   ui: {
     projectDirectoriesPrefix: 'folderIcon' | 'backslash' | null;
