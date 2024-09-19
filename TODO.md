@@ -50,7 +50,17 @@
   - <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
 - [x] Persist selected projects list tab via localstorage
 
+## Quality of Life
+
+- [ ] Client-side workspace configuration editor
+- [ ] Splash before new project from template, with options
+  - Package manager (npm/yarn/pnpm/bun)
+  - Typescript/Javascript
+  - Contextual (template, whatever)
+
 ## Chores & maintainance
 
+- [ ] Write proper README + demo gif
+  - [ ] Docs/landing page?
 - [ ] Add version bump npm scripts (esp for minor)
 - [ ] Proper backend error handling (e.g. non-existent workspace folder)
