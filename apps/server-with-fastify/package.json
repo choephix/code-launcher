@@ -1,7 +1,5 @@
 {
   "name": "@code-launcher/server-with-fastify",
-  "version": "1.0.0",
-  "description": "",
   "main": "server.ts",
   "types": "server.ts",
   "type": "commonjs",
