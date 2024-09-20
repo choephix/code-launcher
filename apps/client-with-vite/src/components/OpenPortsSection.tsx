@@ -6,6 +6,7 @@ interface PortInfo {
   contentType: string;
   status: number;
   title: string | null;
+  favicon: string | null;
 }
 
 function OpenPorts() {
@@ -35,6 +36,18 @@ function OpenPorts() {
     return `${protocol}//${hostname}:${port}`;
   };
 
+  const resolveFaviconUrl = (port: number, faviconPath: string) => {
+    try {
+      const baseUrl = getPortUrl(port);
+      const fullUrl = new URL(faviconPath, baseUrl);
+      console.log(`🖼️ Resolved favicon URL: ${fullUrl.href}`);
+      return fullUrl.href;
+    } catch (error) {
+      console.error(`❌ Error resolving favicon URL for port ${port}:`, error);
+      return faviconPath; // Fallback to the original path if resolution fails
+    }
+  };
+
   return (
     <div className="mb-6">
       <div className="flex items-center gap-2 mb-2">
@@ -57,6 +70,14 @@ function OpenPorts() {
                 }}
                 title={`${port.title} | ${port.contentType} (Status: ${port.status})`}
               >
+                {port.favicon && (
+                  <img
+                    src={resolveFaviconUrl(port.port, port.favicon)}
+                    alt={`Favicon for ${port.title || `port ${port.port}`}`}
+                    className="w-4 h-4 object-contain inline-block mr-2"
+                    onError={e => e.currentTarget.remove()}
+                  />
+                )}
                 {port.title && <span>{port.title}</span>}
                 &nbsp;&nbsp;&nbsp;
                 <span className="font-bold">{port.port}</span>

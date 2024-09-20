@@ -9,6 +9,7 @@ interface PortInfo {
   contentType: string;
   status: number;
   title: string | null;
+  favicon: string | null;
 }
 
 const createApiService = (baseUrl: string) => {
