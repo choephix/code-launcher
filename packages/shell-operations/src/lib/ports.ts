@@ -6,6 +6,7 @@ interface PortInfo {
   contentType: string;
   status: number;
   title: string | null;
+  favicon: string | null;
 }
 
 export async function scanOpenPorts(startPort = 1, endPort = 65535): Promise<PortInfo[]> {
@@ -42,10 +43,16 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
         const contentType = res.headers['content-type'] || '';
         if (contentType.includes('html') || contentType.includes('json')) {
           let title: string | null = null;
+          let favicon: string | null = null;
           if (contentType.includes('html')) {
             const titleMatch = data.match(/<title>(.*?)<\/title>/);
             if (titleMatch) {
               title = titleMatch[1];
+            }
+            
+            const faviconMatch = data.match(/<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["'][^>]*>/i);
+            if (faviconMatch) {
+              favicon = faviconMatch[1];
             }
           }
           resolve({
@@ -53,6 +60,7 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
             contentType: contentType,
             status: res.statusCode || 0,
             title: title,
+            favicon: favicon,
           });
         } else {
           resolve(null);
