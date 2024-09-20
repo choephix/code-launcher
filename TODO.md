@@ -1,28 +1,39 @@
-- [ ] Proper backend error handling (e.g. non-existent workspace folder)
+## Features
+
 - [ ] Stream commmand output
   - [ ] Pulsing animation on last line of output while running
   - [ ] Move spinner in place of the button while running
+- [ ] Handle shell input (streaming only?)
+
+- [ ] Disable project list item while opening (incl muted visual)
+  - [ ] Stream command output to row component instead of globally? (if shell type)
+    - [ ] And differentiate between editors, so 1 output per editor, with disablement if current editor output ongoing
+
+- [ ] Git clone to folder (if " "+)
+- [ ] Smartbar history - up arrow for last (or first autocomplete option while empty?)
+- [ ] Smartbar autocomplete
+  - [ ] Search directories/repos/workspaces
+  - [ ] Search/Run/Prompt
+  - [ ] Git clone
+  
 - [ ] Cache workspace state in localstorage for faster load time
   - [ ] Make parts of app non-interactable while loading
-- [x] Clean up server console logs
-- [x] Add tiny top-ribbon with current workspace and maybe settings?
-- [ ] Multiple workspace support
-- [ ] Add version bump npm scripts (esp for minor)
 - [x] Add additional system info to the 'stuff'
   - [ ] Implement ^ in client (somehow)
 
+- [ ] Multiple workspace support
+- [ ] Configurability through .code-launcher.yaml - Default search engine (google)
+- [x] Configurability through .code-launcher.yaml - Default IDE command (code)
+
+- [x] Clean up server console logs
+- [x] Add tiny top-ribbon with current workspace and maybe settings?
 - [x] Refactor api to list not just strings for folder/file lists, but objects with helpful shit
   - [x] Folder: last changes in any file datetime?
   - [ ] Icon: just get the first image one you find, [favicon|logo].[ico|png|svg]
   - [x] For folders: is git repo
   - [x] For folders and repos: commits ahead/behind (gitinfo?)
 - [x] Add Directories/Workspaces/Git Repos tabs
-
-- [ ] Configurability through .code-launcher.yaml - Default search engine (google)
-- [x] Configurability through .code-launcher.yaml - Default IDE command (code)
-
 - [x] IDE command uses relative paths instead of absolute, which breaks click actions
-
 - [x] Open VSCode/Cursor client-side.
   - <a href="vscode://file/a%3A/Revoltage">Open in VS Code Windows</a>
   - <a href="vscode://vscode-remote/wsl+Ubuntu/home/cx/workspace/nilo-4">Open in VS Code WSL</a>
@@ -38,16 +49,19 @@
   - <a href="vscode://command/extension.sayHello?%5B%22World%22%5D">Say Hello to World</a>
   - <a href="vscode://command/workbench.action.debug.start">Start Debugging</a>
   - <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
-
 - [x] Persist selected projects list tab via localstorage
 
-- [ ] Disable project list item while opening (incl muted visual)
-  - [ ] Stream command output to row component instead of globally? (if shell type)
-    - [ ] And differentiate between editors, so 1 output per editor, with disablement if current editor output ongoing
+## Quality of Life
 
-- [ ] Smartbar history - up arrow for last (or first autocomplete option while empty?)
-- [ ] Smartbar autocomplete
-  - [ ] Search directories/repos/workspaces
-  - [ ] Search/Run/Prompt
-  - [ ] Git clone
-    - [ ] Git clone to folder (if " "+)
+- [ ] Client-side workspace configuration editor
+- [ ] Splash before new project from template, with options
+  - Package manager (npm/yarn/pnpm/bun)
+  - Typescript/Javascript
+  - Contextual (template, whatever)
+
+## Chores & maintainance
+
+- [ ] Write proper README + demo gif
+  - [ ] Docs/landing page?
+- [ ] Add version bump npm scripts (esp for minor)
+- [ ] Proper backend error handling (e.g. non-existent workspace folder)
