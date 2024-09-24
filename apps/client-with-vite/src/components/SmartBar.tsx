@@ -6,6 +6,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { actions, useStore } from '@/lib/store';
+import { AutocompleteList } from '@code-launcher/react-components/components/AutocompleteList';
+import { useFocusedAndInteracted } from '@/lib/hooks/useFocusedAndInteracted';
 
 // Fake hardcoded autocompletions
 const fakeAutocompletions = [
@@ -42,8 +44,9 @@ const SmartBarInputBox: React.FC = () => {
   const [inputContent, setInputContent] = useState('');
   const [autocompletions, setAutocompletions] = useState<string[]>([]);
   const [selectedAutocomplete, setSelectedAutocomplete] = useState(-1);
-  const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const showAutocomplete = useFocusedAndInteracted(textareaRef);
 
   useAnimatedPlaceholder(textareaRef, getAllSmartBarFeatureHints(), 'Enter ');
 
@@ -141,8 +144,6 @@ const SmartBarInputBox: React.FC = () => {
             adjustTextareaHeight();
           }}
           onKeyDown={handleKeyDown}
-          onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
           className="bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none resize-none overflow-hidden"
           disabled={isSomeActionRunning}
           rows={1}
@@ -164,20 +165,8 @@ const SmartBarInputBox: React.FC = () => {
           {buttonLabel}
         </button>
       </div>
-      {isFocused && autocompletions.length > 0 && (
-        <ul className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg overflow-hidden shadow-lg z-10">
-          {autocompletions.map((item, index) => (
-            <li
-              key={index}
-              className={`px-4 py-2 cursor-pointer ${
-                index === selectedAutocomplete ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-gray-700'
-              }`}
-              onClick={() => setInputContent(item)}
-            >
-              {item}
-            </li>
-          ))}
-        </ul>
+      {showAutocomplete && (
+        <AutocompleteList items={autocompletions} selectedIndex={selectedAutocomplete} onItemClick={setInputContent} />
       )}
     </div>
   );
