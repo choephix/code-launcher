@@ -7,6 +7,15 @@ import { useAnimatedPlaceholder } from '@/lib/hooks/useAnimatedPlaceholder';
 import { SmartBarFeatures } from '@/lib/smartbar/SmartBarFeatures';
 import { actions, useStore } from '@/lib/store';
 
+// Fake hardcoded autocompletions
+const fakeAutocompletions = [
+  'Generate a React component',
+  'Explain the code in this file',
+  'Optimize this function',
+  'Write a unit test for',
+  'Refactor this class',
+];
+
 const SmartBar: React.FC = () => {
   const { isSomeActionRunning } = useStore();
 
@@ -31,6 +40,9 @@ const SmartBarInputBox: React.FC = () => {
   const { isSomeActionRunning } = useStore();
 
   const [inputContent, setInputContent] = useState('');
+  const [autocompletions, setAutocompletions] = useState<string[]>([]);
+  const [selectedAutocomplete, setSelectedAutocomplete] = useState(-1);
+  const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useAnimatedPlaceholder(textareaRef, getAllSmartBarFeatureHints(), 'Enter ');
@@ -38,6 +50,15 @@ const SmartBarInputBox: React.FC = () => {
   useEffect(() => {
     textareaRef.current?.focus();
   }, [isSomeActionRunning]);
+
+  useEffect(() => {
+    // Filter autocompletions based on input
+    const filtered = fakeAutocompletions.filter(item =>
+      item.toLowerCase().startsWith(inputContent.toLowerCase())
+    );
+    setAutocompletions(filtered);
+    setSelectedAutocomplete(-1);
+  }, [inputContent]);
 
   const handleActionButtonClick = async () => {
     if (!inputContent) return;
@@ -56,7 +77,17 @@ const SmartBarInputBox: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleActionButtonClick();
+      if (selectedAutocomplete >= 0) {
+        setInputContent(autocompletions[selectedAutocomplete]);
+      } else {
+        handleActionButtonClick();
+      }
+    } else if (e.key === 'ArrowDown' && autocompletions.length > 0) {
+      e.preventDefault();
+      setSelectedAutocomplete((prev) => (prev + 1) % autocompletions.length);
+    } else if (e.key === 'ArrowUp' && autocompletions.length > 0) {
+      e.preventDefault();
+      setSelectedAutocomplete((prev) => (prev - 1 + autocompletions.length) % autocompletions.length);
     }
   };
 
@@ -84,39 +115,42 @@ const SmartBarInputBox: React.FC = () => {
   const multilineMode = inputContent.includes('\n');
 
   return (
-    <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
-      <div
-        className={`
+    <div className="flex flex-col items-stretch relative">
+      <div className="flex items-start flex-grow border border-gray-600 bg-gray-700 rounded-3xl overflow-hidden">
+        <div
+          className={`
       flex items-center ml-3 mr-1 mt-2
       transition-all duration-200
       ${multilineMode ? ' mt-4 ml-4' : ''}
       `}
-      >
-        <Icon
-          size="1.4em"
-          className={`
-            ${inputContent ? 'text-white' : 'text-gray-400'} 
-            animate-pop-in transition-colors duration-500 h-full 
-            flex flex-col items-center`}
-          strokeWidth={1.5}
+        >
+          <Icon
+            size="1.4em"
+            className={`
+              ${inputContent ? 'text-white' : 'text-gray-400'} 
+              animate-pop-in transition-colors duration-500 h-full 
+              flex flex-col items-center`}
+            strokeWidth={1.5}
+          />
+        </div>
+        <textarea
+          ref={textareaRef}
+          value={inputContent}
+          onChange={e => {
+            setInputContent(e.target.value);
+            adjustTextareaHeight();
+          }}
+          onKeyDown={handleKeyDown}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className="bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none resize-none overflow-hidden"
+          disabled={isSomeActionRunning}
+          rows={1}
+          style={{ minHeight: '40px' }}
         />
-      </div>
-      <textarea
-        ref={textareaRef}
-        value={inputContent}
-        onChange={e => {
-          setInputContent(e.target.value);
-          adjustTextareaHeight();
-        }}
-        onKeyDown={handleKeyDown}
-        className="bg-transparent text-white py-2 pl-2 pr-4 flex-grow focus:outline-none resize-none overflow-hidden"
-        disabled={isSomeActionRunning}
-        rows={1}
-        style={{ minHeight: '40px' }}
-      />
-      <button
-        onClick={handleActionButtonClick}
-        className={`
+        <button
+          onClick={handleActionButtonClick}
+          className={`
             px-6 py-2 text-white focus:outline-none rounded-full
             transition-all duration-200
             bg-blue-500 hover:bg-blue-600
@@ -124,11 +158,27 @@ const SmartBarInputBox: React.FC = () => {
             self-end
             ${multilineMode ? 'm-2' : ''}
           `}
-        disabled={isSomeActionRunning || !performButtonAction}
-        hidden={!performButtonAction}
-      >
-        {buttonLabel}
-      </button>
+          disabled={isSomeActionRunning || !performButtonAction}
+          hidden={!performButtonAction}
+        >
+          {buttonLabel}
+        </button>
+      </div>
+      {isFocused && autocompletions.length > 0 && (
+        <ul className="absolute top-full left-0 right-0 mt-1 bg-gray-800 border border-gray-600 rounded-lg overflow-hidden shadow-lg z-10">
+          {autocompletions.map((item, index) => (
+            <li
+              key={index}
+              className={`px-4 py-2 cursor-pointer ${
+                index === selectedAutocomplete ? 'bg-blue-500 text-white' : 'text-gray-300 hover:bg-gray-700'
+              }`}
+              onClick={() => setInputContent(item)}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
