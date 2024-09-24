@@ -1,5 +1,5 @@
+import { DotIcon, GitBranch, GlobeIcon, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 import type React from 'react';
-import { DotIcon, GitBranch, LinkIcon, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
 import { apiService } from '@/lib/apiService';
 
@@ -111,7 +111,7 @@ export const SmartBarFeatures = [
         fontFamily: 'monospace',
       },
     },
-    icon: LinkIcon, // You'll need to import this from 'lucide-react'
+    icon: GlobeIcon, // You'll need to import this from 'lucide-react'
     placeholder: 'Enter a URL to open',
     match: (input: string) => URL_REGEX.test(input.trim()),
     action: (input: string) => {
