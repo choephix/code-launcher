@@ -6,7 +6,7 @@ import { apiService } from '@/lib/apiService';
 const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
 const SHELL_COMMAND_REGEX = /^(\$|>)\s*/m;
-const URL_REGEX = /^https?:\/\/.+/i;
+const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
 
 export interface SmartBarFeature {
   readonly type: string;
