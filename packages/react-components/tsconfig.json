@@ -17,9 +17,9 @@
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"]
     }
   },
-  "include": ["src"],
+  "include": ["index.ts", "components"],
   "exclude": ["node_modules", "dist"]
 }
