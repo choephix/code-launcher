@@ -1,3 +1,5 @@
+import { createCodeLauncherServerActions, createCodeLauncherServerExtraActions } from '@code-launcher/shell-operations/src';
+
 const fastifyStatic = require('@fastify/static') as typeof import('@fastify/static');
 const Fastify = require('fastify') as typeof import('fastify');
 const path = require('path') as typeof import('path');
@@ -54,26 +56,20 @@ fastify.register(require('@fastify/websocket'));
 // API routes
 fastify.register(
   async (fastify, _, done) => {
-    const {
-      createCodeLauncherServerActions,
-      createCodeLauncherServerExtraActions,
-    } = //
-      await import('@code-launcher/shell-operations');
-      
-    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+    const codeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
     const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
     //// Get Project Directories List
     fastify.get('/ls', async (request: import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>) => {
       const ignoreCache = request.query.ignoreCache === 'true';
       console.log(`🔧 Fetching project directories${ignoreCache ? ' (ignoring cache)' : ''}`);
-      return await CodeLauncherServerActions.getProjectDirectoriesList(ignoreCache);
+      return await codeLauncherServerActions.getProjectDirectoriesList(ignoreCache);
     });
 
     //// Run Shell Command
     fastify.post('/run-command', async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>) => {
       const { command } = request.body;
-      return await CodeLauncherServerActions.runCommand(command);
+      return await codeLauncherServerActions.runCommand(command);
     });
 
     //// Find Open Ports
