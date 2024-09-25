@@ -1,5 +1,3 @@
-import { createCodeLauncherServerExtraActions } from '@code-launcher/shell-operations';
-
 const fastifyStatic = require('@fastify/static') as typeof import('@fastify/static');
 const Fastify = require('fastify') as typeof import('fastify');
 const path = require('path') as typeof import('path');
@@ -55,35 +53,29 @@ fastify.register(require('@fastify/websocket'));
 
 // API routes
 fastify.register(
-  (fastify, _, done) => {
+  async (fastify, _, done) => {
+    const {
+      createCodeLauncherServerActions,
+      createCodeLauncherServerExtraActions,
+    } = //
+      await import('@code-launcher/shell-operations');
+      
+    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+    const extraActions = createCodeLauncherServerExtraActions(workspacePath);
+
     //// Get Project Directories List
     fastify.get('/ls', async () => {
-      const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
-      const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
-
       return await CodeLauncherServerActions.getProjectDirectoriesList();
     });
 
     //// Run Shell Command
-    fastify.post(
-      '/run-command',
-      async (
-        request: import('fastify').FastifyRequest<{
-          Body: { command: string };
-        }>,
-        reply
-      ) => {
-        const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
-        const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
-
-        const { command } = request.body;
-        return await CodeLauncherServerActions.runCommand(command);
-      }
-    );
+    fastify.post('/run-command', async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>) => {
+      const { command } = request.body;
+      return await CodeLauncherServerActions.runCommand(command);
+    });
 
     //// Find Open Ports
     fastify.get('/find-open-ports', async () => {
-      const extraActions = createCodeLauncherServerExtraActions(workspacePath);
       return await extraActions.findOpenPorts();
     });
 

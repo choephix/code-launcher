@@ -1,4 +1,5 @@
 import path from 'path';
+import { createCachedFunction } from './lib/cache';
 
 import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import {
@@ -14,7 +15,10 @@ import { getMemoryAndCPU, getSystemInfo } from './lib/system';
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
+  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff, 300000); // 5 minutes TTL
+
   async function getTheStuff() {
+    console.log('🔍 Fetching workspace data...');
     const { cpuUsage, memUsage } = getMemoryAndCPU();
     const systemInfo = getSystemInfo();
 
@@ -25,6 +29,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       getGitRepositories(pathToWorkspaces),
     ]);
 
+    console.log('✅ Workspace data fetched successfully');
     return {
       pathToWorkspaces,
       configuration,
@@ -41,15 +46,15 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 
   return {
     getProjectDirectoriesList: async () => {
-      const workspaceState = await getTheStuff();
-      return workspaceState;
+      return await cachedGetTheStuff();
     },
 
     runCommand: async (command: string) => {
+      console.log(`🚀 Running command: ${command}`);
       const { output, exitCode } = await runCommand(command, {
         cwd: pathToWorkspaces,
       });
-      const workspaceState = await getTheStuff();
+      const workspaceState = await cachedGetTheStuff();
 
       return {
         ...workspaceState,
@@ -63,9 +68,14 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
+  const cachedFindOpenPorts = createCachedFunction('findOpenPorts', scanOpenPorts, 60000); // 1 minute TTL
+
   return {
     findOpenPorts: async () => {
-      return await scanOpenPorts();
+      console.log('🔍 Scanning for open ports...');
+      const result = await cachedFindOpenPorts();
+      console.log('✅ Port scan completed');
+      return result;
     },
   } satisfies Record<string, (...args: any[]) => Promise<any>>;
 }
