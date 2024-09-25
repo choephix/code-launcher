@@ -1,5 +1,4 @@
 import path from 'path';
-import { createCachedFunction } from './lib/cache';
 
 import { CodeLauncherServerActionResult } from '@code-launcher/data-types';
 import {
@@ -11,6 +10,7 @@ import {
 import { scanOpenPorts } from './lib/ports';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU, getSystemInfo } from './lib/system';
+import { createCachedFunction } from './utils/caching';
 
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
@@ -82,5 +82,5 @@ export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
 
 //// Experimental
 // export * from './experimental/shell-stream';
-export { runCommandStream } from './experimental/shell-iterative';
 export * from './experimental/hello-world';
+export { runCommandStream } from './experimental/shell-iterative';
