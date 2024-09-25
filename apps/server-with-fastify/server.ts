@@ -81,6 +81,31 @@ fastify.register(
       }
     );
 
+    //// Run Shell Command (WebSocket)
+    // @ts-ignore
+    // fastify.get('/run-command-stream', { websocket: true }, (connection, req) => {
+    //   connection.socket.on('message', async (message: string) => {
+    //     const { command } = JSON.parse(message);
+    //     const { runCommandStream } = await import('@code-launcher/shell-operations');
+    //     const stream = runCommandStream(command);
+    //     let commandOutput = '';
+    //     for await (const progress of stream) {
+    //       if (progress.type === 'stdout') {
+    //         log('[STDOUT]:', progress.data);
+    //       } else {
+    //         console.error('[STDERR]:', progress.data);
+    //       }
+    //       commandOutput += progress.data;
+    //     }
+    //     const result = await stream;
+    //     return {
+    //       commandOutput,
+    //       result: result.output,
+    //       exitCode: result.exitCode,
+    //     };
+    //   });
+    // });
+
     //// Find Open Ports
     fastify.get('/find-open-ports', async () => {
       const extraActions = createCodeLauncherServerExtraActions(workspacePath);
