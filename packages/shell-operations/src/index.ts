@@ -15,9 +15,6 @@ import { createCachedFunction } from './utils/caching';
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
-  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff);
-  cachedGetTheStuff.forceUpdate();
-
   async function getTheStuff() {
     console.log('🔍 Fetching workspace data...');
     const { cpuUsage, memUsage } = getMemoryAndCPU();
@@ -45,8 +42,14 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
     };
   }
 
+  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff);
+  cachedGetTheStuff.forceUpdate();
+
   return {
-    getProjectDirectoriesList: async () => {
+    getProjectDirectoriesList: async (ignoreCache: boolean = false) => {
+      if (ignoreCache) {
+        return await getTheStuff();
+      }
       return await cachedGetTheStuff();
     },
 

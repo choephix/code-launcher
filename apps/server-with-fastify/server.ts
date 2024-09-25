@@ -64,8 +64,10 @@ fastify.register(
     const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
     //// Get Project Directories List
-    fastify.get('/ls', async () => {
-      return await CodeLauncherServerActions.getProjectDirectoriesList();
+    fastify.get('/ls', async (request: import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>) => {
+      const ignoreCache = request.query.ignoreCache === 'true';
+      console.log(`🔧 Fetching project directories${ignoreCache ? ' (ignoring cache)' : ''}`);
+      return await CodeLauncherServerActions.getProjectDirectoriesList(ignoreCache);
     });
 
     //// Run Shell Command
