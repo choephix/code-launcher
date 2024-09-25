@@ -8,7 +8,12 @@ type CacheEntry<T> = {
 
 const cache: Record<string, CacheEntry<any>> = {};
 
-export function createCachedFunction<T>(key: string, fn: () => Promise<T>): () => Promise<T> {
+type CachedFunction<T> = {
+  (): Promise<T>;
+  forceUpdate: () => Promise<T>;
+};
+
+export function createCachedFunction<T>(key: string, fn: () => Promise<T>): CachedFunction<T> {
   const debouncedRefresh = debounce((key: string, fn: () => Promise<T>) => {
     if (!cache[key].isRefreshing) {
       console.log(`⏳ Debounced refresh triggered for ${key}`);
@@ -18,7 +23,7 @@ export function createCachedFunction<T>(key: string, fn: () => Promise<T>): () =
     }
   }, 2000);
 
-  return async () => {
+  const cachedFunction = async () => {
     if (!cache[key]) {
       cache[key] = { data: null as any, lastUpdated: 0, isRefreshing: false };
     }
@@ -33,10 +38,22 @@ export function createCachedFunction<T>(key: string, fn: () => Promise<T>): () =
 
     return refreshCache(key, fn);
   };
+
+  cachedFunction.forceUpdate = async () => {
+    if (!cache[key]) {
+      cache[key] = { data: null as any, lastUpdated: 0, isRefreshing: false };
+    }
+
+    await refreshCache(key, fn);
+
+    return cache[key].data;
+  };
+
+  return cachedFunction;
 }
 
 async function refreshCache<T>(key: string, fn: () => Promise<T>): Promise<T> {
-  if (cache[key].isRefreshing) {
+  if (cache[key]?.isRefreshing) {
     console.log(`⏳ Refresh already in progress for ${key}, waiting...`);
     return cache[key].data;
   }
