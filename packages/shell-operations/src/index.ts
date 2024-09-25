@@ -15,7 +15,7 @@ import { createCachedFunction } from './utils/caching';
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
-  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff, 300000); // 5 minutes TTL
+  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff);
 
   async function getTheStuff() {
     console.log('🔍 Fetching workspace data...');
@@ -68,7 +68,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
-  const cachedFindOpenPorts = createCachedFunction('findOpenPorts', scanOpenPorts, 60000); // 1 minute TTL
+  const cachedFindOpenPorts = createCachedFunction('findOpenPorts', scanOpenPorts);
 
   return {
     findOpenPorts: async () => {

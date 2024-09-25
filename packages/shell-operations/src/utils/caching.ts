@@ -5,16 +5,11 @@ type CacheEntry<T> = {
 
 const cache: Record<string, CacheEntry<any>> = {};
 
-export function createCachedFunction<T>(
-  key: string,
-  fn: () => Promise<T>,
-  ttl: number = 60000 // Default TTL: 1 minute
-): () => Promise<T> {
+export function createCachedFunction<T>(key: string, fn: () => Promise<T>): () => Promise<T> {
   return async () => {
-    const now = Date.now();
     const cached = cache[key];
 
-    if (cached && now - cached.lastUpdated < ttl) {
+    if (cached) {
       // 🔄 Return cached data and trigger refresh in background
       refreshCache(key, fn);
       return cached.data;
