@@ -90,6 +90,7 @@ const start = async () => {
     await fastify.listen({ port, host });
     console.log(`🚀 Fastify server is running on ${host}:${port}`);
   } catch (err) {
+    console.error(err);
     fastify.log.error(err);
     process.exit(1);
   }
