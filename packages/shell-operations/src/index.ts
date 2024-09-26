@@ -22,9 +22,9 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 
     const [configuration, rootDirectories, vscodeWorkspaceFiles, gitRepositories] = await Promise.all([
       getWorkspaceConfiguration(pathToWorkspaces),
-      getProjectDirectoriesList(pathToWorkspaces),
-      getVSCodeWorkspaceFiles(pathToWorkspaces),
-      getGitRepositories(pathToWorkspaces),
+      getProjectDirectoriesList(pathToWorkspaces).catch(() => []),
+      getVSCodeWorkspaceFiles(pathToWorkspaces).catch(() => []),
+      getGitRepositories(pathToWorkspaces).catch(() => []),
     ]);
 
     console.log('✅ Workspace data fetched successfully');
@@ -78,7 +78,7 @@ export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
   return {
     findOpenPorts: async () => {
       console.log('🔍 Scanning for open ports...');
-      const result = await cachedFindOpenPorts();
+      const result = await cachedFindOpenPorts().catch(() => []);
       console.log('✅ Port scan completed');
       return result;
     },

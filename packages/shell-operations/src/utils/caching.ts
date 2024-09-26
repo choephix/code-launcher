@@ -68,12 +68,6 @@ async function refreshCache<T>(key: string, fn: () => Promise<T>): Promise<T> {
   } catch (error) {
     cache[key].isRefreshing = false;
 
-    if (error instanceof Error && 'code' in error && error.code === 'EACCES') {
-      const path = 'path' in error ? error.path : 'unknown path';
-      console.warn(`⚠️ Permission denied while accessing ${path}. Using previous cached data if available.`);
-      return cache[key].data || null;
-    }
-
     console.error(`❌ Error refreshing cache for ${key}:`, error);
 
     // For other errors, we'll still throw, but you might want to handle them differently
