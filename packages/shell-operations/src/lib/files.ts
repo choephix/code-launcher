@@ -91,6 +91,9 @@ const IGNORED_PATTERNS = [
 
   // Custom ignore pattern
   /^\.ignore-.+/,
+
+  // Cursor/VSCode server directories
+  /^\.(?:vscode-server|cursor-server)$/,
 ];
 
 function shouldIgnoreDirectory(name: string): boolean {
