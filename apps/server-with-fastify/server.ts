@@ -80,8 +80,6 @@ fastify.register(
     fastify.get('/find-open-ports', async () => {
       return await extraActions.findOpenPorts();
     });
-
-    done();
   },
   { prefix: '/api' }
 );
