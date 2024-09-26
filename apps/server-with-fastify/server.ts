@@ -49,7 +49,7 @@ if (pathsToServe.length > 0) {
   fastify.register(fastifyStatic, { root: pathsToServe, prefix: '/' });
 }
 
-fastify.register(require('@fastify/websocket'));
+// fastify.register(require('@fastify/websocket'));
 
 // API routes
 fastify.register(
