@@ -53,7 +53,7 @@ if (pathsToServe.length > 0) {
 
 // API routes
 fastify.register(
-  async (fastify, _, done) => {
+  async (fastify) => {
     const {
       createCodeLauncherServerActions,
       createCodeLauncherServerExtraActions,
