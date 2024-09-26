@@ -118,7 +118,8 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string) {
         }
       }
     } catch (error) {
-      console.warn('🚨 Error traversing directory:', dir, error);
+      const errorString = 'message' in (error as Error) ? (error as Error).message : String(error);
+      console.warn('🚨 Error traversing directory:', dir, errorString);
     }
   }
 
@@ -250,7 +251,8 @@ export async function getGitRepoDirectories(workspacePath: string) {
         }
       }
     } catch (error) {
-      console.warn('🚨 Error traversing directory:', dir, error);
+      const errorString = 'message' in (error as Error) ? (error as Error).message : String(error);
+      console.warn('🚨 Error traversing directory:', dir, errorString);
     }
   }
 
