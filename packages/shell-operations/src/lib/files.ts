@@ -101,17 +101,21 @@ export async function getVSCodeWorkspaceFiles(workspacePath: string) {
   const workspaceFiles: { relativePath: string; absolutePath: string }[] = [];
 
   async function traverse(dir: string) {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name);
-      if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
-        await traverse(fullPath);
-      } else if (entry.isFile() && entry.name.endsWith('.code-workspace')) {
-        workspaceFiles.push({
-          relativePath: path.relative(workspacePath, fullPath),
-          absolutePath: fullPath,
-        });
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
+          await traverse(fullPath);
+        } else if (entry.isFile() && entry.name.endsWith('.code-workspace')) {
+          workspaceFiles.push({
+            relativePath: path.relative(workspacePath, fullPath),
+            absolutePath: fullPath,
+          });
+        }
       }
+    } catch (error) {
+      console.warn('🚨 Error traversing directory:', dir, error);
     }
   }
 
@@ -219,31 +223,36 @@ export async function getGitRepoDirectories(workspacePath: string) {
   }[] = [];
 
   async function traverse(dir: string) {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
-    const isGitRepo = entries.some(entry => entry.name === '.git' && entry.isDirectory());
-    if (isGitRepo) {
-      const relativePath = path.relative(workspacePath, dir);
-      const absolutePath = path.resolve(workspacePath, dir);
-      const originDomain = await getGitRemoteDomain(absolutePath);
-      const status = await getGitStatus(absolutePath);
-      gitRepos.push({
-        relativePath,
-        absolutePath,
-        originDomain,
-        status,
-      });
-      // console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
-      return; // Don't traverse further if it's a git repo
-    }
-
-    for (const entry of entries) {
-      if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
-        await traverse(path.join(dir, entry.name));
+    try {
+      const entries = await fs.readdir(dir, { withFileTypes: true });
+      const isGitRepo = entries.some(entry => entry.name === '.git' && entry.isDirectory());
+      if (isGitRepo) {
+        const relativePath = path.relative(workspacePath, dir);
+        const absolutePath = path.resolve(workspacePath, dir);
+        const originDomain = await getGitRemoteDomain(absolutePath);
+        const status = await getGitStatus(absolutePath);
+        gitRepos.push({
+          relativePath,
+          absolutePath,
+          originDomain,
+          status,
+        });
+        // console.log(`📊 Git repo found: ${relativePath}, Status: ${JSON.stringify(status)}`);
+        return; // Don't traverse further if it's a git repo
       }
+
+      for (const entry of entries) {
+        if (entry.isDirectory() && !shouldIgnoreDirectory(entry.name)) {
+          await traverse(path.join(dir, entry.name));
+        }
+      }
+    } catch (error) {
+      console.warn('🚨 Error traversing directory:', dir, error);
     }
   }
 
   await traverse(workspacePath);
+
   return gitRepos;
 }
 
