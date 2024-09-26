@@ -20,7 +20,7 @@
   ],
   "type": "commonjs",
   "scripts": {
-    "start": "pnpm run build && node ./dist/server.js",
+    "start": "pnpm run build && node --trace-warnings ./dist/server.js",
     "build": "pnpm -r --filter @code-launcher/client-with-vite run build && pnpm --filter @code-launcher/server-with-fastify run build",
     "dev": "pnpm --filter @code-launcher/client-with-vite --filter @code-launcher/server-with-fastify run dev",
     "prepublishOnly": "pnpm run build",
