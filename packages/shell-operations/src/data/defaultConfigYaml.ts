@@ -19,36 +19,43 @@ editors:
 templates:
   - name: Empty Project
     icon: 'https://simpleicons.org/icons/git.svg'
-    command: 'mkdir -p {folderName} && cd {folderName} && git init'
+    command: >-
+      mkdir -p {folderName} && cd {folderName}
+      git init
+
   - name: Next.js App
     icon: 'https://simpleicons.org/icons/nextdotjs.svg'
     command: >-
-      npx create-next-app {folderName} --ts --eslint --tailwind --app --src-dir
-      --import-alias "@/*" --use-pnpm
+      npm create next-app {folderName} --ts --eslint --tailwind --app --src-dir --import-alias "@/*" --use-pnpm
+
   - name: Vite React + TypeScript
     icon: 'https://simpleicons.org/icons/react.svg'
     command: >-
-      npm create vite@latest {folderName} -- --template react-ts && cd
-      {folderName} && npm install
+      npm create vite@latest {folderName} -- --template react-ts
+      cd {folderName}
+      npm install
+
   - name: Vite Vanilla TypeScript
     icon: 'https://simpleicons.org/icons/vite.svg'
     command: >-
-      npm create vite@latest {folderName} -- --template vanilla-ts && cd
-      {folderName} && npm install
+      npm create vite@latest {folderName} -- --template vanilla-ts
+      cd {folderName}
+      npm install
+
   - name: Turbo Monorepo
     icon: 'https://simpleicons.org/icons/turborepo.svg'
     command: >-
       npx create-turbo@latest {folderName} --use-npm --no-install && cd
       {folderName} && npm install
+
   - name: Pixi.js Project
     icon: 'https://simpleicons.org/icons/piapro.svg'
     command: >-
       mkdir -p {folderName} && cd {folderName} && npm init -y && npm install
-      pixi.js && echo "import * as PIXI from 'pixi.js';
-
+      pixi.js && echo "import * as PIXI from 'pixi.js'; 
       const app = new PIXI.Application();
-
       document.body.appendChild(app.view);" > index.js
+      
   - name: Three.js Project
     icon: 'https://simpleicons.org/icons/threedotjs.svg'
     command: >-
@@ -65,11 +72,13 @@ templates:
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       document.body.appendChild(renderer.domElement);" > index.js
+
   - name: Astro Project
     icon: 'https://simpleicons.org/icons/astro.svg'
     command: >-
       npm create astro@latest {folderName} -- --template minimal --install
       --no-git --typescript strictest --skip-houston
+
   - name: Express + TypeScript
     icon: 'https://simpleicons.org/icons/express.svg'
     command: >-
@@ -85,6 +94,7 @@ templates:
       app.listen(port, () => {
         console.log(\`Server running at http://localhost:\${port}\`);
       });" > src/index.ts
+
   - name: Elysia App
     icon: 'https://simpleicons.org/icons/bun.svg'
     command: >-
@@ -92,6 +102,7 @@ templates:
       echo "import { Elysia } from 'elysia';
       const app = new Elysia().get('/', () => 'Hello Elysia').listen(3000);
       console.log(\`Elysia is running at \${app.server?.hostname}:\${app.server?.port}\`);" > src/index.ts
+
   - name: v0 Powered App
     icon: >-
       data:image/svg+xml,%3Csvg fill='currentColor' viewBox='0 0 40 20'
@@ -108,6 +119,7 @@ templates:
     command: >-
       pnpm create next-app@latest --typescript --tailwind --eslint --import-alias
       "@/*" --use-pnpm {folderName} && pnpm dlx v0@latest init
+
   - name: Astro Blog
     icon: 'https://simpleicons.org/icons/astro.svg'
     command: >-

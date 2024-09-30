@@ -1,11 +1,12 @@
+import { DotIcon, GitBranch, GlobeIcon, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 import type React from 'react';
-import { DotIcon, GitBranch, SearchIcon, SparklesIcon, TerminalIcon } from 'lucide-react';
 
 import { apiService } from '@/lib/apiService';
 
 const GIT_REPO_REGEX = /^(https?:\/\/|git@)?([\w.-]+@)?([\w.-]+)(:\d+)?[:\/]([\w.-]+)\/([\w.-]+)(\.git)?\/?$/;
 const GIT_CLONE_PREFIX_REGEX = /^git\s+clone\s+/i;
 const SHELL_COMMAND_REGEX = /^(\$|>)\s*/m;
+const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/i;
 
 export interface SmartBarFeature {
   readonly type: string;
@@ -101,6 +102,24 @@ export const SmartBarFeatures = [
     },
     label: 'Ask AI',
     disabled: true,
+  },
+  {
+    type: 'url',
+    bigTitle: {
+      content: 'Open URL',
+      style: {
+        fontFamily: 'monospace',
+      },
+    },
+    icon: GlobeIcon, // You'll need to import this from 'lucide-react'
+    placeholder: 'Enter a URL to open',
+    match: (input: string) => URL_REGEX.test(input.trim()),
+    action: (input: string) => {
+      const url = input.trim();
+      window.location.href = url;
+    },
+    label: 'Open',
+    disabled: false,
   },
   {
     type: 'search',

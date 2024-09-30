@@ -10,21 +10,24 @@ import {
 import { scanOpenPorts } from './lib/ports';
 import { runCommand } from './lib/shell';
 import { getMemoryAndCPU, getSystemInfo } from './lib/system';
+import { createCachedFunction } from './utils/caching';
 
 export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
   async function getTheStuff() {
+    console.log('🔍 Fetching workspace data...');
     const { cpuUsage, memUsage } = getMemoryAndCPU();
     const systemInfo = getSystemInfo();
 
     const [configuration, rootDirectories, vscodeWorkspaceFiles, gitRepositories] = await Promise.all([
       getWorkspaceConfiguration(pathToWorkspaces),
-      getProjectDirectoriesList(pathToWorkspaces),
-      getVSCodeWorkspaceFiles(pathToWorkspaces),
-      getGitRepositories(pathToWorkspaces),
+      getProjectDirectoriesList(pathToWorkspaces).catch(() => []),
+      getVSCodeWorkspaceFiles(pathToWorkspaces).catch(() => []),
+      getGitRepositories(pathToWorkspaces).catch(() => []),
     ]);
 
+    console.log('✅ Workspace data fetched successfully');
     return {
       pathToWorkspaces,
       configuration,
@@ -39,20 +42,26 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
     };
   }
 
+  const cachedGetTheStuff = createCachedFunction('getTheStuff', getTheStuff);
+  cachedGetTheStuff.forceUpdate();
+
   return {
-    getProjectDirectoriesList: async () => {
-      const workspaceState = await getTheStuff();
-      return workspaceState;
+    getProjectDirectoriesList: async (ignoreCache: boolean = false) => {
+      if (ignoreCache) {
+        return await getTheStuff();
+      }
+      return await cachedGetTheStuff();
     },
 
     runCommand: async (command: string) => {
+      console.log(`🚀 Running command: ${command}`);
       const { output, exitCode } = await runCommand(command, {
         cwd: pathToWorkspaces,
       });
-      // const workspaceState = await getTheStuff();
+      const workspaceState = await cachedGetTheStuff();
 
       return {
-        // ...workspaceState,
+        ...workspaceState,
         commandOutput: output,
         exitCode,
       } as any;
@@ -63,14 +72,20 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
+  const cachedFindOpenPorts = createCachedFunction('findOpenPorts', scanOpenPorts);
+  cachedFindOpenPorts.forceUpdate();
+
   return {
     findOpenPorts: async () => {
-      return await scanOpenPorts();
+      console.log('🔍 Scanning for open ports...');
+      const result = await cachedFindOpenPorts().catch(() => []);
+      console.log('✅ Port scan completed');
+      return result;
     },
   } satisfies Record<string, (...args: any[]) => Promise<any>>;
 }
 
 //// Experimental
 // export * from './experimental/shell-stream';
-export { runCommandStream } from './experimental/shell-iterative';
 export * from './experimental/hello-world';
+export { runCommandStream } from './experimental/shell-iterative';

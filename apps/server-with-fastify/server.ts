@@ -1,5 +1,3 @@
-import { createCodeLauncherServerExtraActions } from '@code-launcher/shell-operations';
-
 const fastifyStatic = require('@fastify/static') as typeof import('@fastify/static');
 const Fastify = require('fastify') as typeof import('fastify');
 const path = require('path') as typeof import('path');
@@ -51,68 +49,37 @@ if (pathsToServe.length > 0) {
   fastify.register(fastifyStatic, { root: pathsToServe, prefix: '/' });
 }
 
-fastify.register(require('@fastify/websocket'));
+// fastify.register(require('@fastify/websocket'));
 
 // API routes
 fastify.register(
-  (fastify, _, done) => {
-    //// Get Project Directories List
-    fastify.get('/ls', async () => {
-      const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
-      const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+  async (fastify) => {
+    const {
+      createCodeLauncherServerActions,
+      createCodeLauncherServerExtraActions,
+    } = //
+      await import('@code-launcher/shell-operations');
+      
+    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+    const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
-      return await CodeLauncherServerActions.getProjectDirectoriesList();
+    //// Get Project Directories List
+    fastify.get('/ls', async (request: import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>) => {
+      const ignoreCache = request.query.ignoreCache === 'true';
+      console.log(`🔧 Fetching project directories${ignoreCache ? ' (ignoring cache)' : ''}`);
+      return await CodeLauncherServerActions.getProjectDirectoriesList(ignoreCache);
     });
 
     //// Run Shell Command
-    fastify.post(
-      '/run-command',
-      async (
-        request: import('fastify').FastifyRequest<{
-          Body: { command: string };
-        }>,
-        reply
-      ) => {
-        const { createCodeLauncherServerActions } = await import('@code-launcher/shell-operations');
-        const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
-
-        const { command } = request.body;
-        return await CodeLauncherServerActions.runCommand(command);
-      }
-    );
-
-    //// Run Shell Command (WebSocket)
-    // @ts-ignore
-    // fastify.get('/run-command-stream', { websocket: true }, (connection, req) => {
-    //   connection.socket.on('message', async (message: string) => {
-    //     const { command } = JSON.parse(message);
-    //     const { runCommandStream } = await import('@code-launcher/shell-operations');
-    //     const stream = runCommandStream(command);
-    //     let commandOutput = '';
-    //     for await (const progress of stream) {
-    //       if (progress.type === 'stdout') {
-    //         log('[STDOUT]:', progress.data);
-    //       } else {
-    //         console.error('[STDERR]:', progress.data);
-    //       }
-    //       commandOutput += progress.data;
-    //     }
-    //     const result = await stream;
-    //     return {
-    //       commandOutput,
-    //       result: result.output,
-    //       exitCode: result.exitCode,
-    //     };
-    //   });
-    // });
+    fastify.post('/run-command', async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>) => {
+      const { command } = request.body;
+      return await CodeLauncherServerActions.runCommand(command);
+    });
 
     //// Find Open Ports
     fastify.get('/find-open-ports', async () => {
-      const extraActions = createCodeLauncherServerExtraActions(workspacePath);
       return await extraActions.findOpenPorts();
     });
-
-    done();
   },
   { prefix: '/api' }
 );
@@ -123,6 +90,7 @@ const start = async () => {
     await fastify.listen({ port, host });
     console.log(`🚀 Fastify server is running on ${host}:${port}`);
   } catch (err) {
+    console.error(err);
     fastify.log.error(err);
     process.exit(1);
   }

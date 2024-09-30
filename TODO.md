@@ -50,6 +50,7 @@
   - <a href="vscode://command/workbench.action.debug.start">Start Debugging</a>
   - <a href="vscode://command/workbench.action.openSettings">Open Settings</a>
 - [x] Persist selected projects list tab via localstorage
+- [x] Open http(s) links from the smartbar
 
 ## Quality of Life
 
