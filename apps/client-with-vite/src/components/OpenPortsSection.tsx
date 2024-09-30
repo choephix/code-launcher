@@ -63,7 +63,7 @@ function OpenPorts() {
                 href={getPortUrl(port.port)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-pop-in opacity-0 no-underline"
+                className="px-4 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-fade-in opacity-0 no-underline"
                 style={{
                   animationDelay: `${index * 50}ms`,
                   animationFillMode: 'forwards',
