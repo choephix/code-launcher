@@ -1,4 +1,4 @@
-/// <reference types="node" />
+console.log('🔧 Loading data types...');
 
 export interface WorkspaceConfiguration {
   ui: {
@@ -57,7 +57,13 @@ export interface CodeLauncherServerActionResult {
     architecture: string;
     kernelVersion: string;
     type: string;
-    userInfo: import('os').UserInfo<string>;
+    userInfo: {
+      username: string;
+      uid: number;
+      gid: number;
+      shell: string | null;
+      homedir: string;
+    };
     memTotal: number;
     memFree: number;
     memUsage: number;
@@ -69,3 +75,5 @@ export interface CodeLauncherServerActionResult {
   commandOutput?: string;
   exitCode: number | null;
 }
+
+console.log('✅ Data types loaded successfully');
