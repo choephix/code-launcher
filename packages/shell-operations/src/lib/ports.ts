@@ -13,12 +13,16 @@ export async function scanOpenPorts(startPort = 1, endPort = 65535): Promise<Por
   const openPorts: PortInfo[] = [];
 
   for (let port = startPort; port <= endPort; port++) {
-    const status = await portscanner.checkPortStatus(port, '127.0.0.1');
-    if (status === 'open') {
-      const httpInfo = await checkHttpContent(port);
-      if (httpInfo) {
-        openPorts.push(httpInfo);
+    try {
+      const status = await portscanner.checkPortStatus(port, '127.0.0.1');
+      if (status === 'open') {
+        const httpInfo = await checkHttpContent(port);
+        if (httpInfo) {
+          openPorts.push(httpInfo);
+        }
       }
+    } catch (error) {
+      console.warn('Error scanning port', port, error);
     }
   }
 
@@ -34,6 +38,7 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
       timeout: 1000,
     };
 
+    const faviconRegex = /<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["'][^>]*>/i;
     const req = http.request(options, res => {
       let data = '';
       res.on('data', chunk => {
@@ -49,8 +54,8 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
             if (titleMatch) {
               title = titleMatch[1];
             }
-            
-            const faviconMatch = data.match(/<link[^>]*rel=["'](?:shortcut )?icon["'][^>]*href=["']([^"']+)["'][^>]*>/i);
+
+            const faviconMatch = data.match(faviconRegex);
             if (faviconMatch) {
               favicon = faviconMatch[1];
             }
