@@ -10,6 +10,7 @@ log('//// __dirname:', __dirname);
 
 const cmdArgs = parseCommandLineArgs();
 const verbose = cmdArgs.verbose || false;
+const expose = cmdArgs.expose || false;
 
 if (cmdArgs.help) {
   displayCommandLineHelp();
@@ -86,9 +87,12 @@ fastify.register(
 
 const start = async () => {
   try {
-    const host = cmdArgs.expose ? '0.0.0.0' : 'localhost';
+    const host = expose ? '0.0.0.0' : 'localhost';
     await fastify.listen({ port, host });
     console.log(`🚀 Fastify server is running on ${host}:${port}`);
+    if (expose) {
+      console.log('⚠️ Server is exposed to the local network. Be cautious.');
+    }
   } catch (err) {
     console.error(err);
     fastify.log.error(err);
