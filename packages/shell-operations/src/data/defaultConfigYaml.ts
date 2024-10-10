@@ -3,18 +3,22 @@ ui:
   projectDirectoriesPrefix: "folderIcon"
 
 editors:
-  - name: VS Code (via shell)
+  - name: VSCode (via shell)
     shellExecutable: code
   - name: Cursor (via shell)
     shellExecutable: cursor
-  - name: VS Code
+  - name: VSCode
     urlTemplate: vscode://file/{path}
-  - name: VS Code + WSL
-    urlTemplate: vscode://vscode-remote/wsl+Ubuntu/{path}
   - name: Cursor
     urlTemplate: cursor://file/{path}
+  - name: VSCode + WSL
+    urlTemplate: vscode://vscode-remote/wsl+Ubuntu/{path}
   - name: Cursor + WSL
     urlTemplate: cursor://vscode-remote/wsl+Ubuntu/{path}
+  - name: VSCode + Remote SSH
+    urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}
+  - name: Cursor + Remote SSH
+    urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}
 
 templates:
   - name: Empty Project

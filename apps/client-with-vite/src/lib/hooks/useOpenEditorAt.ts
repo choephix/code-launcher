@@ -18,7 +18,9 @@ export const useOpenEditorAt = () => {
       }
 
       if (editorCfg.urlTemplate) {
-        const url = editorCfg.urlTemplate.replace('{path}', `${pathToWorkspaces}/${project}`);
+        const url = editorCfg.urlTemplate
+          .replace('{path}', `${pathToWorkspaces}/${project}`)
+          .replace('{address}', location.hostname);
         window.open(url, '_blank');
         return;
       }
