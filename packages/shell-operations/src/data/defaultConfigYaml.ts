@@ -18,7 +18,7 @@ editors:
   - name: VSCode + Remote SSH
     urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}
   - name: Cursor + Remote SSH
-    urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}
+    urlTemplate: cursor://vscode-remote/ssh-remote+{address}/{path}
 
 templates:
   - name: Empty Project
