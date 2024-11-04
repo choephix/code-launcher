@@ -5,6 +5,8 @@ const fs = require('fs') as typeof import('fs');
 
 const { parseCommandLineArgs, displayCommandLineHelp } = require('./lib/cmd-args') as typeof import('./lib/cmd-args');
 
+import { fetchFaviconFromPaths, fetchFaviconFromHead } from './faviconUtils';
+
 log('//// prod/dev:', process.env.NODE_ENV);
 log('//// __dirname:', __dirname);
 
@@ -83,6 +85,32 @@ fastify.register(
       const nonThisPorts = allPorts.filter(o => 'port' in o && o.port !== port);
       return nonThisPorts;
     });
+
+    //// Proxy Favicon
+    fastify.get(
+      '/proxy-favicon/:port',
+      async (
+        request: import('fastify').FastifyRequest<{ Params: { port: number } }>,
+        reply: import('fastify').FastifyReply
+      ) => {
+        const { port } = request.params;
+        try {
+          const [b1, b2] = await Promise.all([
+            fetchFaviconFromPaths(port),
+            fetchFaviconFromHead(port),
+          ]);
+          const faviconBuffer = b1 || b2;
+          // if (faviconBuffer) {
+            reply.type('image/x-icon').send(faviconBuffer);
+          // } else {
+          //   throw new Error('Favicon not found');
+          // }
+        } catch (error) {
+          // console.error(`❌ Error fetching favicon for port ${port}:`, error);
+          reply.status(404).send(':(\n\nFavicon not found\n\n' + error);
+        }
+      }
+    );
   },
   { prefix: '/api' }
 );
