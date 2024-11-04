@@ -53,19 +53,18 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       return await cachedGetTheStuff();
     },
 
-    runCommand: async (command: string) => {
-      console.log(`🚀 Running command: ${command}`);
-      const { output, exitCode } = await runCommand(command, {
-        cwd: pathToWorkspaces,
-      });
-      const workspaceState = await cachedGetTheStuff();
-
-      return {
-        ...workspaceState,
-        commandOutput: output,
-        exitCode,
-      };
-    },
+    // runCommand: async (command: string) => {
+    //   console.log(`🚀 Running command: ${command}`);
+    //   const { output, exitCode } = await runCommand(command, {
+    //     cwd: pathToWorkspaces,
+    //   });
+    //   const workspaceState = await cachedGetTheStuff();
+    //   return {
+    //     ...workspaceState,
+    //     commandOutput: output,
+    //     exitCode,
+    //   };
+    // },
   } satisfies Record<string, (...args: any[]) => Promise<CodeLauncherServerActionResult>>;
 }
 
@@ -81,6 +80,18 @@ export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
       const result = await cachedFindOpenPorts().catch(() => []);
       console.log('✅ Port scan completed');
       return result;
+    },
+
+    runCommand: async (command: string) => {
+      console.log(`🚀 Running command: ${command}`);
+      const { output, exitCode } = await runCommand(command, {
+        cwd: pathToWorkspaces,
+      });
+
+      return {
+        commandOutput: output,
+        exitCode,
+      };
     },
   } satisfies Record<string, (...args: any[]) => Promise<any>>;
 }

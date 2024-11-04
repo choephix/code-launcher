@@ -61,20 +61,20 @@ fastify.register(
     } = //
       await import('@code-launcher/shell-operations');
 
-    const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
+    const stateActions = createCodeLauncherServerActions(workspacePath);
     const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
     //// Get Project Directories List
     fastify.get('/ls', async (request: import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>) => {
       const ignoreCache = request.query.ignoreCache === 'true';
       console.log(`🔧 Fetching project directories${ignoreCache ? ' (ignoring cache)' : ''}`);
-      return await CodeLauncherServerActions.getProjectDirectoriesList(ignoreCache);
+      return await stateActions.getProjectDirectoriesList(ignoreCache);
     });
 
     //// Run Shell Command
     fastify.post('/run-command', async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>) => {
       const { command } = request.body;
-      return await CodeLauncherServerActions.runCommand(command);
+      return await extraActions.runCommand(command);
     });
 
     //// Find Open Ports
