@@ -172,6 +172,33 @@ const ProjectsList: React.FC = () => {
     return <span className="text-blue-400 text-xs ml-2">→</span>;
   };
 
+  const renderCodeWorkspacePath = (path: string) => {
+    // Split the path into directory and filename
+    const lastSlashIndex = path.lastIndexOf('/');
+    const directory = lastSlashIndex !== -1 ? path.substring(0, lastSlashIndex + 1) : '';
+    const filenameWithExt = lastSlashIndex !== -1 ? path.substring(lastSlashIndex + 1) : path;
+    
+    // Split filename and extension
+    const lastDotIndex = filenameWithExt.lastIndexOf('.');
+    const filename = filenameWithExt.substring(0, lastDotIndex);
+    const extension = filenameWithExt.substring(lastDotIndex);
+
+    return (
+      <span className="flex items-center">
+        {directory && <span className="text-gray-400">{directory}</span>}
+        <span className="font-semibold mx-1 text-gray-100">{filename}</span>
+        <span className="opacity-25">{extension}</span>
+      </span>
+    );
+  };
+
+  const renderItemContent = (item: any) => {
+    if (activeTab === 'codeWorkspaces') {
+      return renderCodeWorkspacePath(item.relativePath);
+    }
+    return item.relativePath;
+  };
+
   const renderTabContent = () => {
     if (!workspaceInfo) return null;
 
@@ -201,7 +228,7 @@ const ProjectsList: React.FC = () => {
               >
                 <span className="flex items-center">
                   {renderItemPrefix(item)}
-                  {item.relativePath}
+                  {renderItemContent(item)}
                   {renderItemSuffix(item)}
                 </span>
                 <span className="flex items-center">{renderRightPart(item)}</span>
