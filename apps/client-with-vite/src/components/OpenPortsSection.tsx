@@ -28,7 +28,8 @@ const PortIcon = ({ port, title }: { port: number; title: string | null }) => {
       alt={`Favicon for ${title || `port ${port}`}`}
       className="
       w-6 h-6 object-contain filter transition-all duration-500
-      group-hover:brightness-200 group-hover:saturate-200 group-hover:contrast-75"      onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      group-hover:brightness-200 group-hover:saturate-200 group-hover:contrast-75"
+      onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
         console.warn('❌ Error loading favicon for port', port, event);
         setHasError(true);
       }}
