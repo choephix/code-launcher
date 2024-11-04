@@ -54,13 +54,13 @@ if (pathsToServe.length > 0) {
 
 // API routes
 fastify.register(
-  async (fastify) => {
+  async fastify => {
     const {
       createCodeLauncherServerActions,
       createCodeLauncherServerExtraActions,
     } = //
       await import('@code-launcher/shell-operations');
-      
+
     const CodeLauncherServerActions = createCodeLauncherServerActions(workspacePath);
     const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
@@ -79,7 +79,9 @@ fastify.register(
 
     //// Find Open Ports
     fastify.get('/find-open-ports', async () => {
-      return await extraActions.findOpenPorts();
+      const allPorts = await extraActions.findOpenPorts();
+      const nonThisPorts = allPorts.filter(o => 'port' in o && o.port !== port);
+      return nonThisPorts;
     });
   },
   { prefix: '/api' }
