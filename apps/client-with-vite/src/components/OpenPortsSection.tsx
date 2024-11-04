@@ -87,7 +87,7 @@ function OpenPortsSection() {
                     <EarthIcon className="w-6 h-6 text-gray-500" />
                   )}
                 </div>
-                <span className="text-xs mt-1 text-center line-clamp-2">{port.title || `Port ${port.port}`}</span>
+                <span className="text-xs mt-1 text-center line-clamp-2">{port.title || <i>Untitled</i>}</span>
                 <span className="text-xs text-gray-600 font-bold">{port.port}</span>
               </a>
             ))
