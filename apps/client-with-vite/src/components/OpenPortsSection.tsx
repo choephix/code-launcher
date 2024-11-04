@@ -26,8 +26,9 @@ const PortIcon = ({ port, title }: { port: number; title: string | null }) => {
     <img
       src={resolveFaviconUrl(port)}
       alt={`Favicon for ${title || `port ${port}`}`}
-      className="w-6 h-6 object-contain"
-      onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
+      className="
+      w-6 h-6 object-contain filter transition-all duration-500
+      group-hover:brightness-200 group-hover:saturate-200 group-hover:contrast-75"      onError={(event: React.SyntheticEvent<HTMLImageElement, Event>) => {
         console.warn('❌ Error loading favicon for port', port, event);
         setHasError(true);
       }}
@@ -88,7 +89,7 @@ function OpenPortsSection() {
                 }}
                 title={`${port.title} | ${port.contentType} (Status: ${port.status})`}
               >
-                <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full transition-colors duration-500 group-hover:bg-gray-600 group-hover:duration-100 group-hover:text-gray-300 text-gray-600">
+                <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full transition-colors duration-500 group-hover:bg-gray-700 group-hover:duration-100 group-hover:text-gray-300 text-gray-600">
                   <PortIcon port={port.port} title={port.title} />
                 </div>
                 <span className="text-xs mt-1 text-center line-clamp-2">{port.title || <i>Untitled</i>}</span>
