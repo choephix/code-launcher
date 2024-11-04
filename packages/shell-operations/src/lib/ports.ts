@@ -1,28 +1,79 @@
 import portscanner from 'portscanner';
 import http from 'http';
+import { exec } from 'child_process';
+import { platform } from 'os';
 
 interface PortInfo {
   port: number;
+  address: string;
   contentType: string;
   status: number;
   title: string | null;
   favicon: string | null;
+  isLocalOnly: boolean;
+}
+
+async function getListeningAddresses(): Promise<Map<number, { address: string; isLocalOnly: boolean }>> {
+  return new Promise(resolve => {
+    const addresses = new Map<number, { address: string; isLocalOnly: boolean }>();
+
+    const command = platform() === 'win32' ? 'netstat -an | findstr LISTENING' : 'netstat -tln';
+
+    exec(command, (error, stdout) => {
+      if (error) {
+        console.error('🔴 Error getting listening addresses:', error);
+        resolve(addresses);
+        return;
+      }
+
+      stdout.split('\n').forEach(line => {
+        const parts = line.trim().split(/\s+/);
+        // Format differs between OS, but we're looking for the local address column
+        const addressPart = platform() === 'win32' ? parts[1] : parts[3];
+
+        if (addressPart) {
+          const [addr, portStr] = addressPart.split(':');
+          const port = parseInt(portStr);
+          if (!isNaN(port)) {
+            const isLocalOnly = addr === '127.0.0.1' || addr === 'localhost' || addr === '::1';
+            addresses.set(port, {
+              address: addr,
+              isLocalOnly,
+            });
+          }
+        }
+      });
+
+      console.log('🎧 Found listening addresses:', addresses.size);
+      resolve(addresses);
+    });
+  });
 }
 
 export async function scanOpenPorts(startPort = 1, endPort = 65535): Promise<PortInfo[]> {
   const openPorts: PortInfo[] = [];
+  const listeningAddresses = await getListeningAddresses();
 
   for (let port = startPort; port <= endPort; port++) {
     try {
       const status = await portscanner.checkPortStatus(port, '127.0.0.1');
       if (status === 'open') {
+        const addressInfo = listeningAddresses.get(port) || {
+          address: '127.0.0.1',
+          isLocalOnly: true,
+        };
+
         const httpInfo = await checkHttpContent(port);
         if (httpInfo) {
-          openPorts.push(httpInfo);
+          openPorts.push({
+            ...httpInfo,
+            address: addressInfo.address,
+            isLocalOnly: addressInfo.isLocalOnly,
+          });
         }
       }
     } catch (error) {
-      console.warn('Error scanning port', port, error);
+      console.warn('⚠️ Error scanning port', port, error);
     }
   }
 
@@ -66,6 +117,8 @@ function checkHttpContent(port: number): Promise<PortInfo | null> {
             status: res.statusCode || 0,
             title: title,
             favicon: favicon,
+            isLocalOnly: true,
+            address: 'localhost',
           });
         } else {
           resolve(null);
