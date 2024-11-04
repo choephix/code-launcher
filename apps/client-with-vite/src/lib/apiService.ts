@@ -32,15 +32,14 @@ const createApiService = (baseUrl: string) => {
     },
 
     runCommand: async (command: string): Promise<ApiResponse> => {
-      const result = await fetchWithStats('/run-command', {
+      return await fetchWithStats('/run-command', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ command }),
+      }).then(result => {
+        fetchWithStats('/ls?ignoreCache=true');
+        return result;
       });
-
-      fetchWithStats('/ls?ignoreCache=true');
-
-      return result;
     },
 
     findOpenPorts: async (): Promise<PortInfo[]> => {
