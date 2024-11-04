@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiService } from '../lib/apiService';
+import { EarthIcon } from 'lucide-react';
 
 interface PortInfo {
   port: number;
@@ -9,7 +10,7 @@ interface PortInfo {
   favicon: string | null;
 }
 
-function OpenPorts() {
+function OpenPortsSection() {
   const [openPorts, setOpenPorts] = useState<PortInfo[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -50,8 +51,8 @@ function OpenPorts() {
 
   return (
     <div className="mb-6">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="flex flex-wrap gap-2">
+      <div className="flex items-center gap-2 mb-2 justify-center">
+        <div className="flex flex-wrap gap-0 justify-center">
           {loading ? (
             <div className="flex items-center py-1 px-2">
               <span className="text-xs text-gray-600">Scanning open ports...</span>
@@ -63,25 +64,27 @@ function OpenPorts() {
                 href={getPortUrl(port.port)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-4 py-1 bg-gray-800 text-gray-300 rounded-full text-xs hover:bg-gray-700 transition-colors duration-200 cursor-pointer animate-fade-in opacity-0 no-underline"
+                className="group flex flex-col items-center w-24 p-2 text-gray-300 rounded-lg transition-colors duration-500 cursor-pointer animate-fade-in no-underline"
                 style={{
                   animationDelay: `${index * 50}ms`,
                   animationFillMode: 'forwards',
                 }}
                 title={`${port.title} | ${port.contentType} (Status: ${port.status})`}
               >
-                {port.favicon && (
-                  <img
-                    src={resolveFaviconUrl(port.port, port.favicon)}
-                    alt={`Favicon for ${port.title || `port ${port.port}`}`}
-                    className="w-4 h-4 object-contain inline-block mr-2"
-                    onError={e => e.currentTarget.remove()}
-                  />
-                )}
-                {port.title && <span>{port.title}</span>}
-                &nbsp;&nbsp;&nbsp;
-                <span className="font-bold">{port.port}</span>
-                {/* <ExternalLinkIcon size={10} className="inline ml-2 mb-1" /> */}
+                <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full transition-colors duration-500 group-hover:bg-gray-600 group-hover:duration-150">
+                  {port.favicon ? (
+                    <img
+                      src={resolveFaviconUrl(port.port, port.favicon)}
+                      alt={`Favicon for ${port.title || `port ${port.port}`}`}
+                      className="w-6 h-6 object-contain"
+                      onError={e => e.currentTarget.remove()}
+                    />
+                  ) : (
+                    <EarthIcon className="w-6 h-6 text-gray-500" />
+                  )}
+                </div>
+                <span className="text-xs mt-1 text-center line-clamp-2">{port.title || `Port ${port.port}`}</span>
+                <span className="text-xs text-gray-500 font-bold">{port.port}</span>
               </a>
             ))
           ) : (
@@ -93,4 +96,4 @@ function OpenPorts() {
   );
 }
 
-export default OpenPorts;
+export default OpenPortsSection;
