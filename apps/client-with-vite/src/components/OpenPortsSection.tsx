@@ -83,17 +83,17 @@ function OpenPortsSection() {
                 href={getPortUrl(port.port)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center w-24 p-2 text-gray-300 rounded-lg transition-colors duration-500 cursor-pointer animate-fade-in no-underline"
+                className="group flex flex-col items-center w-28 p-2 text-gray-300 rounded-lg transition-colors duration-500 cursor-pointer animate-fade-in no-underline"
                 style={{
                   animationDelay: `${index * 50}ms`,
                   animationFillMode: 'forwards',
                 }}
-                title={`${port.title} | ${port.contentType} (Status: ${port.status})`}
+                title={port.title || undefined}
               >
                 <div className="flex items-center justify-center w-12 h-12 bg-gray-800 rounded-full transition-colors duration-500 group-hover:bg-gray-700 group-hover:duration-100 group-hover:text-gray-300 text-gray-600">
                   <PortIcon port={port.port} title={port.title} />
                 </div>
-                <span className="text-xs mt-1 text-center line-clamp-2">{port.title || <i>Untitled</i>}</span>
+                <span className="text-xs mt-1 text-center line-clamp-1">{port.title || <i>Untitled</i>}</span>
                 <span className="text-xs text-gray-600 font-bold">{port.port}</span>
               </a>
             ))
