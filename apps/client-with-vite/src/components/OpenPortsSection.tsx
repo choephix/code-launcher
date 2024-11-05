@@ -70,7 +70,7 @@ function OpenPortsSection() {
 
   return (
     <div className="mb-6">
-      <div className="flex items-center gap-2 mb-2 justify-center">
+      <div className="flex items-center gap-2 mb-2">
         <div className="flex flex-wrap gap-0 justify-center">
           {loading ? (
             <div className="flex items-center py-1 px-2">
