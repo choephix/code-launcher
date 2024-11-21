@@ -1,5 +1,5 @@
 export async function fetchFaviconFromPaths(port: number): Promise<Buffer | null> {
-  const paths = ['/favicon.ico', '/favicon.png', '/favicon.jpg'];
+  const paths = ['/favicon.ico', '/favicon.png', '/favicon.jpg', '/favicon.svg'];
   for (const path of paths) {
     const url = `http://localhost:${port}${path}`;
     try {
