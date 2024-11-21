@@ -1,5 +1,3 @@
-console.log('🔧 Loading data types...');
-
 export interface WorkspaceConfiguration {
   ui: {
     projectDirectoriesPrefix: 'folderIcon' | 'backslash' | null;
@@ -75,5 +73,3 @@ export interface CodeLauncherServerActionResult {
   commandOutput?: string;
   exitCode: number | null;
 }
-
-console.log('✅ Data types loaded successfully');

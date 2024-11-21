@@ -163,7 +163,7 @@ async function getGitStatus(repoPath: string, autoFetchAll: boolean = false) {
     const execFilePromise = util.promisify(execFile);
 
     if (autoFetchAll) {
-      console.log('🔄 Fetching latest changes at', repoPath);
+      // console.log('🔄 Fetching latest changes at', repoPath);
       await execFilePromise('git', ['fetch'], { cwd: repoPath });
     }
 

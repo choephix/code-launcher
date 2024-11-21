@@ -16,7 +16,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
   async function getTheStuff() {
-    console.log('🔍 Fetching workspace data...');
+    // console.log('🔍 Fetching workspace data...');
     const { cpuUsage, memUsage } = getMemoryAndCPU();
     const systemInfo = getSystemInfo();
 
@@ -27,7 +27,7 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
       getGitRepositories(pathToWorkspaces).catch(() => []),
     ]);
 
-    console.log('✅ Workspace data fetched successfully');
+    // console.log('✅ Workspace data fetched successfully');
     return {
       pathToWorkspaces,
       configuration,

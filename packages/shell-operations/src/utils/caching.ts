@@ -15,7 +15,7 @@ type CachedFunction<T> = {
 
 export function createCachedFunction<T>(key: string, fn: () => Promise<T>): CachedFunction<T> {
   const debouncedRefresh = debounce((key: string, fn: () => Promise<T>) => {
-    console.log(`⏳ Debounced refresh triggered for ${key}`);
+    // console.log(`⏳ Debounced refresh triggered for ${key}`);
     refreshCache(key, fn);
   }, 2000);
 
@@ -50,8 +50,8 @@ export function createCachedFunction<T>(key: string, fn: () => Promise<T>): Cach
 
 async function refreshCache<T>(key: string, fn: () => Promise<T>): Promise<T> {
   if (cache[key]?.isRefreshing) {
-    console.log(`⏳ Refresh already in progress for ${key}, waiting...`);
-    // Wait for the existing refresh to complete
+    // console.log(`⏳ Refresh already in progress for ${key}, waiting...`);
+    //// Wait for the existing refresh to complete
     while (cache[key].isRefreshing) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
@@ -67,7 +67,7 @@ async function refreshCache<T>(key: string, fn: () => Promise<T>): Promise<T> {
   try {
     const data = await fn();
     cache[key] = { data, lastUpdated: Date.now(), isRefreshing: false };
-    console.log(`🔄 Cache refreshed for ${key}`);
+    // console.log(`🔄 Cache refreshed for ${key}`);
     return data;
   } catch (error) {
     console.error(`❌ Error refreshing cache for ${key}:`, error);

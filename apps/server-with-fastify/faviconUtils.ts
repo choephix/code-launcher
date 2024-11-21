@@ -7,7 +7,7 @@ export async function fetchFaviconFromPaths(port: number): Promise<Buffer | null
       if (response.ok && response.headers.get('Content-Type')?.startsWith('image/')) {
         const arrayBuffer = await response.arrayBuffer();
         if (arrayBuffer.byteLength > 0) {
-          console.log('✅ Favicon found at', url, response.headers.get('Content-Type'));
+          console.log('✅ Favicon found at', url, response.headers.get('Content-Type'), 'for port', port);
           return Buffer.from(arrayBuffer);
         }
       }
@@ -32,7 +32,7 @@ export async function fetchFaviconFromHead(port: number): Promise<Buffer | null>
       if (faviconResponse.ok && faviconResponse.headers.get('Content-Type')?.startsWith('image/')) {
         const arrayBuffer = await faviconResponse.arrayBuffer();
         if (arrayBuffer.byteLength > 0) {
-          console.log('✅ Favicon found at', faviconUrl);
+          console.log('✅ Favicon found at', faviconUrl, 'for port', port);
           return Buffer.from(arrayBuffer);
         }
       }
