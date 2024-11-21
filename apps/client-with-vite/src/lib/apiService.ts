@@ -28,6 +28,7 @@ const createApiService = (baseUrl: string) => {
 
   return {
     fetchProjects: async (): Promise<ApiResponse> => {
+      fetchWithStats('/ls?ignoreCache=true');
       return fetchWithStats('/ls');
     },
 

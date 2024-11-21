@@ -54,6 +54,9 @@ if (pathsToServe.length > 0) {
 
 // fastify.register(require('@fastify/websocket'));
 
+type RequestWithIgnoreCache = import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>;
+type RequestWithCommand = import('fastify').FastifyRequest<{ Body: { command: string } }>;
+
 // API routes
 fastify.register(
   async fastify => {
@@ -67,20 +70,21 @@ fastify.register(
     const extraActions = createCodeLauncherServerExtraActions(workspacePath);
 
     //// Get Project Directories List
-    fastify.get('/ls', async (request: import('fastify').FastifyRequest<{ Querystring: { ignoreCache?: string } }>) => {
+    fastify.get('/ls', async (request: RequestWithIgnoreCache) => {
       const ignoreCache = request.query.ignoreCache === 'true';
       console.log(`🔧 Fetching project directories${ignoreCache ? ' (ignoring cache)' : ''}`);
       return await stateActions.getProjectDirectoriesList(ignoreCache);
     });
 
     //// Run Shell Command
-    fastify.post('/run-command', async (request: import('fastify').FastifyRequest<{ Body: { command: string } }>) => {
+    fastify.post('/run-command', async (request: RequestWithCommand) => {
       const { command } = request.body;
       return await extraActions.runCommand(command);
     });
 
     //// Find Open Ports
-    fastify.get('/find-open-ports', async () => {
+    fastify.get('/find-open-ports', async (request: RequestWithIgnoreCache) => {
+      const ignoreCache = request.query.ignoreCache === 'true';
       const allPorts = await extraActions.findOpenPorts();
       const nonThisPorts = allPorts.filter(o => 'port' in o && o.port !== port);
       return nonThisPorts;
@@ -95,13 +99,10 @@ fastify.register(
       ) => {
         const { port } = request.params;
         try {
-          const [b1, b2] = await Promise.all([
-            fetchFaviconFromPaths(port),
-            fetchFaviconFromHead(port),
-          ]);
+          const [b1, b2] = await Promise.all([fetchFaviconFromPaths(port), fetchFaviconFromHead(port)]);
           const faviconBuffer = b1 || b2;
           // if (faviconBuffer) {
-            reply.type('image/x-icon').send(faviconBuffer);
+          reply.type('image/x-icon').send(faviconBuffer);
           // } else {
           //   throw new Error('Favicon not found');
           // }
