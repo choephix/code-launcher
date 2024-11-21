@@ -71,13 +71,22 @@ export function createCodeLauncherServerActions(pathToWorkspaces: string) {
 export function createCodeLauncherServerExtraActions(pathToWorkspaces: string) {
   pathToWorkspaces = path.resolve(pathToWorkspaces);
 
-  const cachedFindOpenPorts = createCachedFunction('findOpenPorts', scanOpenPorts);
+  const cachedFindOpenPorts = createCachedFunction('scanOpenPorts', scanOpenPorts);
   cachedFindOpenPorts.forceUpdate();
 
+  const handleError = (error: unknown) => {
+    console.error('❌ Error scanning for open ports:', error);
+    return [];
+  };
+
   return {
-    findOpenPorts: async () => {
+    findOpenPorts: async (ignoreCache: boolean = false) => {
+      if (ignoreCache) {
+        return await scanOpenPorts().catch(handleError);
+      }
+
       console.log('🔍 Scanning for open ports...');
-      const result = await cachedFindOpenPorts().catch(() => []);
+      const result = await cachedFindOpenPorts().catch(handleError);
       console.log('✅ Port scan completed');
       return result;
     },

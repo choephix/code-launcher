@@ -85,7 +85,7 @@ fastify.register(
     //// Find Open Ports
     fastify.get('/find-open-ports', async (request: RequestWithIgnoreCache) => {
       const ignoreCache = request.query.ignoreCache === 'true';
-      const allPorts = await extraActions.findOpenPorts();
+      const allPorts = await extraActions.findOpenPorts(ignoreCache);
       const nonThisPorts = allPorts.filter(o => 'port' in o && o.port !== port);
       return nonThisPorts;
     });
