@@ -45,10 +45,12 @@ export const SmartBarFeatures = [
     },
     icon: GitBranch,
     placeholder: 'Git repository URL to clone',
-    match: (input: string) => GIT_REPO_REGEX.test(input.trim()) || GIT_CLONE_PREFIX_REGEX.test(input.trim()),
+    match: (input: string) =>
+      GIT_REPO_REGEX.test(input.trim().split(' ')[0]) || //
+      GIT_CLONE_PREFIX_REGEX.test(input.trim()),
     action: async (input: string) => {
-      const repoUrl = input.trim().replace(GIT_CLONE_PREFIX_REGEX, '');
-      const repoName = repoUrl.split('/').pop()?.replace('.git', '') || 'cloned-repo';
+      const [repoUrl, folder] = input.trim().replace(GIT_CLONE_PREFIX_REGEX, '').split(' ');
+      const repoName = folder || repoUrl.split('/').pop()?.replace('.git', '') || 'cloned-repo';
       const cloneCommand = `
         REPO_NAME="${repoName}"
         COUNTER=0
