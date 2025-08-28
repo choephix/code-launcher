@@ -8,17 +8,17 @@ editors:
   - name: Cursor (via shell)
     shellExecutable: cursor
   - name: VSCode
-    urlTemplate: vscode://file/{path}
+    urlTemplate: vscode://file/{path}/?windowId=_blank
   - name: Cursor
-    urlTemplate: cursor://file/{path}
+    urlTemplate: cursor://file/{path}/?windowId=_blank
   - name: VSCode + WSL
-    urlTemplate: vscode://vscode-remote/wsl+Ubuntu/{path}
+    urlTemplate: vscode://vscode-remote/wsl+Ubuntu/{path}/?windowId=_blank
   - name: Cursor + WSL
-    urlTemplate: cursor://vscode-remote/wsl+Ubuntu/{path}
+    urlTemplate: cursor://vscode-remote/wsl+Ubuntu/{path}/?windowId=_blank
   - name: VSCode + Remote SSH
-    urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}
+    urlTemplate: vscode://vscode-remote/ssh-remote+{address}/{path}/?windowId=_blank
   - name: Cursor + Remote SSH
-    urlTemplate: cursor://vscode-remote/ssh-remote+{address}/{path}
+    urlTemplate: cursor://vscode-remote/ssh-remote+{address}/{path}/?windowId=_blank
 
 templates:
   - name: Empty Project
